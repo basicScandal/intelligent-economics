@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>Zone Zero — OG Render</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #050508;
+    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  }
+  canvas#bg {
+    position: absolute;
+    inset: 0;
+    width: 1200px;
+    height: 630px;
+  }
+  #card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 56px 72px 52px;
+  }
+
+  /* ── Top row: logo + domain ── */
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark svg { flex-shrink: 0; }
+  .logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .domain-pill {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    padding: 6px 16px;
+  }
+
+  /* ── Centre: score + label ── */
+  .centre {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .score-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .score-num {
+    font-size: 112px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    /* colour set by JS */
+    color: #00ff88;
+    font-variant-numeric: tabular-nums;
+  }
+  .score-denom {
+    font-size: 28px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+    padding-bottom: 8px;
+  }
+  .badge-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 4px;
+  }
+  .health-badge {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 100px;
+    border: 2px solid;
+    /* colour set by JS */
+  }
+  .state-name {
+    font-size: 32px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Bottom: MIND bars ── */
+  .bars-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bars-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 4px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .bar-key {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    width: 18px;
+    text-align: right;
+    /* colour per key */
+  }
+  .bar-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    /* width + background set by JS */
+  }
+  .bar-val {
+    font-size: 13px;
+    font-weight: 700;
+    width: 32px;
+    text-align: right;
+    color: rgba(255,255,255,0.55);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Right column: mini particle canvas ── */
+  #particle-canvas {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 380px;
+    /* subtle right-edge placement */
+  }
+  /* Gradient mask so particles fade left into card */
+  #particle-mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 380px;
+    background: linear-gradient(to right, #050508 0%, rgba(5,5,8,0) 35%);
+    pointer-events: none;
+  }
+  /* vertical rule */
+  .vr {
+    position: absolute;
+    right: 380px;
+    top: 56px;
+    bottom: 52px;
+    width: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+</style>
+<!-- Fonts via Google — Satoshi not available so use Inter as close substitute -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { font-family: 'Inter', system-ui, sans-serif; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.148.0/build/three.min.js"></script>
+</head>
+<body>
+
+<!-- Particle canvas (right column) -->
+<canvas id="particle-canvas"></canvas>
+<div id="particle-mask"></div>
+<div class="vr"></div>
+
+<!-- OG card layout -->
+<div id="card">
+
+  <!-- Top row -->
+  <div class="top-row">
+    <div class="logo-mark">
+      <!-- Intelligent Economics logo mark (simplified) -->
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="6" stroke="#00ff88" stroke-width="1.5"/>
+        <circle cx="16" cy="5"  r="2.5" fill="#00ff88" fill-opacity="0.7"/>
+        <circle cx="16" cy="27" r="2.5" fill="#00ff88" fill-opacity="0.7"/>
+        <circle cx="5"  cy="16" r="2.5" fill="#00c8ff" fill-opacity="0.7"/>
+        <circle cx="27" cy="16" r="2.5" fill="#7b4bff" fill-opacity="0.7"/>
+        <line x1="16" y1="7.5"  x2="16" y2="10" stroke="#00ff88" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="16" y1="22"   x2="16" y2="24.5" stroke="#00ff88" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="7.5" y1="16"  x2="10" y2="16"   stroke="#00c8ff" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="22"  y1="16"  x2="24.5" y2="16"  stroke="#7b4bff" stroke-width="1" stroke-opacity="0.5"/>
+      </svg>
+      <span class="logo-text">Intelligent Economics</span>
+    </div>
+    <div class="domain-pill">intelligenteconomics.ai</div>
+  </div>
+
+  <!-- Centre: score -->
+  <div class="centre">
+    <div class="eyebrow">Zone Zero Pilot City Simulation</div>
+    <div class="score-row">
+      <div class="score-num" id="og-score">--</div>
+      <div class="score-denom">/100</div>
+    </div>
+    <div class="badge-row">
+      <div class="health-badge" id="og-badge">--</div>
+      <div class="state-name" id="og-state">--</div>
+    </div>
+  </div>
+
+  <!-- Bottom: MIND bars -->
+  <div class="bars-section">
+    <div class="bars-label">M · I · N · D capitals</div>
+    <div class="bar-row">
+      <span class="bar-key" style="color:#00ff88">M</span>
+      <span class="bar-name">Material</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-m" style="background:#00ff88"></div></div>
+      <span class="bar-val" id="val-m">--</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-key" style="color:#00c8ff">I</span>
+      <span class="bar-name">Intelligence</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-i" style="background:#00c8ff"></div></div>
+      <span class="bar-val" id="val-i">--</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-key" style="color:#7b4bff">N</span>
+      <span class="bar-name">Network</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-n" style="background:#7b4bff"></div></div>
+      <span class="bar-val" id="val-n">--</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-key" style="color:#ffb400">D</span>
+      <span class="bar-name">Diversity</span>
+      <div class="bar-track"><div class="bar-fill" id="bar-d" style="background:#ffb400"></div></div>
+      <span class="bar-val" id="val-d">--</span>
+    </div>
+  </div>
+
+</div><!-- /card -->
+
+<script>
+(function() {
+  // ── Parse params ─────────────────────────────────────────────────────────
+  const p = new URLSearchParams(window.location.search);
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const dims = {
+    m: clamp(parseInt(p.get('m') || 70, 10),  0, 100),
+    i: clamp(parseInt(p.get('i') || 60, 10),  0, 100),
+    n: clamp(parseInt(p.get('n') || 50, 10),  0, 100),
+    d: clamp(parseInt(p.get('d') || 40, 10),  0, 100),
+  };
+
+  // ── Score ────────────────────────────────────────────────────────────────
+  const score = Math.round(
+    Math.pow((dims.m/100)*(dims.i/100)*(dims.n/100)*(dims.d/100), 0.25) * 100
+  );
+
+  // ── Health state ─────────────────────────────────────────────────────────
+  const STATES = [
+    { min: 70, badge: 'THRIVING',  name: 'Symbiotic Zone',      color: '#00ff88' },
+    { min: 50, badge: 'THRIVING',  name: 'Healthy System',      color: '#00ff88' },
+    { min: 35, badge: 'STRESSED',  name: 'Under Stress',        color: '#ffb400' },
+    { min: 20, badge: 'CRITICAL',  name: 'Critical Threshold',  color: '#ff4d4d' },
+    { min:  1, badge: 'CRITICAL',  name: 'Pre-Collapse',        color: '#ff4d4d' },
+    { min:  0, badge: 'COLLAPSED', name: 'Systemic Collapse',   color: '#ff2222' },
+  ];
+  const st = STATES.find(s => score >= s.min) || STATES[STATES.length - 1];
+
+  // ── Render score + badge ─────────────────────────────────────────────────
+  const scoreEl = document.getElementById('og-score');
+  const badgeEl = document.getElementById('og-badge');
+  const stateEl = document.getElementById('og-state');
+
+  scoreEl.textContent = score;
+  scoreEl.style.color = st.color;
+  badgeEl.textContent = st.badge;
+  badgeEl.style.borderColor = st.color;
+  badgeEl.style.color = st.color;
+  stateEl.textContent = st.name;
+
+  // ── Render bars ──────────────────────────────────────────────────────────
+  ['m','i','n','d'].forEach(k => {
+    document.getElementById('bar-' + k).style.width = dims[k] + '%';
+    document.getElementById('val-' + k).textContent = dims[k];
+  });
+
+  // ── Three.js particle field (right column) ───────────────────────────────
+  const COLORS = { m: 0x00ff88, i: 0x00c8ff, n: 0x7b4bff, d: 0xffb400 };
+  const KEYS   = ['m','i','n','d'];
+  const canvas = document.getElementById('particle-canvas');
+  canvas.width  = 380;
+  canvas.height = 630;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(380, 630);
+  renderer.setPixelRatio(1);
+  renderer.setClearColor(0x000000, 0);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-190, 190, 315, -315, 0.1, 1000);
+  camera.position.z = 100;
+
+  // Build 4 clusters
+  const CLUSTER_CENTRES = [
+    new THREE.Vector2(  0, 120),   // M — top
+    new THREE.Vector2( 90,  30),   // I — right
+    new THREE.Vector2(-90, -50),   // N — left
+    new THREE.Vector2(  0,-140),   // D — bottom
+  ];
+  const N_PER = 320;
+
+  KEYS.forEach((k, ki) => {
+    const val    = dims[k] / 100;
+    const center = CLUSTER_CENTRES[ki];
+    const spread = 20 + (1 - val) * 90;   // tight when high, scattered when low
+    const geo    = new THREE.BufferGeometry();
+    const pos    = new Float32Array(N_PER * 3);
+
+    for (let i = 0; i < N_PER; i++) {
+      const angle  = Math.random() * Math.PI * 2;
+      const radius = Math.random() * spread;
+      pos[i*3]     = center.x + Math.cos(angle) * radius;
+      pos[i*3+1]   = center.y + Math.sin(angle) * radius;
+      pos[i*3+2]   = (Math.random() - 0.5) * 10;
+    }
+
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+
+    // Size: bigger when dimension is high
+    const SIZE = 1.8 + val * 2.2;
+
+    const mat = new THREE.PointsMaterial({
+      color: COLORS[k],
+      size: SIZE,
+      transparent: true,
+      opacity: 0.25 + val * 0.65,
+      sizeAttenuation: false,
+    });
+
+    scene.add(new THREE.Points(geo, mat));
+  });
+
+  // Single render (static snapshot — no animation loop needed for OG screenshotter)
+  renderer.render(scene, camera);
+
+  // Signal to screenshotter that render is complete
+  document.documentElement.dataset.ready = 'true';
+})();
+</script>
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  var scrollRaf=0;
+  function emitScroll(){
+    scrollRaf=0;
+    var x=window.scrollX||window.pageXOffset||0;
+    var y=window.scrollY||window.pageYOffset||0;
+    window.parent.postMessage({type:'INLINE_EDIT_SCROLL',scrollX:x,scrollY:y},'*');
+  }
+  window.addEventListener('scroll',function(){
+    if(scrollRaf)return;
+    scrollRaf=requestAnimationFrame(emitScroll);
+  },{passive:true,capture:true});
+  emitScroll();
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
+</html>
