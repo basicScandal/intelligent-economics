@@ -2577,6 +2577,29 @@
       }
     }
 
+    /* ─── COUNTDOWN EXPLANATION ─────────────────────────────────────── */
+    #countdown-label-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      opacity: inherit;
+    }
+    #countdown-label-btn:hover span { opacity: 0.9 !important; }
+    .countdown-explain {
+      max-width: 480px;
+      margin: var(--space-4) auto 0;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      text-align: left;
+    }
+
     /* ─── EMAIL CAPTURE (EARLY CTA) ──────────────────────────────────── */
     .email-capture {
       padding-block: clamp(var(--space-10), 4vw, var(--space-16));
@@ -2729,7 +2752,10 @@
 
       <!-- Countdown moved into content flow -->
       <div class="hero__countdown" role="group" aria-label="Time remaining in the thousand-day window">
-        <div class="countdown-label">Days Remaining in the Window</div>
+        <button class="countdown-label" id="countdown-label-btn" aria-expanded="false" aria-controls="countdown-explain">Days Remaining in the Window <span style="opacity:0.5; font-size:0.85em;">&#9432;</span></button>
+        <div class="countdown-explain" id="countdown-explain" hidden>
+          The thousand-day window marks the critical period for establishing the first Symbiotic Zone before AI-driven economic displacement reaches irreversible scale. By January 2029, the framework must have at least one working proof-of-concept — a real city, with real MIND data, producing real results.
+        </div>
         <div class="countdown-digits">
           <div class="countdown-unit">
             <div class="countdown-num" id="cd-days" aria-live="polite" aria-atomic="true">--</div>
@@ -3815,7 +3841,7 @@
           <button type="submit" class="form-submit">
             Join the Nucleation
           </button>
-          <p class="form-note">No spam. We'll reach out only when there's real work to do. Your data stays private.</p>
+          <p class="form-note">No spam. We'll reach out only when there's real work to do. Your data stays private. <a href="privacy.html" style="color: var(--color-text-faint);">Privacy Policy</a></p>
         </form>
 
         <div class="signup-success" id="signup-success" role="alert">
@@ -4073,13 +4099,25 @@
       </div>
       <div class="footer__bottom">
         <p class="footer__copy">Not a product. Not a company. A movement.</p>
-        <p class="footer__copy">Built in public · Open framework · 2026</p>
+        <p class="footer__copy">Built in public · Open framework · 2026 · <a href="privacy.html" style="color: var(--color-text-faint);">Privacy Policy</a></p>
       </div>
     </div>
   </footer>
 
   <!-- ─── SCRIPTS ────────────────────────────────────────────────────── -->
   <script>
+  /* ── DEVICE CAPABILITY DETECTION ─────────────────────────────────── */
+  const _isMobile = window.innerWidth < 768 || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+  const _prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── COUNTDOWN EXPLANATION TOGGLE ──────────────────────────────────── */
+  document.getElementById('countdown-label-btn').addEventListener('click', function() {
+    const explain = document.getElementById('countdown-explain');
+    const isHidden = explain.hidden;
+    explain.hidden = !isHidden;
+    this.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+  });
+
   /* ── EARLY EMAIL CAPTURE ──────────────────────────────────────────── */
   document.getElementById('early-email-form').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -4391,15 +4429,15 @@
   /* ── HERO BACKGROUND PARTICLE SYSTEM ─────────────────────────────── */
   (function() {
     const canvas = document.getElementById('particle-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    if (!canvas || typeof THREE === 'undefined' || _prefersReducedMotion) return;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: !_isMobile, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, _isMobile ? 1.5 : 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 80;
-    const PARTICLE_COUNT = 4000;
+    const PARTICLE_COUNT = _isMobile ? 1500 : 4000;
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const colors    = new Float32Array(PARTICLE_COUNT * 3);
     const sizes     = new Float32Array(PARTICLE_COUNT);
@@ -4467,7 +4505,7 @@
 
   /* ── SCROLL-DRIVEN PARTICLE MORPH ENGINE ───────────────────────────── */
   (function() {
-    if (typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
+    if (typeof THREE === 'undefined' || typeof gsap === 'undefined' || _prefersReducedMotion) return;
 
     const morphCanvas   = document.getElementById('morph-canvas');
     const morphSceneEl  = document.getElementById('morph-scene');
@@ -4494,7 +4532,7 @@
 
     /* ── Seeded RNG (deterministic shapes) ── */
     const rng = (s) => { let x = Math.sin(s * 9301 + 49297) * 233280; return x - Math.floor(x); };
-    const N = 3200;
+    const N = _isMobile ? 1200 : 3200;
 
     /* ── Per-particle arrays ── */
     const livePos    = new Float32Array(N * 3);
@@ -4746,7 +4784,7 @@
   /* ── ZONE ZERO SIMULATOR ─────────────────────────────────────────────── */
   (function initZoneZero() {
     const canvas   = document.getElementById('zz-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
+    if (!canvas || typeof THREE === 'undefined' || _prefersReducedMotion) return;
 
     // ── Slider refs ──────────────────────────────────────────────────────
     const sliders = {
@@ -4798,7 +4836,7 @@
     camera.position.z = 110;
 
     // ── Particle system ─────────────────────────────────────────────────
-    const N = 1800;
+    const N = _isMobile ? 800 : 1800;
     const positions  = new Float32Array(N * 3);
     const colors_arr = new Float32Array(N * 3);
     const targets    = new Float32Array(N * 3);   // orbit targets
