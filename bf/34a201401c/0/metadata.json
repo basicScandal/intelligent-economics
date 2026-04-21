@@ -1,0 +1,49 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "bf34a201401c",
+  "session_id": "7f0727d5-c93f-4f64-a695-97910aceb12a",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-21T16:28:55.07719Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".planning/phases/07-shared-foundation-data-pipeline/07-CONTEXT.md"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "eac5a2ade68b",
+  "token_usage": {
+    "input_tokens": 1468,
+    "cache_creation_tokens": 63098,
+    "cache_read_tokens": 956330,
+    "output_tokens": 9795,
+    "api_call_count": 15
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-21T16:28:55.070385Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 83,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 83,
+    "total_lines_changed": 83,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 147,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        ".claude/settings.local.json": 16,
+        "mprocs.yaml": 22
+      }
+    }
+  ]
+}
