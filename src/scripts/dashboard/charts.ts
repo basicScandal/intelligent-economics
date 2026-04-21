@@ -43,21 +43,95 @@ export interface ChartCountry {
   d: number;
 }
 
-// -- Chart option generators (stubs) --
+// -- Dimension keys in canonical order --
+const DIM_KEYS: DimensionKey[] = ['m', 'i', 'n', 'd'];
+const DIM_LABELS = DIM_KEYS.map((k) => DIM_NAMES[k]);
+
+// -- Chart option generators --
 
 /** Generate ECharts radar chart option for a single country. */
-export function makeRadarOption(_country: ChartCountry): Record<string, unknown> {
-  throw new Error('Not implemented: makeRadarOption');
+export function makeRadarOption(country: ChartCountry): Record<string, unknown> {
+  return {
+    aria: { enabled: true },
+    ...siteTheme,
+    radar: {
+      shape: 'polygon',
+      splitNumber: 5,
+      indicator: DIM_KEYS.map((k) => ({
+        name: DIM_NAMES[k],
+        max: 100,
+        color: DIM_COLORS[k],
+      })),
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.15)' } },
+      splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+      splitArea: { show: false },
+    },
+    series: [
+      {
+        type: 'radar',
+        data: [
+          {
+            value: [country.m, country.i, country.n, country.d],
+            name: country.name,
+            areaStyle: { opacity: 0.25 },
+            lineStyle: { width: 2 },
+          },
+        ],
+      },
+    ],
+  };
 }
 
 /** Generate ECharts grouped bar chart option for 1-4 countries. */
-export function makeBarOption(_countries: ChartCountry[]): Record<string, unknown> {
-  throw new Error('Not implemented: makeBarOption');
+export function makeBarOption(countries: ChartCountry[]): Record<string, unknown> {
+  return {
+    aria: { enabled: true },
+    ...siteTheme,
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+    },
+    grid: { containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: DIM_LABELS,
+    },
+    yAxis: {
+      type: 'value',
+      max: 100,
+    },
+    series: countries.map((c) => ({
+      name: c.name,
+      type: 'bar',
+      data: [c.m, c.i, c.n, c.d],
+    })),
+  };
 }
 
 /** Generate horizontal bar chart option for mobile layout. */
-export function getMobileBarOption(_countries: ChartCountry[]): Record<string, unknown> {
-  throw new Error('Not implemented: getMobileBarOption');
+export function getMobileBarOption(countries: ChartCountry[]): Record<string, unknown> {
+  return {
+    aria: { enabled: true },
+    ...siteTheme,
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+    },
+    grid: { containLabel: true },
+    yAxis: {
+      type: 'category',
+      data: DIM_LABELS,
+    },
+    xAxis: {
+      type: 'value',
+      max: 100,
+    },
+    series: countries.map((c) => ({
+      name: c.name,
+      type: 'bar',
+      data: [c.m, c.i, c.n, c.d],
+    })),
+  };
 }
 
 // -- Binding constraint callout --
@@ -81,10 +155,13 @@ export interface BindingConstraintCallout {
 
 /** Get binding constraint callout with dimension name and insight text. */
 export function getBindingConstraintCallout(
-  _dimKey: DimensionKey,
-  _score: number,
+  dimKey: DimensionKey,
+  score: number,
 ): BindingConstraintCallout {
-  throw new Error('Not implemented: getBindingConstraintCallout');
+  return {
+    dimension: DIM_NAMES[dimKey],
+    text: DIM_INSIGHTS[dimKey](score),
+  };
 }
 
 // -- Attribution --
@@ -95,6 +172,13 @@ export interface MetadataInput {
 }
 
 /** Format data attribution string from metadata. */
-export function getAttribution(_metadata: MetadataInput): string {
-  throw new Error('Not implemented: getAttribution');
+export function getAttribution(metadata: MetadataInput): string {
+  const accessedDate = new Date(metadata.generatedAt);
+  const formatted = accessedDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+  return `Source: World Bank World Development Indicators, ${metadata.worldBankLastUpdated}. Accessed ${formatted}.`;
 }

@@ -19,13 +19,14 @@ describe('filterCountries', () => {
     }
   });
 
-  it("filterCountries('united') matches United States, United Kingdom, United Arab Emirates, United Republic of Tanzania", () => {
+  it("filterCountries('united') matches United States, United Kingdom, United Arab Emirates", () => {
+    // Note: dataset uses "Tanzania" not "United Republic of Tanzania"
     const result = filterCountries(allCountries, 'united');
     const names = result.map((c) => c.name);
     expect(names).toContain('United States');
     expect(names).toContain('United Kingdom');
     expect(names).toContain('United Arab Emirates');
-    expect(names).toContain('United Republic of Tanzania');
+    expect(result).toHaveLength(3);
   });
 
   it("filterCountries is case-insensitive: 'JAPAN' matches Japan", () => {

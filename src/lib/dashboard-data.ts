@@ -56,16 +56,26 @@ export interface MethodologyIndicator {
   name: string;
 }
 
-// -- Data transformation functions (stubs) --
+// -- Data transformation functions --
 
 /**
  * Convert full country data into slim payload for client-side use.
  * Maps each country to {code, name, mind, m, i, n, d, bc}.
+ * Handles null dimensions gracefully.
  */
 export function getSlimPayload(
-  _countries: Record<string, CountryData>,
+  countries: Record<string, CountryData>,
 ): SlimCountry[] {
-  throw new Error('Not implemented: getSlimPayload');
+  return Object.entries(countries).map(([code, c]) => ({
+    code,
+    name: c.name,
+    mind: c.mind,
+    m: c.dimensions?.m?.score ?? null,
+    i: c.dimensions?.i?.score ?? null,
+    n: c.dimensions?.n?.score ?? null,
+    d: c.dimensions?.d?.score ?? null,
+    bc: c.bindingConstraint,
+  }));
 }
 
 /**
@@ -73,10 +83,14 @@ export function getSlimPayload(
  * Excludes null MIND scores. Adds 1-indexed rank field.
  */
 export function getRankingData(
-  _countries: SlimCountry[],
-  _count?: number,
+  countries: SlimCountry[],
+  count: number = 20,
 ): RankingEntry[] {
-  throw new Error('Not implemented: getRankingData');
+  return countries
+    .filter((c) => c.mind !== null)
+    .sort((a, b) => b.mind! - a.mind!)
+    .slice(0, count)
+    .map((c, idx) => ({ ...c, rank: idx + 1 }));
 }
 
 /**
@@ -84,7 +98,21 @@ export function getRankingData(
  * Returns 4 groups (m, i, n, d) with 4 indicators each.
  */
 export function getMethodologyData(
-  _indicators: Record<string, IndicatorMeta>,
+  indicators: Record<string, IndicatorMeta>,
 ): Record<DimensionKey, MethodologyIndicator[]> {
-  throw new Error('Not implemented: getMethodologyData');
+  const groups: Record<DimensionKey, MethodologyIndicator[]> = {
+    m: [],
+    i: [],
+    n: [],
+    d: [],
+  };
+
+  for (const [code, meta] of Object.entries(indicators)) {
+    const dim = meta.dimension as DimensionKey;
+    if (dim in groups) {
+      groups[dim].push({ code, name: meta.name });
+    }
+  }
+
+  return groups;
 }
