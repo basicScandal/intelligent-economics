@@ -96,51 +96,51 @@ Deferred to future milestone. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ARCH-01 | TBD | Pending |
-| ARCH-02 | TBD | Pending |
-| ARCH-03 | TBD | Pending |
-| ARCH-04 | TBD | Pending |
-| ARCH-05 | TBD | Pending |
-| ARCH-06 | TBD | Pending |
-| ARCH-07 | TBD | Pending |
-| ARCH-08 | TBD | Pending |
-| CONV-01 | TBD | Pending |
-| CONV-02 | TBD | Pending |
-| CONV-03 | TBD | Pending |
-| CONV-04 | TBD | Pending |
-| CONV-05 | TBD | Pending |
-| CONV-06 | TBD | Pending |
-| CONV-07 | TBD | Pending |
-| CONV-08 | TBD | Pending |
-| CONV-09 | TBD | Pending |
-| CONV-10 | TBD | Pending |
-| GROW-01 | TBD | Pending |
-| GROW-02 | TBD | Pending |
-| GROW-03 | TBD | Pending |
-| GROW-04 | TBD | Pending |
-| GROW-05 | TBD | Pending |
-| GROW-06 | TBD | Pending |
-| GROW-07 | TBD | Pending |
-| PERF-01 | TBD | Pending |
-| PERF-02 | TBD | Pending |
-| PERF-03 | TBD | Pending |
-| PERF-04 | TBD | Pending |
-| PERF-05 | TBD | Pending |
-| PERF-06 | TBD | Pending |
-| CPRE-01 | TBD | Pending |
-| CPRE-02 | TBD | Pending |
-| CPRE-03 | TBD | Pending |
-| CPRE-04 | TBD | Pending |
-| CPRE-05 | TBD | Pending |
-| CPRE-06 | TBD | Pending |
-| CPRE-07 | TBD | Pending |
-| CPRE-08 | TBD | Pending |
+| ARCH-01 | Phase 1 | Pending |
+| ARCH-02 | Phase 1 | Pending |
+| ARCH-03 | Phase 1 | Pending |
+| ARCH-04 | Phase 1 | Pending |
+| ARCH-05 | Phase 5 | Pending |
+| ARCH-06 | Phase 5 | Pending |
+| ARCH-07 | Phase 2 | Pending |
+| ARCH-08 | Phase 2 | Pending |
+| CONV-01 | Phase 3 | Pending |
+| CONV-02 | Phase 3 | Pending |
+| CONV-03 | Phase 3 | Pending |
+| CONV-04 | Phase 3 | Pending |
+| CONV-05 | Phase 3 | Pending |
+| CONV-06 | Phase 3 | Pending |
+| CONV-07 | Phase 4 | Pending |
+| CONV-08 | Phase 4 | Pending |
+| CONV-09 | Phase 4 | Pending |
+| CONV-10 | Phase 3 | Pending |
+| GROW-01 | Phase 6 | Pending |
+| GROW-02 | Phase 6 | Pending |
+| GROW-03 | Phase 6 | Pending |
+| GROW-04 | Phase 6 | Pending |
+| GROW-05 | Phase 6 | Pending |
+| GROW-06 | Phase 6 | Pending |
+| GROW-07 | Phase 6 | Pending |
+| PERF-01 | Phase 5 | Pending |
+| PERF-02 | Phase 5 | Pending |
+| PERF-03 | Phase 5 | Pending |
+| PERF-04 | Phase 5 | Pending |
+| PERF-05 | Phase 5 | Pending |
+| PERF-06 | Phase 5 | Pending |
+| CPRE-01 | Phase 2 | Pending |
+| CPRE-02 | Phase 2 | Pending |
+| CPRE-03 | Phase 2 | Pending |
+| CPRE-04 | Phase 2 | Pending |
+| CPRE-05 | Phase 2 | Pending |
+| CPRE-06 | Phase 2 | Pending |
+| CPRE-07 | Phase 2 | Pending |
+| CPRE-08 | Phase 2 | Pending |
 
 **Coverage:**
-- v1 requirements: 38 total
-- Mapped to phases: 0 (awaiting roadmap)
-- Unmapped: 38
+- v1 requirements: 39 total
+- Mapped to phases: 39
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-21*
-*Last updated: 2026-04-21 after initial definition*
+*Last updated: 2026-04-21 after roadmap phase mapping*
