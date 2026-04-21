@@ -18,5 +18,23 @@
     <p class="email-capture__success" id="early-email-success" role="alert">
       Check your inbox. Your first briefing is on the way.
     </p>
+    <p class="email-capture__error" id="early-email-error" role="alert" aria-live="assertive">
+      Something went wrong. Please try again.
+    </p>
   </div>
 </div>
+
+<style>
+  .email-capture__error {
+    display: none;
+    font-size: var(--text-xs);
+    color: #ff4455;
+    margin-top: var(--space-2);
+  }
+  .email-capture__error.visible { display: block; }
+</style>
+
+<script>
+  import { initEmailCapture } from '../scripts/form-handler';
+  initEmailCapture();
+</script>
