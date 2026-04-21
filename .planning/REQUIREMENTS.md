@@ -26,9 +26,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CONV-04**: Duplicate email submissions are flagged but not rejected
 - [x] **CONV-05**: Single-field email capture visible within first 2 viewport heights of hero
 - [x] **CONV-06**: Email capture submits to MailerLite and triggers welcome sequence
-- [ ] **CONV-07**: Plausible analytics tracks page views, scroll depth, traffic sources, geographic distribution
-- [ ] **CONV-08**: Form funnel tracked: viewed form, started filling, submitted
-- [ ] **CONV-09**: Zone Zero simulator engagement tracked: opened, interacted, shared
+- [x] **CONV-07**: Plausible analytics tracks page views, scroll depth, traffic sources, geographic distribution
+- [x] **CONV-08**: Form funnel tracked: viewed form, started filling, submitted
+- [x] **CONV-09**: Zone Zero simulator engagement tracked: opened, interacted, shared
 - [x] **CONV-10**: Partner organizations section renamed — no implied endorsements, disclaimer visible
 
 ### Growth
@@ -110,9 +110,9 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONV-04 | Phase 3 | Complete |
 | CONV-05 | Phase 3 | Complete |
 | CONV-06 | Phase 3 | Complete |
-| CONV-07 | Phase 4 | Pending |
-| CONV-08 | Phase 4 | Pending |
-| CONV-09 | Phase 4 | Pending |
+| CONV-07 | Phase 4 | Complete |
+| CONV-08 | Phase 4 | Complete |
+| CONV-09 | Phase 4 | Complete |
 | CONV-10 | Phase 3 | Complete |
 | GROW-01 | Phase 6 | Pending |
 | GROW-02 | Phase 6 | Pending |
