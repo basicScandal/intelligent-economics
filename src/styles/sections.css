@@ -50,6 +50,46 @@ white-space: nowrap; border-width: 0;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
+
+/* Hide WebGL canvases — CSS fallback gradients take over (PERF-03) */
+#particle-canvas,
+#morph-canvas,
+#zz-canvas {
+  display: none !important;
+}
+
+/* Morph UI elements meaningless without animation */
+.morph-shape-label,
+.morph-dot {
+  display: none !important;
+}
+
+/* Hero gradient fallback — mimics particle glow feel */
+.hero {
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(0,255,136,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(0,200,255,0.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 70%, rgba(123,75,255,0.08) 0%, transparent 50%),
+    var(--color-bg) !important;
+}
+
+/* Morph canvas pane gradient fallback */
+.morph-canvas-pane {
+  background:
+    radial-gradient(ellipse at center, rgba(255,181,0,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 60% 40%, rgba(0,200,255,0.08) 0%, transparent 50%),
+    var(--color-bg) !important;
+}
+
+/* Zone Zero canvas wrapper gradient fallback */
+.zone-zero__canvas-wrap {
+  background:
+    radial-gradient(circle at 25% 35%, rgba(0,255,136,0.1) 0%, transparent 40%),
+    radial-gradient(circle at 75% 35%, rgba(0,200,255,0.1) 0%, transparent 40%),
+    radial-gradient(circle at 25% 65%, rgba(123,75,255,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 75% 65%, rgba(255,180,0,0.08) 0%, transparent 40%),
+    #020204 !important;
+}
 }
 
 /* ─── LAYOUT UTILITIES ───────────────────────────────────────────── */

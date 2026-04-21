@@ -15,6 +15,18 @@
   to = "/privacy/"
   status = 301
 
+# Immutable cache for content-hashed assets (Astro/Vite output) (PERF-06)
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Long cache for font files
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Security headers
 [[headers]]
   for = "/*"
