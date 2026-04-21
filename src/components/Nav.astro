@@ -1,0 +1,39 @@
+---
+// Nav component - Fixed navigation with theme toggle and logo
+---
+
+<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Intelligent Economics Home">
+        <!-- SVG Logo -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="3" fill="#00ff88"/>
+          <circle cx="16" cy="6" r="2" fill="#00ff88" opacity="0.7"/>
+          <circle cx="25" cy="11" r="2" fill="#00ff88" opacity="0.6"/>
+          <circle cx="25" cy="21" r="2" fill="#00c8ff" opacity="0.6"/>
+          <circle cx="16" cy="26" r="2" fill="#00c8ff" opacity="0.7"/>
+          <circle cx="7" cy="21" r="2" fill="#7b4bff" opacity="0.6"/>
+          <circle cx="7" cy="11" r="2" fill="#7b4bff" opacity="0.6"/>
+          <line x1="16" y1="13" x2="16" y2="8" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="23.5" y2="12.5" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="23.5" y2="19.5" stroke="#00c8ff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="19" x2="16" y2="24" stroke="#00c8ff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="19" x2="8.5" y2="19.5" stroke="#7b4bff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="8.5" y2="12.5" stroke="#7b4bff" stroke-width="0.8" opacity="0.5"/>
+        </svg>
+        <span class="nav__logo-text">Intelligent Economics</span>
+      </a>
+      <div class="nav__actions">
+        <a href="#stories" class="nav__link">Stories</a>
+        <a href="#volunteer" class="nav__link">Volunteer</a>
+        <a href="#experiments" class="nav__link">Experiments</a>
+        <a href="#orgs" class="nav__link">Partners</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch to light mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="#volunteer" class="btn btn--primary nav-cta">Join Now</a>
+      </div>
+    </div>
+  </div>
+</nav>

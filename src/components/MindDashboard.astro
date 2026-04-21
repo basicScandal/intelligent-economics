@@ -1,0 +1,71 @@
+---
+// MIND Dashboard - equation display with animated bar chart
+---
+
+<section class="mind section" id="mind">
+  <div class="container">
+    <div class="mind__grid">
+      <div class="reveal">
+        <div class="section-label">New Metrics</div>
+        <h2 class="section-title">The MIND Dashboard</h2>
+        <p class="section-body" style="margin-bottom: var(--space-8);">
+          Because the four capitals multiply — not add — a zero in any single category means total systemic failure. This creates natural incentives to never sacrifice one capital for another.
+        </p>
+
+        <div class="mind-equation" role="group" aria-label="MIND formula: M times I times N times D equals Prosperity">
+          <div class="mind-var mind-var--m" title="Material Capital">
+            <span>M</span><span>Material</span>
+          </div>
+          <div class="mind-op" aria-hidden="true">&times;</div>
+          <div class="mind-var mind-var--i" title="Intelligence Capital">
+            <span>I</span><span>Intelligence</span>
+          </div>
+          <div class="mind-op" aria-hidden="true">&times;</div>
+          <div class="mind-var mind-var--n" title="Network Capital">
+            <span>N</span><span>Network</span>
+          </div>
+          <div class="mind-op" aria-hidden="true">&times;</div>
+          <div class="mind-var mind-var--d" title="Diversity Capital">
+            <span>D</span><span>Diversity</span>
+          </div>
+          <div class="mind-op" aria-hidden="true">=</div>
+          <div class="mind-result" role="img" aria-label="P: Prosperity">P</div>
+        </div>
+
+        <p class="section-body">
+          vs. GDP, which measures transaction volume — counting a cancer diagnosis as positive growth.
+        </p>
+      </div>
+
+      <div class="mind__panel">
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-6);">Live Index — Current Global Estimate</p>
+        <div class="mind-bars" id="mind-bars">
+          <div class="mind-bar-row">
+            <div class="mind-bar-label">Material</div>
+            <div class="mind-bar-track"><div class="mind-bar-fill mind-bar-fill--m" data-target="72"></div></div>
+            <div class="mind-bar-val" data-target="72" style="color: var(--color-primary);">0</div>
+          </div>
+          <div class="mind-bar-row">
+            <div class="mind-bar-label">Intelligence</div>
+            <div class="mind-bar-track"><div class="mind-bar-fill mind-bar-fill--i" data-target="58"></div></div>
+            <div class="mind-bar-val" data-target="58" style="color: var(--color-tertiary);">0</div>
+          </div>
+          <div class="mind-bar-row">
+            <div class="mind-bar-label">Network</div>
+            <div class="mind-bar-track"><div class="mind-bar-fill mind-bar-fill--n" data-target="45"></div></div>
+            <div class="mind-bar-val" data-target="45" style="color: var(--color-secondary);">0</div>
+          </div>
+          <div class="mind-bar-row">
+            <div class="mind-bar-label">Diversity</div>
+            <div class="mind-bar-track"><div class="mind-bar-fill mind-bar-fill--d" data-target="39"></div></div>
+            <div class="mind-bar-val" data-target="39" style="color: #ffb400;">0</div>
+          </div>
+        </div>
+
+        <div class="mind-note" style="margin-top: var(--space-8);">
+          <strong style="color: var(--color-primary);">Diversity (39)</strong> is the binding constraint. In a multiplicative system, the lowest score determines the ceiling of total systemic health. This is why diversity is not optional — it is structural.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

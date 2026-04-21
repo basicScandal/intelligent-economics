@@ -1,0 +1,143 @@
+---
+// VolunteerForm - Full volunteer signup form with role selection cards (Netlify Forms)
+---
+
+<section class="volunteer section" id="volunteer">
+  <div class="container container--default">
+    <div class="volunteer__intro reveal">
+      <div class="section-label">Join the Nucleation</div>
+      <h2 class="section-title">Choose your role in building the first Symbiotic Zone</h2>
+      <p class="section-body" style="margin-inline: auto;">
+        The transition does not require everyone. It requires the right people, doing the right work, in the right sequence. Find your entry point.
+      </p>
+    </div>
+
+    <div class="roles-grid reveal reveal-delay-1" role="group" aria-label="Select your role">
+      <button class="role-card" data-role="economist" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M6 30 L30 30 L18 8 Z" stroke="#00ff88" stroke-width="1.8" stroke-linejoin="round"/><line x1="18" y1="8" x2="18" y2="30" stroke="#00ff88" stroke-width="1.2" opacity="0.5" stroke-linecap="round"/><line x1="12" y1="20" x2="24" y2="20" stroke="#00ff88" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/></svg></div>
+        <div class="role-card__title">Economist / Theorist</div>
+        <div class="role-card__desc">Model the MIND Dashboard. Design the dual-currency system. Solve the Lucas Critique. Prove this works mathematically before it's built physically.</div>
+      </button>
+
+      <button class="role-card" data-role="engineer" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="18" cy="18" r="4" stroke="#7b4bff" stroke-width="1.8"/><path d="M18 6 L18 10 M18 26 L18 30 M6 18 L10 18 M26 18 L30 18 M9.5 9.5 L12.5 12.5 M23.5 23.5 L26.5 26.5 M26.5 9.5 L23.5 12.5 M12.5 23.5 L9.5 26.5" stroke="#7b4bff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="role-card__title">Engineer / Builder</div>
+        <div class="role-card__desc">Build the Guardian Lattice infrastructure. Implement AI Oracle systems. Create the monitoring and governance tools for a working Symbiotic Zone.</div>
+      </button>
+
+      <button class="role-card" data-role="designer" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M8 26 Q10 14 18 10 Q26 6 28 18" stroke="#00c8ff" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="22" r="3" fill="#00c8ff" opacity="0.7"/><circle cx="20" cy="14" r="2" fill="#00c8ff" opacity="0.5"/><circle cx="27" cy="20" r="2.5" fill="#ff6482" opacity="0.7"/><path d="M8 26 L6 30 L10 29 Z" fill="#00c8ff" opacity="0.6"/></svg></div>
+        <div class="role-card__title">Designer / Communicator</div>
+        <div class="role-card__desc">Make the invisible visible. Translate complex systems into compelling narratives. Design the interfaces that will onboard millions to a new economic reality.</div>
+      </button>
+
+      <button class="role-card" data-role="community" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="18" cy="18" r="11" stroke="#00ff88" stroke-width="1.8"/><ellipse cx="18" cy="18" rx="6" ry="11" stroke="#00ff88" stroke-width="1.2" opacity="0.5"/><line x1="7" y1="18" x2="29" y2="18" stroke="#00ff88" stroke-width="1.2" opacity="0.5"/><line x1="18" y1="7" x2="18" y2="29" stroke="#00ff88" stroke-width="1.2" opacity="0.3"/></svg></div>
+        <div class="role-card__title">Community Organizer</div>
+        <div class="role-card__desc">Identify candidate Symbiotic Zone sites. Build local coalitions. Recruit the Oracle Council. The nucleation is a social process before it is a technical one.</div>
+      </button>
+
+      <button class="role-card" data-role="researcher" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M18 28 L18 8" stroke="#ffb400" stroke-width="1.8" stroke-linecap="round"/><path d="M14 12 L18 8 L22 12" stroke="#ffb400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="13" y="20" width="10" height="8" rx="2" stroke="#ffb400" stroke-width="1.6"/><circle cx="18" cy="17" r="3" stroke="#ffb400" stroke-width="1.5"/></svg></div>
+        <div class="role-card__title">Researcher / Academic</div>
+        <div class="role-card__desc">Conduct the studies that establish baselines. Publish the papers that legitimize the model. Provide the peer-reviewed foundation that policymakers require.</div>
+      </button>
+
+      <button class="role-card" data-role="policymaker" aria-pressed="false">
+        <div class="role-card__check" aria-hidden="true"></div>
+        <div class="role-card__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect x="14" y="18" width="8" height="10" rx="1" stroke="#ff6482" stroke-width="1.8"/><rect x="6" y="22" width="6" height="6" rx="1" stroke="#ff6482" stroke-width="1.5" opacity="0.7"/><rect x="24" y="22" width="6" height="6" rx="1" stroke="#ff6482" stroke-width="1.5" opacity="0.7"/><polyline points="4,22 18,10 32,22" stroke="#ff6482" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/><line x1="4" y1="28" x2="32" y2="28" stroke="#ff6482" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <div class="role-card__title">Policymaker / Advocate</div>
+        <div class="role-card__desc">Create the legal protected zones. Establish the regulatory frameworks that permit Symbiotic Zone experiments. Navigate the existing geometry to carve new channels.</div>
+      </button>
+    </div>
+
+    <!-- Signup form -->
+    <div class="signup-form reveal reveal-delay-2" id="signup-form-wrap">
+      <h3 style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-8); text-align: center;">
+        Register as a volunteer
+      </h3>
+
+      <form id="volunteer-form" data-netlify="true" name="volunteer-signup" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="volunteer-signup" />
+        <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="first-name">First Name</label>
+            <input class="form-input" type="text" id="first-name" name="first_name" placeholder="Ada" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="last-name">Last Name</label>
+            <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Lovelace" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="ada@intelligence.coop" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="location">City / Region</label>
+          <input class="form-input" type="text" id="location" name="location" placeholder="San Francisco, CA" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="expertise">Your Deepest Expertise</label>
+          <select class="form-input form-select" id="expertise" name="expertise">
+            <option value="">Select an area...</option>
+            <option>Economics & Monetary Theory</option>
+            <option>Systems Engineering / Infrastructure</option>
+            <option>AI / Machine Learning</option>
+            <option>Governance & Policy</option>
+            <option>Behavioral Science</option>
+            <option>Community Organizing</option>
+            <option>Urban Planning / Architecture</option>
+            <option>Law & Regulatory Affairs</option>
+            <option>Design & Communications</option>
+            <option>Data Science & Research</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="bandwidth">Weekly Hours Available</label>
+          <select class="form-input form-select" id="bandwidth" name="bandwidth">
+            <option value="">Select bandwidth...</option>
+            <option>1–3 hours (advise &amp; review)</option>
+            <option>4–8 hours (active contributor)</option>
+            <option>9–20 hours (core team)</option>
+            <option>Full-time (founding team)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">What's the most important first step you'd take?</label>
+          <textarea class="form-input" id="message" name="message" rows="3" placeholder="I'd start by..."></textarea>
+        </div>
+
+        <input type="hidden" id="selected-roles" name="roles" value="" />
+
+        <button type="submit" class="form-submit">
+          Join the Nucleation
+        </button>
+        <p class="form-note">No spam. We'll reach out only when there's real work to do. Your data stays private. <a href="/privacy" style="color: var(--color-text-faint);">Privacy Policy</a></p>
+      </form>
+
+      <div class="signup-success" id="signup-success" role="alert">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h3 style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-4);">You're in the network.</h3>
+        <p style="color: var(--color-text-muted); font-size: var(--text-base); line-height: 1.7;">
+          The nucleation begins with people exactly like you. We'll be in touch when there's a specific role that matches your skills. In the meantime, explore the framework — and share this with one person who should be here too.
+        </p>
+        <div style="margin-top: var(--space-8);">
+          <a href="#pillars" class="btn btn--ghost" tabindex="-1" aria-hidden="true">Explore the Framework</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

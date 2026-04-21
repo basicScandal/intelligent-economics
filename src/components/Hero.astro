@@ -1,0 +1,60 @@
+---
+// Hero section with particle canvas anchor and countdown
+---
+
+<section class="hero" aria-label="Hero">
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="hero__content">
+    <div class="hero__eyebrow">
+      <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+      The Thousand-Day Window is Open
+    </div>
+
+    <h1 class="hero__title glitch">
+      Build the<br/>
+      <span class="accent">Next World</span>
+    </h1>
+
+    <p class="hero__sub">
+      We are living through the fourth great inversion of economic value. Intelligence — once locked inside human skulls — is now non-metabolic capital. The old systems are failing. The new ones need builders.
+    </p>
+
+    <div class="hero__cta-group">
+      <a href="#volunteer" class="btn btn--primary btn--large">
+        Volunteer to Build
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><path d="m5 12 14 0M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#mind" class="btn btn--ghost btn--large">See the Framework</a>
+    </div>
+
+    <!-- Countdown moved into content flow -->
+    <div class="hero__countdown" role="group" aria-label="Time remaining in the thousand-day window">
+      <button class="countdown-label" id="countdown-label-btn" aria-expanded="false" aria-controls="countdown-explain">Days Remaining in the Window <span style="opacity:0.5; font-size:0.85em;">&#9432;</span></button>
+      <div class="countdown-explain" id="countdown-explain" hidden>
+        The thousand-day window marks the critical period for establishing the first Symbiotic Zone before AI-driven economic displacement reaches irreversible scale. By January 2029, the framework must have at least one working proof-of-concept — a real city, with real MIND data, producing real results.
+      </div>
+      <div class="countdown-digits">
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-days" aria-live="polite" aria-atomic="true">--</div>
+          <div class="countdown-unit-label">Days</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-hours">--</div>
+          <div class="countdown-unit-label">Hours</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-mins">--</div>
+          <div class="countdown-unit-label">Mins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>

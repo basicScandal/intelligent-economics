@@ -1,0 +1,22 @@
+---
+// Email Capture - early signup CTA with Netlify Forms
+---
+
+<div class="email-capture" id="early-signup">
+  <div class="container container--narrow">
+    <p class="email-capture__text">
+      GDP counts a cancer diagnosis as growth. We're building a better metric. Get your first briefing.
+    </p>
+    <form class="email-capture__form" id="early-email-form" data-netlify="true" name="email-capture" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="email-capture" />
+      <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
+      <input class="email-capture__input" type="email" id="early-email" name="email"
+             placeholder="your@email.com" required aria-label="Email address" />
+      <button class="email-capture__btn" type="submit">Get the Briefing</button>
+    </form>
+    <p class="email-capture__note">No spam. One email with the MIND framework + Zone Zero simulator. Unsubscribe anytime.</p>
+    <p class="email-capture__success" id="early-email-success" role="alert">
+      Check your inbox. Your first briefing is on the way.
+    </p>
+  </div>
+</div>
