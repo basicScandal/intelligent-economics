@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-04-21T08:31:42.253Z"
+status: verifying
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-04-21T08:36:41.564Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 6
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-21)
 
 Phase: 05 (performance-optimization) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-21
 
 Progress: [░░░░░░░░░░] 0%
@@ -62,6 +62,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03 P03 | 1min | 1 tasks | 2 files |
 | Phase 04 P01 | 3min | 2 tasks | 5 files |
 | Phase 05 P01 | 2min | 2 tasks | 4 files |
+| Phase 05 P02 | 2min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 - [Phase 03]: Netlify Functions v2 format (export default async handler) for modern API; graceful degradation always returns 200 even if MailerLite fails
 - [Phase 04]: Plausible queue stub before script tag for early event capture; all analytics fire-and-forget via try/catch wrapper
 - [Phase 05]: All mobile devices classified as reduced tier regardless of core count; desktop <=2 cores also reduced; antialias only for full tier
+- [Phase 05]: Render-pause IntersectionObservers separate from analytics observers for independent lifecycles
+- [Phase 05]: Gradient fallbacks for reduced-motion use bioluminescent palette from design tokens
+- [Phase 05]: Cache-Control immutable headers for /_astro/* and *.woff2 placed before security headers in netlify.toml
 
 ### Pending Todos
 
@@ -99,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-21T08:31:42.250Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-04-21T08:36:41.561Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None

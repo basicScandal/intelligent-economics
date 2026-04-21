@@ -43,12 +43,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Performance
 
-- [ ] **PERF-01**: Lighthouse performance score >= 90 on desktop, >= 75 on mobile
+- [x] **PERF-01**: Lighthouse performance score >= 90 on desktop, >= 75 on mobile
 - [x] **PERF-02**: Three.js particles reduced on mobile: hero 4000->1500, morph 3200->1200, Zone Zero 1800->800
-- [ ] **PERF-03**: `prefers-reduced-motion: reduce` disables all particle animation entirely
+- [x] **PERF-03**: `prefers-reduced-motion: reduce` disables all particle animation entirely
 - [x] **PERF-04**: Frame rate stays above 24fps on mid-range mobile devices (Pixel 7a / iPhone 12 equivalent)
-- [ ] **PERF-05**: IntersectionObserver pauses off-screen WebGL render loops
-- [ ] **PERF-06**: CSS and JS externalized and cacheable with content hashing
+- [x] **PERF-05**: IntersectionObserver pauses off-screen WebGL render loops
+- [x] **PERF-06**: CSS and JS externalized and cacheable with content hashing
 
 ### Content Preservation
 
@@ -121,12 +121,12 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | GROW-05 | Phase 6 | Pending |
 | GROW-06 | Phase 6 | Pending |
 | GROW-07 | Phase 6 | Pending |
-| PERF-01 | Phase 5 | Pending |
+| PERF-01 | Phase 5 | Complete |
 | PERF-02 | Phase 5 | Complete |
-| PERF-03 | Phase 5 | Pending |
+| PERF-03 | Phase 5 | Complete |
 | PERF-04 | Phase 5 | Complete |
-| PERF-05 | Phase 5 | Pending |
-| PERF-06 | Phase 5 | Pending |
+| PERF-05 | Phase 5 | Complete |
+| PERF-06 | Phase 5 | Complete |
 | CPRE-01 | Phase 2 | Complete |
 | CPRE-02 | Phase 2 | Complete |
 | CPRE-03 | Phase 2 | Complete |
