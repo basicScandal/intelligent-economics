@@ -1,209 +1,353 @@
-# Feature Research
+# Feature Landscape: MIND Intelligence Layer (v1.1)
 
-**Domain:** Movement/advocacy platform for economic reform (Beyond GDP / MIND framework)
+**Domain:** Policy-oriented academic whitepaper + interactive multi-scale economic dashboard
 **Researched:** 2026-04-21
-**Confidence:** HIGH
+**Confidence:** HIGH (stack verified against live APIs and existing codebase)
 
-## Feature Landscape
+## Context: What Already Exists
 
-### Table Stakes (Users Expect These)
+The v1.0 site is a fully functioning movement platform with:
+- 14+ Astro components, Three.js particle hero, GSAP scroll animations
+- Zone Zero simulator: 4-slider MIND score demo with particle visualization, collapse detection, health states, social sharing
+- MindDashboard component: static equation display + animated bar chart with hardcoded global estimates (M:72, I:58, N:45, D:39)
+- Volunteer signup + email capture forms (Netlify Forms backend)
+- MailerLite welcome sequence, Plausible analytics with 6 custom events
+- Device capability detection (3-tier: full/reduced/minimal) shared across modules
+- Content collections: 6 stories (Medici, Bell Labs, Mondragon, etc.) and 4 experiment scales
 
-Features users assume exist. Missing these = platform feels broken or untrustworthy. Derived from analysis of 350.org, Sunrise Movement, Doughnut Economics Action Lab (DEAL), WEAll, Creative Commons, and Code for America.
+**v1.1 adds three capabilities:** a publishable HTML whitepaper, a multi-scale data dashboard, and real data integration.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Working email capture / signup form | Every movement site captures supporters. A broken form (current state) is catastrophic -- every lost signup is a lost volunteer. 350.org uses 3-field forms (name, email, country). | LOW | Netlify Forms or Resend. Must persist data, confirm to user, and trigger welcome flow. |
-| Clear primary CTA above the fold | Sunrise, 350.org, DEAL all have one unmistakable "Join" action visible without scrolling. Visitors need to know what to do in under 5 seconds. | LOW | Single prominent button near hero. "Join the Movement" or "Stay Informed" -- not multiple competing CTAs. |
-| Mobile-responsive design | 60%+ of traffic is mobile. Climate/reform movements skew younger (mobile-first). A desktop-only experience loses the majority. | MEDIUM | Current Three.js particles need conditional reduction. Touch targets >= 44px. |
-| Team/About page with real humans | Trust signals are critical for credibility. Visitors need to see who founded this, why they're credible, and that real people stand behind it. Anonymous movements struggle to convert. | LOW | Named founder(s) with photo, brief bio, LinkedIn link. Not a full org chart -- just enough to trust. |
-| Privacy-respecting analytics | You must measure to improve. But advocacy audiences are privacy-sensitive. Heavy tracking erodes trust. Plausible/Fathom are table stakes for this audience. | LOW | Plausible (GDPR-compliant, no cookies, lightweight script). Track page views, referrers, UTM campaigns. |
-| Social proof / credibility signals | WEAll shows government partnerships, DEAL shows 400+ community members. Visitors need evidence the movement has traction. | LOW | Supporter count, media mentions, institutional interest. Honest -- never fabricate. |
-| Compelling storytelling / mission clarity | Nonprofits that only share statistics fail. The "why" must be visceral, human, and clear within 30 seconds. DEAL uses Kate Raworth's personal narrative as anchor. | MEDIUM | Already strong in current site content. Preserve and enhance with clearer hierarchy. |
-| Welcome email within 24 hours | Research shows first-30-day communication determines retention. Supporters who receive no response assume they were ignored. | LOW | Automated via Resend/Loops. Immediate confirmation + first substantive email within 24h. |
-| Accessible design (WCAG 2.1 AA) | Legal requirement in many jurisdictions. Moral imperative for an equity-focused movement. Screen reader users, keyboard navigators, and reduced-motion users must be served. | MEDIUM | Already partially implemented (aria labels, reduced motion). Complete audit needed. |
-| Working navigation and content structure | Current monolithic page is impressive but hard to navigate. Users expect to find specific content (about, join, resources) without hunting. | MEDIUM | Astro component architecture enables proper routing. Keep scroll experience but add nav anchors. |
+---
 
-### Differentiators (Competitive Advantage)
+## Table Stakes
 
-Features that set Intelligent Economics apart. These are where the MIND framework competes against Doughnut Economics, WEAll, OECD Beyond GDP, etc.
+Features that users of a policy-oriented dashboard and academic paper expect. Missing these makes the product feel amateur or incomplete.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Interactive Zone Zero simulator | No other Beyond GDP framework has an interactive tool showing how dimensional collapse kills prosperity. This is the "aha moment" for the MIND framework -- it makes the abstract visceral. DEAL has static diagrams; MIND has a live simulator. | MEDIUM | Already built (4 sliders, real-time visualization). Needs mobile optimization and clearer pedagogical framing. |
-| Countdown timer with real urgency | The 1000-day window (ending 2029-01-09) tied to concrete UN/policy milestones creates authentic scarcity. Unlike fake marketing timers, this connects to real institutional deadlines. | LOW | Already built. Ensure it links to the "why" -- what happens at the deadline. |
-| Ladder of engagement (explicit progression) | Most movement sites have implicit pathways. Explicitly showing "Here's how you go from curious to contributor" is rare and powerful. Sunrise does this well with Welcome Call -> Hub -> Member -> Leader Portal. | MEDIUM | Design clear pathways: Email subscriber -> Discord member -> Working group participant -> Chapter leader. Surface progression visibly. |
-| MIND Score dashboard (future) | Interactive data visualization showing MIND dimensions by country/city. No other framework offers a self-service policy evaluation tool. OECD has static PDFs; this would be live and explorable. | HIGH | Deferred to P2. Requires World Bank API integration, D3/Observable visualization, data normalization. |
-| Academic novelty: Intelligence dimension | No existing Beyond GDP framework treats AI/intelligence as a core economic dimension. This is genuinely novel in the field. The site must communicate this clearly. | LOW | Content/messaging work, not a technical feature. Ensure the "what's different" is crystal clear within 60 seconds. |
-| "MIND Score for My City" tool (future) | Localized policy evaluation lets practitioners see their jurisdiction's MIND profile. DEAL has "City Portraits" but they're consultant-created, not self-service. | HIGH | Deferred to P3. Requires validated methodology, data sources per city, user input flows. |
-| Welcome email sequence (4 emails / 14 days) | Most movement sites send one welcome email then silence. A thoughtful 4-email sequence educates, builds relationship, and makes the first "ask" (join Discord, share with 1 person). Research shows 5-7 emails over 60 days optimal -- but 4/14 days is appropriate for a fast-moving movement. | MEDIUM | Sequence: (1) Welcome + mission, (2) MIND explainer, (3) Community invitation, (4) First contribution ask. |
-| Open-source ethos and transparency | Mozilla and Creative Commons succeed by being radically transparent about their work. Publishing methodology, inviting critique, sharing data openly -- this builds academic credibility and trust simultaneously. | LOW | Publish MIND methodology openly. Link to working papers. Invite peer review. |
+### Whitepaper Features
 
-### Anti-Features (Commonly Requested, Often Problematic)
+| Feature | Why Expected | Complexity | Dependencies | Notes |
+|---------|--------------|------------|-------------|-------|
+| Structured long-form HTML page with proper headings | Academic readers expect a paper that reads like a paper: title, abstract, sections, subsections, conclusion. Anything less feels like a blog post, not a framework. | LOW | Astro page routing, MDX integration | Use MDX in content collection. Astro's built-in markdown pipeline handles heading IDs. Single `/whitepaper` route. |
+| Sticky table of contents sidebar | Long academic documents without navigation are unusable. UNDP HDR, OECD reports, and every academic publisher (Nature, Lancet) provide section-level TOC. | LOW | rehype-slug (auto heading IDs), Astro `getHeadings()` API | Astro exposes headings from MDX as `{ depth, slug, text }[]`. Build TOC component from this array. Highlight active section via IntersectionObserver. |
+| Responsive reading layout (readable line length) | Policy readers are on varied devices. 65-75 character line length is the typographic standard for comfortable reading. Full-width text on desktop is unreadable. | LOW | Tailwind prose/typography utilities | `max-w-prose` or `max-w-[65ch]` on content container. Sidebar collapses to top-of-page TOC on mobile. |
+| Proper citation and reference formatting | Academic credibility requires verifiable claims. In-line citations linked to a bibliography section are non-negotiable for policy audiences. | MEDIUM | rehype-citation plugin or manual HTML `<sup>` + `<a>` links | rehype-citation supports BibTeX/CSL-JSON bibliography files. Alternative: manual footnotes with remark-gfm (supports `[^1]` syntax natively). Manual is simpler for a single paper. |
+| Print-friendly / PDF-downloadable version | Policy practitioners need to share documents in meetings, email to colleagues, print for committees. HTML-only is insufficient for institutional use. | MEDIUM | CSS `@media print` styles, optional PDF generation | CSS print stylesheet is lightweight: hide nav/footer, linearize layout, show full URLs. Actual PDF generation (via Puppeteer or pre-built) is optional but valuable. |
+| Semantic HTML and accessibility | Screen readers, institutional accessibility requirements. `<article>`, `<section>`, `<aside>` for TOC, proper heading hierarchy. | LOW | Already established in v1.0 components | Extend existing WCAG 2.1 AA patterns. Use `<article>` wrapper, `role="doc-bibliography"` for references. |
+| Meta tags for social sharing | When shared on Twitter/LinkedIn (primary channels for policy audiences), the whitepaper must have a compelling preview card. | LOW | Astro `<BaseLayout>` already has og:tags pattern | Add `og:title`, `og:description`, `og:image` with a designed social card image for the whitepaper. |
 
-Features that seem good but create problems for a pre-traction movement site.
+### Dashboard Features
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| User accounts / login system | "Let people track their involvement" | Massive implementation overhead (auth, password reset, profile management, security). Zero value before you have 100+ active contributors. Creates friction at signup -- people abandon registration forms. | Email-only signup. Discord handles identity and community features. Add accounts only when you need to gate specific tools (P3+). |
-| Real-time chat on site | "Visitors should be able to ask questions immediately" | Requires 24/7 moderation or you get spam/unanswered questions that erode trust. Implementation complexity (WebSocket, state management). Creates expectation of instant response. | Link to Discord for community discussion. Async by nature, moderation built-in, no custom infrastructure. |
-| Donation functionality | "Movements need money" | Premature for pre-traction phase. Adds legal/compliance complexity (financial disclosures, payment processing, tax receipts). Splits the CTA -- "join" competes with "donate." | Defer until movement has clear use-of-funds story and 501(c)(3) status or fiscal sponsor. Single CTA: join first. |
-| Blog / news feed | "We need fresh content to drive traffic" | Content treadmill. Stale blogs (last post 3 months ago) actively harm credibility. Requires consistent editorial effort the team may not sustain. | Evergreen content architecture. Updates via email newsletter to subscribers. Site content should be timeless framework explanation, not news. |
-| Gamification / points / badges | "Motivate volunteers with rewards" | Feels manipulative for an intellectual movement. Attracts engagement-seekers not genuine contributors. Complex to implement well. Trivializes serious policy work. | Recognition through meaningful roles (Discord roles, contributor credits, named working groups). |
-| Multi-language support | "Reach global audience" | Translation maintenance is a permanent resource drain. Partial translation is worse than none. The MIND framework needs to be validated in English first before expanding. | Defer to P3. Publish in English. Let community-driven translation emerge organically if demand exists. |
-| Petition / letter-writing tool | "Advocacy sites need action tools" | Premature. You need a policy target, a specific ask, and a supporter base first. Building action infrastructure before having an audience is building a megaphone before having a message. | Build supporter base first (P0-P1). Add action tools when you have a specific campaign and 500+ supporters (P3+). |
-| AI chatbot for MIND framework Q&A | "Let AI explain the framework" | Hallucination risk with novel academic content. Maintenance burden. Distraction from the core conversion goal. Visitors need human connection, not AI interaction. | Clear FAQ section. Well-structured content hierarchy. Discord for questions with human answers. |
-| Volunteer matching / project boards | "Help people find what to do" | Requires critical mass of both tasks and volunteers. Empty project boards scream "nobody is here." Complex to implement (task management, assignment, progress tracking). | Start with Discord channels by interest area. Manual coordination until you have 20+ active volunteers. Then formalize. |
-| Complex CRM / supporter database | "Track every interaction across channels" | Over-engineering for current scale. Netlify Forms + Resend gives you a contact list. You don't need Salesforce for 50 supporters. | Spreadsheet or simple Airtable for first 200 supporters. Upgrade when manual tracking becomes painful. |
+| Feature | Why Expected | Complexity | Dependencies | Notes |
+|---------|--------------|------------|-------------|-------|
+| Country-level MIND score visualization | The core promise: see how countries score on M, I, N, D dimensions. Without this, there is no dashboard. Every comparable tool (HDI Data Center, OECD Better Life Index, Gapminder) shows country-level data as the primary view. | HIGH | World Bank API integration, data normalization pipeline, charting library | 4 sub-indicators per dimension aggregated into dimension scores, then multiplied for composite MIND score. Build-time fetch + client-side rendering. |
+| Radar/spider chart for dimension comparison | The MIND framework has 4 dimensions -- this maps perfectly to a radar chart that shows balance vs. imbalance at a glance. OECD uses flower charts, HDI uses bar charts, but radar is the clearest way to show "how balanced is this entity." | MEDIUM | Observable Plot (radar chart support) or SVG hand-rolled | Observable Plot supports radar charts via azimuthal equidistant projection. Alternative: custom SVG radar is ~100 lines for 4 axes. Reuse MIND color tokens (M=green, I=purple, N=blue, D=gold). |
+| Bar chart comparing dimensions across entities | Users need to compare Nigeria vs. Japan vs. Brazil side-by-side on each dimension. This is the bread-and-butter of index dashboards. | MEDIUM | Observable Plot (barY/barX marks) | Group by country, color by dimension. Observable Plot handles this with a few lines of declarative API. |
+| Country selection / search | Users want to find their country or compare specific countries. A dropdown or search is minimum viable interaction. | LOW | Static country list from World Bank API (fetched at build time) | 217 countries in World Bank data. Autocomplete search with ISO codes. |
+| Loading and error states | Real API data means real failures. Empty states, loading spinners, and "no data available" messages are table stakes for any data product. | LOW | None | Show skeleton loaders during data fetch. Handle null values gracefully (many indicators return null for some countries). |
+| Data source attribution | Academic and policy credibility requires citing where the data comes from. "Source: World Bank World Development Indicators, 2021" must appear on every chart. | LOW | None | Footer on each visualization. Link to specific indicator documentation. |
+| Mobile-responsive charts | Policy researchers increasingly use tablets and phones. Charts must be readable (not just technically visible) on small screens. | MEDIUM | Observable Plot handles responsive SVG; custom sizing logic needed | Reduce legend complexity on mobile. Stack charts vertically. Touch-friendly tooltips. |
+
+---
+
+## Differentiators
+
+Features that set the MIND dashboard apart from HDI, OECD Better Life Index, Gapminder, DEAL City Portraits. These are what make someone bookmark this tool.
+
+| Feature | Value Proposition | Complexity | Dependencies | Notes |
+|---------|-------------------|------------|-------------|-------|
+| Multi-scale drill-down (firm -> city -> country -> global) | No existing Beyond GDP dashboard offers hierarchical aggregation across scales. HDI is country-only. OECD is country-only. DEAL City Portraits are consultant-made, not interactive. The MIND framework's unique contribution is showing how prosperity composes upward from firms through cities to nations to the global system. | HIGH | Country data from World Bank API; city/firm data from user input or curated datasets; aggregation logic | **Phase this.** Start with country (API data available). Add city as curated showcase (5-10 cities with manually assembled data). Firm level is user-input only (no public firm-level API for these dimensions). Global is aggregated from country data. |
+| Hierarchical aggregation visualization | Visual showing how firm MIND scores roll up to city, city to country, country to global. This is the "aha moment" for the framework -- just like Zone Zero shows collapse, this shows composition. | HIGH | Multi-scale data, custom visualization (treemap, sankey, or nested radar) | Could reuse Three.js particle metaphor: particles cluster into city blobs, city blobs into country shapes, countries into a globe. Or simpler: nested/stacked radar charts with drill-in animation. |
+| Binding constraint identification | The Zone Zero simulator already shows "Diversity (40) is the binding constraint." Extending this to real data -- "Nigeria's binding constraint is Network Capital at 31" -- makes the framework prescriptive, not just descriptive. | MEDIUM | MIND score calculation (already implemented in `calcScore()` function in zone-zero.ts) | Reuse the geometric mean calculation from Zone Zero. The `calcScore()` function already handles the multiplicative zero-floor logic. Add a `findBindingConstraint()` helper. |
+| Side-by-side entity comparison | Select 2-4 countries and see their MIND profiles overlaid. OECD does this but only for their 38 member countries. MIND covers 217 countries via World Bank data. | MEDIUM | Radar chart overlay, selection state management | Observable Plot supports layered marks -- overlay multiple radar traces. Color-code by country. Limit to 4 simultaneous comparisons for readability. |
+| Time-series animation ("Gapminder-style") | Show how a country's MIND profile has changed over 10-20 years. Gapminder popularized this with Hans Rosling's TED talks. Powerful for showing policy impact. | HIGH | Multi-year World Bank data (available via date range parameter), animation system | World Bank API supports `date=2010:2022` range queries. GSAP can animate between data states. This is a "wow" feature but complex -- defer to late in milestone or future. |
+| Zone Zero integration: "See this country in the simulator" | Link from a country's dashboard profile directly into the Zone Zero simulator with that country's real MIND scores pre-loaded. Bridges the static data view with the interactive "what if" tool. | MEDIUM | Zone Zero already supports URL parameter sharing (`?m=70&i=60&n=50&d=40`) | Update Zone Zero's URL parsing to accept a `country` parameter. Load real data, let user explore "what if we improved Diversity by 10 points?" |
+| Whitepaper-dashboard cross-linking | When the whitepaper discusses "the multiplicative trap," an inline widget shows the actual current global MIND score. When it discusses "Nigeria's Intelligence deficit," a mini chart appears. Living document, not static PDF. | MEDIUM | MDX components that render inline dashboard widgets | This is where MDX shines -- embed `<MindMiniChart country="NGA" />` directly in whitepaper prose. Astro islands hydrate these on demand via `client:visible`. |
+| Export/share individual country profiles | "Share Nigeria's MIND profile" with a permalink and social card. Policymakers share these in presentations and reports. | LOW | URL state encoding (already done in Zone Zero share feature), og:image generation | Zone Zero already has share infrastructure (copy link, Twitter, LinkedIn). Extend pattern to dashboard URLs. |
+| MIND score methodology transparency | Show exactly which World Bank indicators feed each dimension, the normalization formula, the weighting. Full transparency builds academic credibility that black-box indices lack. | LOW | Documentation component showing indicator mapping | A collapsible "How is this calculated?" panel on each dimension. Links to World Bank indicator documentation. |
+
+---
+
+## Anti-Features
+
+Features to explicitly NOT build for v1.1.
+
+| Anti-Feature | Why It Seems Tempting | Why Avoid | What to Do Instead |
+|--------------|----------------------|-----------|-------------------|
+| Real-time data fetching on every page load | "Always show the latest data" | World Bank data updates annually at most. Client-side fetching adds latency (400-800ms per API call), creates CORS dependency on external service, risks API downtime breaking the dashboard. | **Build-time fetch** via Astro's data fetching at `astro build`. Regenerate with scheduled builds (weekly/monthly Netlify cron). Fallback: bundled JSON snapshot. |
+| User accounts to save dashboard preferences | "Let users save their country comparisons" | Massive authentication overhead. No backend currently. Zero users to justify the infrastructure. | URL state encoding (already proven in Zone Zero). Bookmarkable URLs like `/dashboard?countries=NGA,JPN,BRA&view=radar`. |
+| Custom indicator selection (pick your own World Bank indicators) | "Let policy researchers customize what feeds each MIND dimension" | Turns a clear opinionated framework into an open-ended data explorer. Undermines the MIND methodology. Adds enormous UI complexity. | Publish the indicator methodology transparently. Accept feedback via GitHub issues. Curate the indicator selection editorially. |
+| City-level data from automated APIs | "Scrape OpenDataSoft, city open data portals" | City data is wildly inconsistent across jurisdictions. No single API covers even 50 cities globally. Scraping is fragile and legally questionable. | Curate 5-10 showcase cities with manually assembled data. Provide a "Submit your city's data" form for community-driven expansion (P3). |
+| Firm-level data from financial APIs | "Pull from SEC filings, Bloomberg" | Financial APIs are paid and gated. ESG data is proprietary. Mapping corporate data to MIND dimensions requires subjective judgment. | Firm level is user-input only: "Rate your organization" with sliders (reuse Zone Zero pattern). Frame as self-assessment, not authoritative scoring. |
+| Interactive world map (choropleth) | "Color countries by MIND score on a globe" | Choropleth maps require GeoJSON boundaries (~1-2MB), complex interaction handling, and add minimal analytical value over a sortable table or bar chart. Leaflet/D3 geo adds significant bundle weight. | Sortable country ranking table + radar chart comparison. If map is demanded later, use a static SVG world map with CSS-colored countries (no runtime library). |
+| Academic peer review system built into the site | "Let scholars comment on and review the whitepaper" | Moderation nightmare. Requires user accounts. Low volume makes it feel dead. | Link to discussion on GitHub Discussions or a dedicated academic forum. Collect feedback via a simple form. |
+| Real-time collaboration on city data | "Let multiple researchers edit city MIND scores" | Full CMS/collaboration system. Enormous scope. | Google Sheets for collaborative data entry. Import curated data at build time. |
+
+---
 
 ## Feature Dependencies
 
 ```
-[Email Capture Form]
-    |-- requires --> [Form Backend (Netlify Forms)]
-    |-- triggers --> [Welcome Email Sequence]
-                        |-- requires --> [Email Service (Resend/Loops)]
-                        |-- references --> [Discord Community]
-                                              |-- requires --> [Discord Server Setup]
-                                              |-- requires --> [Role-based Channels]
+[HTML Whitepaper Page]
+    |-- requires --> [MDX integration in Astro]
+    |-- requires --> [Content collection for whitepaper]
+    |-- requires --> [TOC component (rehype-slug + getHeadings)]
+    |-- optional --> [rehype-citation for bibliography]
+    |-- optional --> [Print CSS stylesheet]
+    |-- enhances --> [Dashboard cross-links via MDX components]
 
-[Analytics (Plausible)]
-    |-- informs --> [CTA Optimization]
-    |-- informs --> [Content Hierarchy Decisions]
+[Country-Level Dashboard]
+    |-- requires --> [World Bank API data pipeline (build-time fetch)]
+    |-- requires --> [Data normalization: raw indicators -> 0-100 MIND dimensions]
+    |-- requires --> [Charting library (Observable Plot)]
+    |-- requires --> [Country selection UI]
+    |-- reuses  --> [calcScore() from zone-zero.ts]
+    |-- reuses  --> [DeviceCapability from device-detect.ts]
+    |-- reuses  --> [trackEvent() from analytics.ts]
+    |-- reuses  --> [MIND color tokens (M=green, I=purple, N=blue, D=gold)]
 
-[Team/About Page]
-    |-- enhances --> [Social Proof / Credibility]
-    |-- enhances --> [Email Capture Conversion Rate]
+[Multi-Scale Drill-Down]
+    |-- requires --> [Country-Level Dashboard (foundation)]
+    |-- requires --> [Curated city dataset (manual assembly)]
+    |-- requires --> [Firm self-assessment UI (slider reuse from Zone Zero)]
+    |-- requires --> [Global aggregation view]
+    |-- requires --> [Scale navigation UI (breadcrumb or tabs)]
 
-[Zone Zero Simulator]
-    |-- requires --> [Mobile Performance Optimization]
-    |-- enhances --> [Mission Clarity / Storytelling]
-    |-- enhances --> [Email Capture Conversion Rate]
+[Hierarchical Aggregation Visualization]
+    |-- requires --> [Multi-Scale Drill-Down data]
+    |-- requires --> [Custom visualization (nested radar, treemap, or sankey)]
+    |-- optional --> [Three.js particle clustering (reuses hero infrastructure)]
 
-[Welcome Email Sequence]
-    |-- drives --> [Discord Community Growth]
-    |-- drives --> [Ladder of Engagement Progression]
+[Zone Zero <-> Dashboard Integration]
+    |-- requires --> [Country-Level Dashboard]
+    |-- reuses  --> [Zone Zero URL parameter system]
+    |-- reuses  --> [Zone Zero slider + canvas infrastructure]
 
-[MIND Score Dashboard (P2)]
-    |-- requires --> [Working Site Architecture (Astro)]
-    |-- requires --> [Data Integration (World Bank API)]
-    |-- enhances --> [Academic Credibility]
-
-[Ladder of Engagement]
-    |-- requires --> [Email Capture]
-    |-- requires --> [Discord Community]
-    |-- requires --> [Welcome Email Sequence]
+[Whitepaper <-> Dashboard Cross-Links]
+    |-- requires --> [HTML Whitepaper Page]
+    |-- requires --> [Country-Level Dashboard]
+    |-- requires --> [MDX inline components (mini-charts)]
 ```
 
-### Dependency Notes
+### Critical Path
 
-- **Welcome Email Sequence requires Email Service:** Cannot send automated sequences without a transactional email provider (Resend or Loops). Must be set up before email capture goes live.
-- **Discord Community requires Server Setup:** Role-based channels, welcome bot, moderation rules must be configured before directing new signups there.
-- **Zone Zero Simulator requires Mobile Optimization:** Current 4000-particle Three.js scene is heavy on mobile. Must conditionally reduce before it's a reliable conversion tool on all devices.
-- **Ladder of Engagement requires all three upstream features:** The progression path (email -> Discord -> working group) only works when each step exists.
-- **MIND Score Dashboard (P2) requires stable architecture:** Must have Astro components, routing, and build pipeline solid before adding complex data visualization pages.
+The dependency chain dictates build order:
 
-## MVP Definition
+1. **Data pipeline first** -- World Bank API fetch, normalization, bundled JSON
+2. **Charting library integration** -- Observable Plot in Astro island
+3. **Country dashboard page** -- core visualization with real data
+4. **Whitepaper page** -- MDX content with TOC and citations
+5. **Cross-linking** -- whitepaper embeds live dashboard widgets
+6. **Multi-scale** -- city (curated) and firm (user-input) layers
+7. **Aggregation visualization** -- the hierarchical "aha moment"
 
-### Launch With (P0+P1 -- Current Milestone)
+---
 
-Minimum viable movement platform -- what's needed to stop losing volunteers and start building a community.
+## World Bank API: Indicator Mapping to MIND Dimensions
 
-- [x] **Working email capture form** -- stops the bleeding (every signup currently lost)
-- [x] **Privacy-respecting analytics** -- enables data-driven decisions
-- [x] **Honest partner section** -- removes credibility risk from implied endorsements
-- [x] **Lightweight email signup near hero** -- low-friction entry point (email only, no long form)
-- [x] **Discord community with role-based channels** -- gives signups somewhere to go
-- [x] **Team/About page** -- establishes trust and credibility
-- [x] **Welcome email sequence (4 emails / 14 days)** -- nurtures new signups into community members
-- [x] **Mobile performance optimization** -- ensures 60%+ of traffic can actually use the site
+Verified against live API (2026-04-21). All indicators return JSON with CORS (`Access-Control-Allow-Origin: *`), no authentication required, 217 countries available.
 
-### Add After Validation (P2)
+### Material Capital (Infrastructure, energy, housing, physical commons)
 
-Features to add once the conversion funnel is working and you have 100+ email subscribers.
+| Indicator Code | Name | Coverage | Notes |
+|---------------|------|----------|-------|
+| EG.ELC.ACCS.ZS | Access to electricity (% of population) | Excellent | Near-universal data availability |
+| SH.H2O.BASW.ZS | People using basic drinking water (%) | Good | WHO/UNICEF joint monitoring |
+| IS.RRS.TOTL.KM | Rail lines (total route-km) | Good | Infrastructure proxy |
+| NY.GDP.MKTP.CD | GDP (current US$) | Excellent | Normalize per capita for comparison |
+| EN.ATM.CO2E.PC | CO2 emissions (metric tons per capita) | Good | Inverse indicator (lower = better for sustainability) |
 
-- [ ] **MIND Score whitepaper / academic paper** -- establishes intellectual credibility for the framework
-- [ ] **Real MIND dashboard with World Bank data** -- interactive policy tool that differentiates from competition
-- [ ] **Content hierarchy improvements** -- guided by analytics data from P1 showing where users drop off
-- [ ] **Newsletter / update emails** -- regular communication beyond welcome sequence (triggered by having content worth sharing)
-- [ ] **Testimonials / supporter stories** -- social proof from real community members (requires having community members first)
+### Intelligence Capital (Education, open knowledge, cognitive infrastructure)
 
-### Future Consideration (P3+)
+| Indicator Code | Name | Coverage | Notes |
+|---------------|------|----------|-------|
+| HD.HCI.OVRL | Human Capital Index (0-1 scale) | Good (217 countries, 2020) | World Bank's own composite -- strong proxy |
+| GB.XPD.RSDV.GD.ZS | R&D expenditure (% of GDP) | Moderate | Many developing countries lack data |
+| SE.ADT.LITR.ZS | Literacy rate, adult total (%) | Moderate | Many developed countries return null (assumed ~100%) |
+| SE.XPD.TOTL.GD.ZS | Government expenditure on education (% of GDP) | Good | Policy input indicator |
+| IP.PAT.RESD | Patent applications, residents | Good | Innovation output proxy |
 
-Features to defer until movement has traction (500+ subscribers, 20+ active Discord members).
+### Network Capital (Cooperative density, trust, connectivity)
 
-- [ ] **"MIND Score for My City" tool** -- complex, requires validated methodology and data sources
-- [ ] **Volunteer matching / project boards** -- requires critical mass of volunteers and tasks
-- [ ] **Multi-language support** -- requires translation resources and demonstrated global demand
-- [ ] **Action tools (petitions, letter-writing)** -- requires policy targets and supporter base
-- [ ] **MIND Score API** -- requires stabilized methodology and developer community interest
+| Indicator Code | Name | Coverage | Notes |
+|---------------|------|----------|-------|
+| IT.NET.USER.ZS | Individuals using Internet (%) | Excellent | Digital connectivity proxy |
+| TG.VAL.TOTL.GD.ZS | Merchandise trade (% of GDP) | Good | Economic interconnection |
+| BX.KLT.DINV.CD.WD | Foreign direct investment, net inflows | Good | Capital network flows |
+| IC.BUS.EASE.XQ | Ease of doing business score | Moderate | Institutional connectivity (discontinued 2020) |
+| SM.POP.NETM | Net migration | Good | Human network flows |
 
-## Feature Prioritization Matrix
+### Diversity Capital (Cognitive, cultural, ecological, economic variety)
 
-| Feature | User Value | Implementation Cost | Priority |
-|---------|------------|---------------------|----------|
-| Working email capture form | HIGH | LOW | P0 |
-| Analytics (Plausible) | HIGH | LOW | P0 |
-| Honest partner section fix | HIGH | LOW | P0 |
-| Lightweight email signup (hero) | HIGH | LOW | P1 |
-| Discord community setup | HIGH | LOW | P1 |
-| Team/About page | MEDIUM | LOW | P1 |
-| Welcome email sequence | HIGH | MEDIUM | P1 |
-| Mobile perf optimization | HIGH | MEDIUM | P1 |
-| Zone Zero simulator mobile fix | MEDIUM | MEDIUM | P1 |
-| Ladder of engagement (explicit) | MEDIUM | MEDIUM | P1-P2 |
-| MIND Score dashboard | HIGH | HIGH | P2 |
-| Academic paper / whitepaper | HIGH | HIGH | P2 |
-| Newsletter system | MEDIUM | LOW | P2 |
-| Multi-language | LOW | HIGH | P3 |
-| Volunteer matching | LOW | HIGH | P3 |
-| "MIND for My City" tool | HIGH | HIGH | P3 |
+| Indicator Code | Name | Coverage | Notes |
+|---------------|------|----------|-------|
+| EN.BIO.LCBD.LG | Red List Index (composite) | Good | Biodiversity proxy |
+| SL.TLF.CACT.FE.ZS | Labor force participation, female (%) | Good | Gender economic diversity |
+| NV.IND.MANF.ZS | Manufacturing value added (% of GDP) | Good | Economic diversification proxy |
+| AG.LND.FRST.ZS | Forest area (% of land area) | Good | Ecological diversity proxy |
+| SE.ENR.TERT.FM.ZS | Gender parity index, tertiary education | Moderate | Cognitive diversity proxy |
 
-**Priority key:**
-- P0: Fix what's broken (form, analytics, partner section)
-- P1: Build the growth engine (capture, nurture, community)
-- P2: Establish credibility (data tools, academic work)
-- P3: Scale the movement (localization, action tools, self-service)
+**Data quality note:** Most indicators have 2-3 year lag. Latest reliable data for most countries is 2021-2022. The `lastupdated` field from the API (2026-04-08) refers to the dataset update, not the data year. Handle null values explicitly -- they are common, especially for small island nations and developing economies.
 
-## Competitor Feature Analysis
+---
 
-| Feature | Doughnut Economics (DEAL) | WEAll | 350.org | Sunrise Movement | Our Approach |
-|---------|---------------------------|-------|---------|------------------|--------------|
-| Signup flow | Newsletter + member login | Membership form | 3-field form (name, email, country) | Welcome Call + hub finder | Email-only lightweight capture near hero. Minimal friction. |
-| Community platform | Custom community platform with discussions, book clubs | Online community + local hubs | Local group directory + Slack | Discord + Mobilize events | Discord with role-based channels. Lower barrier than custom platform. |
-| Interactive tools | Static doughnut diagram + city portraits | Policy design course | Campaign action pages | Phone bank tools | Zone Zero simulator (interactive, real-time). Unique differentiator. |
-| Content approach | Themed clusters of practice (6 areas) | Policy briefs + case studies | Campaign-focused + blog | Action-focused + storytelling | Evergreen framework explanation. No blog treadmill. |
-| Onboarding | Generic welcome email | Generic welcome | Welcome email + local group suggestion | Welcome Call + hub assignment | 4-email nurture sequence over 14 days. Relationship building. |
-| Credibility signals | Kate Raworth (famous author), Amsterdam partnership | Government partnerships (Scotland, Iceland, Finland) | 15 years of campaigns, massive membership | Youth energy, Green New Deal association | Named founder, UN inflection point timing, academic novelty claim. |
-| Urgency mechanism | None (evergreen) | None (evergreen) | Climate deadline framing | Election cycles | 1000-day countdown tied to policy windows. Authentic urgency. |
-| Policy tools | City Doughnut Portrait (consultant-made) | WEGo government network | None (action-focused) | Endorsement tracker | MIND Score dashboard (P2). Self-service, data-driven. |
-| Progression path | Browse -> Join community -> Attend events | Browse -> Join -> Advocate | Browse -> Sign petition -> Join group -> Lead | Browse -> Welcome Call -> Hub -> Member -> Leader Portal | Browse -> Email signup -> Discord -> Working group -> Chapter lead |
+## User Journey: Exploring MIND Scores at Different Scales
 
-## Ladder of Engagement: Feature Mapping
+### Entry Points
 
-The most critical strategic insight from this research is that successful movements design explicit progression pathways. Each level needs specific platform features:
+1. **From homepage** -- "Explore Real Data" CTA below existing MindDashboard section links to `/dashboard`
+2. **From whitepaper** -- inline mini-charts in the paper link to full dashboard with context
+3. **From Zone Zero** -- "See real countries" link after playing with simulator
+4. **Direct link** -- shared URL like `/dashboard?country=NGA` from social media or email
 
-| Level | Supporter Type | Platform Feature | Engagement Action |
-|-------|---------------|------------------|-------------------|
-| 1 - Awareness | Curious visitor | Compelling hero + clear mission statement | Read, understand, stay on page |
-| 2 - Interest | Intellectual explorer | Zone Zero simulator + MIND explainer content | Interact with simulator, read case studies |
-| 3 - Subscription | Email subscriber | Lightweight signup form + welcome sequence | Give email, read welcome emails |
-| 4 - Community | Discord member | Discord invitation in welcome email (email 3) | Join Discord, introduce self |
-| 5 - Contribution | Active participant | Working group channels in Discord, contributor credits | Participate in discussions, review content |
-| 6 - Leadership | Chapter/group leader | (P3) Named roles, project boards, public recognition | Lead initiatives, recruit others |
+### Journey Flow
+
+```
+1. LANDING: Global Overview
+   - World ranking table: all countries sorted by MIND score
+   - Global aggregate radar chart showing humanity's current MIND profile
+   - "The binding constraint globally is Diversity at 39" (echoes existing MindDashboard)
+   - CTA: "Select a country to explore"
+
+2. COUNTRY DEEP-DIVE: Selected Country Profile
+   - Radar chart: 4 MIND dimensions for this country
+   - Dimension breakdown: which indicators feed each score
+   - Binding constraint callout: "Nigeria's binding constraint is Network (31)"
+   - Comparison: "Compare with..." adds 1-3 more countries
+   - "Explore in Simulator" button -> opens Zone Zero pre-loaded with this country's scores
+
+3. COMPARISON VIEW: Side-by-Side
+   - Overlaid radar charts (max 4 countries)
+   - Dimension-by-dimension bar chart comparison
+   - "What would it take?" -- highlights the binding constraint for each
+
+4. MULTI-SCALE (Progressive Disclosure):
+   a. GLOBAL: Aggregated radar + ranking table (available immediately)
+   b. COUNTRY: 217 countries from World Bank API (available immediately)
+   c. CITY: 5-10 curated showcase cities (available at launch, expandable)
+      - "Want to see your city? Submit data" form
+   d. FIRM: Self-assessment tool (user-input only)
+      - Reuses Zone Zero slider pattern
+      - "Rate your organization on each MIND dimension"
+
+5. ACTION: Converting Insight to Engagement
+   - "This data matters. Help improve it." -> Volunteer form
+   - "Share this country's profile" -> Social sharing (reuse Zone Zero share pattern)
+   - "Read the methodology" -> Whitepaper deep link
+   - "Try the simulator" -> Zone Zero with real scores pre-loaded
+```
+
+### Key UX Principles (Learned from OECD Better Life Index and Gapminder)
+
+1. **Information hierarchy**: Most important insight at a glance, details revealed on demand. OECD's flower chart shows the overall shape immediately; petals reveal dimension names on hover.
+2. **Opinionated defaults**: Start with a meaningful view (global overview, user's detected country). Don't show a blank "please select" state.
+3. **Progressive complexity**: Global (simple) -> Country (moderate) -> Comparison (complex) -> Multi-scale (expert). Each level is useful on its own.
+4. **Conversion integration**: Every data view has a path to action (volunteer, share, explore further). Data without action is a dead end for a movement site.
+5. **Mobile-first simplification**: On mobile, show the radar chart and binding constraint callout. Full comparison and time-series are desktop features.
+
+---
+
+## MVP Recommendation for v1.1
+
+### Build First (Core Milestone)
+
+1. **HTML Whitepaper** -- MDX page with TOC, citations, responsive reading layout, print CSS
+   - Establishes intellectual credibility immediately
+   - Low technical risk, high impact
+   - No external API dependency
+
+2. **World Bank data pipeline** -- Build-time fetch, normalization to 0-100 scores, bundled JSON
+   - Foundation for everything else
+   - Validate data quality and coverage before building UI
+
+3. **Country-level dashboard** -- Radar chart + bar chart + binding constraint for 217 countries
+   - The core promise of the milestone
+   - Reuses Zone Zero's `calcScore()` and color tokens
+   - Observable Plot for charts in Astro islands
+
+4. **Country comparison** -- Select 2-4 countries, overlay radar charts
+   - Moderate effort on top of single-country view
+   - High value for policy practitioners
+
+5. **Zone Zero integration** -- "See this country in the simulator" pre-loads real scores
+   - Low effort (URL parameter system already exists)
+   - Connects existing and new features into a cohesive experience
+
+### Defer (Add After Core)
+
+- **Whitepaper-dashboard cross-links** (MDX inline widgets) -- valuable but not blocking
+- **City-level curated data** -- requires manual data assembly, launch with "coming soon"
+- **Firm self-assessment** -- reuses Zone Zero pattern but needs separate page and UX
+- **Time-series animation** -- complex, high wow-factor but not table stakes
+- **Hierarchical aggregation visualization** -- the "aha moment" but requires multi-scale data to be meaningful
+- **Global aggregation view** -- computed from country data, low effort but prioritize country view first
+
+### Explicitly Out of Scope for v1.1
+
+- Choropleth world map
+- Custom indicator selection
+- User accounts
+- Automated city/firm data from APIs
+- Real-time data fetching (build-time only)
+- PDF generation of whitepaper (CSS print is sufficient)
+
+---
+
+## Complexity Budget
+
+| Feature | Estimated Effort | Technical Risk | Notes |
+|---------|-----------------|----------------|-------|
+| MDX whitepaper page | 2-3 days | LOW | Well-documented Astro pattern |
+| TOC sidebar component | 0.5 days | LOW | Astro `getHeadings()` + IntersectionObserver |
+| Citation/bibliography | 1 day | LOW | remark-gfm footnotes or rehype-citation |
+| Print CSS | 0.5 days | LOW | Standard `@media print` |
+| World Bank data pipeline | 2-3 days | MEDIUM | API is stable but data normalization requires methodology decisions |
+| Observable Plot integration | 1-2 days | LOW | Framework-agnostic, vanilla JS, CDN-loadable |
+| Radar chart component | 1-2 days | LOW | Observable Plot or custom SVG |
+| Country dashboard page | 3-4 days | MEDIUM | State management, routing, responsive layout |
+| Country comparison | 1-2 days | LOW | Extension of single-country view |
+| Zone Zero integration | 0.5 days | LOW | URL parameter system exists |
+| Analytics events | 0.5 days | LOW | Extend existing `trackEvent()` pattern |
+| **Total estimate** | **13-19 days** | | Core milestone without deferred items |
+
+---
+
+## Competitive Analysis: Dashboard Comparison
+
+| Feature | UNDP HDI Data Center | OECD Better Life Index | Gapminder | Our World in Data | MIND Dashboard (Planned) |
+|---------|---------------------|----------------------|-----------|-------------------|--------------------------|
+| Country count | 193 | 38 (OECD members) | ~200 | ~200 | 217 (all World Bank) |
+| Multi-scale | Country only | Country only | Country only | Country only | **Firm -> City -> Country -> Global** |
+| User weighting | No | Yes (11 sliders) | No | No | **Yes (via Zone Zero integration)** |
+| Multiplicative model | No (additive) | No (additive) | N/A (raw indicators) | N/A | **Yes (zero-floor collapse)** |
+| Binding constraint | No | No | No | No | **Yes (highlighted per entity)** |
+| Time-series | Yes (static table) | Limited | Yes (animated) | Yes (interactive) | Planned (deferred) |
+| Interactive simulator | No | Basic (slider weights) | Motion chart | Toggle controls | **Zone Zero (4-slider particle sim)** |
+| Open methodology | Partial | Documented | Open data | Open data + code | **Full transparency planned** |
+| Mobile experience | Responsive tables | Responsive | Desktop-optimized | Good | Responsive charts + simplified mobile |
+
+**MIND Dashboard's unique position:** The only Beyond GDP tool combining multiplicative zero-floor scoring, multi-scale drill-down, interactive simulation, and binding constraint identification. The OECD comes closest with user weighting, but covers only 38 countries and uses additive (not multiplicative) aggregation.
+
+---
 
 ## Sources
 
-- [350.org](https://350.org) -- Homepage signup flow, community tools, campaign structure
-- [Sunrise Movement - Take Action](https://www.sunrisemovement.org/volunteer/) -- Volunteer pathways, hub model, member portal
-- [Doughnut Economics Action Lab](https://doughnuteconomics.org/) -- Community platform, themed clusters, interactive tools
-- [Wellbeing Economy Alliance (WEAll)](https://weall.org/) -- Policy networks, government partnerships, membership model
-- [Creative Commons Community](https://creativecommons.org/2025/05/15/the-next-chapter-strengthening-the-creative-commons-community-together/) -- Open community engagement, governance
-- [CiviClick - Ladder of Engagement](https://civiclick.com/mastering-the-ladder-of-engagement-strategy/) -- Four-level framework, progression strategies
-- [Beautiful Trouble - Ladder of Engagement](https://beautifultrouble.org/toolbox/tool/ladder-of-engagement) -- Community organizing framework
-- [InboxArmy - Welcome Email Series](https://www.inboxarmy.com/blog/welcome-email-series/) -- Best practices for onboarding sequences
-- [Digital Organizing Best Practices - MobilizeAmerica](https://medium.com/@LetsMobilizeUS/digital-organizing-best-practices-from-mobilizeamerica-db0d6452287c) -- Engagement matrix, volunteer-hosted events
-- [Nonprofit Website Best Practices 2025](https://blog.soloist.ai/nonprofit-website-best-practices/) -- CTA optimization, storytelling, trust signals
+- [World Bank Indicators API v2](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation) -- API structure, indicator codes, pagination (verified live 2026-04-21, CORS: `Access-Control-Allow-Origin: *`)
+- [World Bank API Basic Call Structures](https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures) -- Base URL `https://api.worldbank.org/v2/`, JSON format, per_page parameter
+- [World Bank Development Best Practices](https://datahelpdesk.worldbank.org/knowledgebase/articles/902064-development-best-practices) -- Caching recommendation (data updates infrequently)
+- [Observable Plot](https://observablehq.com/plot/) -- Charting library, vanilla JS + CDN, layered marks API, radar chart support
+- [Observable Plot npm](https://www.npmjs.com/package/@observablehq/plot) -- Framework-agnostic, ES module, D3 dependency bundled
+- [UNDP HDI Data Center](https://hdr.undp.org/data-center) -- Competitor dashboard design, country insights pattern
+- [OECD Better Life Index](https://www.oecd.org/en/data/tools/well-being-data-monitor/better-life-index.html) -- Flower chart visualization, user weighting system, information hierarchy
+- [Truth & Beauty - OECD BLI Design](https://truth-and-beauty.net/projects/oecd-better-life-index) -- Design philosophy: "hierarchy of information that presents the most important values at a glance"
+- [Astro Academic Project Template](https://github.com/RomanHauksson/academic-project-astro-template) -- MDX + components for research papers
+- [Astro Markdown Content](https://docs.astro.build/en/guides/markdown-content/) -- MDX integration, remark/rehype plugin configuration, `getHeadings()` API
+- [rehype-citation](https://www.timlrx.com/blog/streamlining-citations-in-markdown/) -- Academic citation plugin for rehype/Astro pipeline
+- [remark-gfm](https://github.com/remarkjs/remark-gfm) -- GitHub Flavored Markdown with footnote support
+- [Astro TOC Implementation](https://noahflk.com/blog/astro-table-of-contents) -- Building auto-generated TOC with IntersectionObserver
+- [Beyond GDP Database (Nature, 2024)](https://www.nature.com/articles/s41597-024-04006-4) -- Comprehensive Beyond-GDP database, WISE framework convergence
+- [Lancet Beyond GDP Framework (2024)](https://www.sciencedirect.com/science/article/pii/S2542519624001475) -- Review of measurement frameworks, conceptual grounding
 
 ---
-*Feature research for: Movement/advocacy platform (Beyond GDP / MIND framework)*
+*Feature research for: MIND Intelligence Layer (v1.1) -- Whitepaper + Multi-Scale Dashboard*
 *Researched: 2026-04-21*
+*Supersedes: v1.0 feature research (movement platform table stakes)*

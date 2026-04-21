@@ -1,646 +1,493 @@
-# Architecture Patterns
+# Architecture Patterns: v1.1 MIND Intelligence Layer
 
-**Domain:** Movement/advocacy platform with heavy WebGL interactivity
+**Domain:** Whitepaper + multi-scale interactive dashboard integration into existing Astro static site
 **Researched:** 2026-04-21
+**Confidence:** HIGH (existing codebase fully analyzed, patterns verified against Astro 5.x docs)
 
 ## Recommended Architecture
 
-**Astro static site with script-driven interactivity (no UI framework islands).**
+**Extend the existing Astro static site with two new page routes, a shared MIND calculation library, a build-time data layer for World Bank indicators, and a client-side dashboard island.**
 
-The existing site uses vanilla JavaScript exclusively — no React, Svelte, or Vue. Astro's island architecture is designed for framework components, but this project doesn't need framework islands. Instead, use Astro's native `<script>` tag processing (which bundles, deduplicates, and tree-shakes) combined with TypeScript modules for Three.js/GSAP logic.
+The v1.0 site is a single-page app (`index.astro`) with vanilla TypeScript driving Three.js/GSAP interactivity. v1.1 adds two new concerns: (1) a long-form whitepaper page, and (2) a multi-scale data dashboard. These integrate cleanly with the existing architecture without requiring SSR, framework islands, or runtime data fetching.
 
-This is the correct architectural choice because:
-1. Three.js and GSAP are imperative libraries — they manipulate canvas/DOM directly, not through a reactive framework
-2. Adding React/Svelte wrappers around Three.js adds overhead with zero benefit
-3. Astro's script bundling already handles imports, TypeScript, and deduplication
+### Why This Architecture
 
-### High-Level Structure
+1. **Whitepaper as MDX content collection entry** -- gets Astro's built-in heading extraction (`getHeadings()`), component embedding, and the same type-safe content pipeline already used for stories/experiments
+2. **Dashboard data fetched at build time** -- World Bank data updates annually, not in real-time. Build-time fetch via a custom Astro content loader eliminates CORS issues, removes client-side API dependencies, and produces a static JSON bundle that ships with the page
+3. **Dashboard visualization as a `<script>`-driven island** -- matches the existing v1.0 pattern (Zone Zero, morph engine). No React/Svelte needed. Chart.js in a canvas element, hydrated via Astro's native `<script>` tag
+4. **Shared MIND calculation module** -- the `calcScore()` function currently lives inside `zone-zero.ts`. Extract it to a shared `src/lib/mind-score.ts` so both Zone Zero and the dashboard use identical logic
 
-```
-src/
-  pages/
-    index.astro              ← Single page (composes all sections)
-    privacy.astro            ← Privacy policy
-  layouts/
-    BaseLayout.astro         ← <html>, <head>, meta, fonts, analytics
-  components/
-    nav/
-      Nav.astro              ← Fixed nav + theme toggle
-    hero/
-      Hero.astro             ← Hero markup + particle canvas element
-    sections/
-      EmailCapture.astro     ← Early CTA email form
-      MindDashboard.astro    ← MIND equation + animated bars
-      ZoneZeroSimulator.astro ← Full simulator (sliders + canvas + UI)
-      Inversion.astro        ← The Inversion section
-      MetabolicRift.astro    ← Metabolic Rift section
-      Pillars.astro          ← 4 pillar cards
-      Stories.astro          ← Historical nucleation (morph scene wrapper)
-      StoryPanel.astro       ← Individual story panel (reusable)
-      AfterVolunteer.astro   ← What happens after you join
-      LocalExperiments.astro ← Tabbed experiment panels
-      VolunteerForm.astro    ← Full signup form with role cards
-      Paths.astro            ← First steps / paths section
-      Partners.astro         ← Partner organizations
-      FinalCTA.astro         ← Bottom CTA section
-    ui/
-      Button.astro           ← Reusable button variants
-      SectionLabel.astro     ← "Section label" chip
-      Countdown.astro        ← 1000-day countdown timer
-      Ticker.astro           ← Scrolling ticker bar
-    footer/
-      Footer.astro           ← Site footer
-  scripts/
-    hero-particles.ts        ← Three.js hero particle system
-    morph-engine.ts          ← Scroll-driven particle morph (stories)
-    zone-zero.ts             ← Zone Zero simulator (Three.js + sliders)
-    gsap-reveals.ts          ← GSAP clip-path wipes + scroll reveals
-    forms.ts                 ← Form submission handlers
-    theme.ts                 ← Dark/light toggle logic
-    countdown.ts             ← Timer update logic
-    experiments-tabs.ts      ← Tab switching for local experiments
-    device-detect.ts         ← Capability detection (mobile, reduced motion)
-  styles/
-    tokens.css               ← Design tokens (CSS custom properties)
-    base.css                 ← Reset + typography
-    utilities.css            ← Layout utilities (.container, .section, etc.)
-    components/              ← Per-component CSS (co-located or here)
-  content/
-    stories/                 ← Content collection for case study panels
-      medici.md
-      bell-labs.md
-      mondragon.md
-      shenzhen.md
-      estonia.md
-      silicon-valley.md
-    experiments/             ← Content collection for experiment tabs
-      neighborhood.md
-      startup.md
-      company.md
-      city.md
-  netlify/
-    functions/
-      submission-created.ts  ← Triggered on form submit (email + Discord)
-public/
-  fonts/                     ← Self-hosted fonts (if moving off CDN)
-  og-render.html             ← OG image renderer (keep as-is)
-```
+## Component Boundaries
 
-### Component Boundaries
+### New Files
 
-| Component | Responsibility | Communicates With |
-|-----------|---------------|-------------------|
-| `BaseLayout` | HTML shell, `<head>`, fonts, Plausible snippet | All pages |
-| `Nav` | Fixed navigation, theme toggle, CTA button | `theme.ts` (via data-attribute) |
-| `Hero` | Hero text, countdown, particle canvas element | `hero-particles.ts`, `countdown.ts` |
-| `EmailCapture` | Lightweight email form (pre-volunteer) | `forms.ts` → Netlify Forms |
-| `MindDashboard` | Static MIND equation display + animated bar chart | `gsap-reveals.ts` |
-| `ZoneZeroSimulator` | 4 sliders + canvas + health UI + share buttons | `zone-zero.ts` (self-contained) |
-| `Stories` | Morph scene wrapper (sticky + scroll height) | `morph-engine.ts` |
-| `StoryPanel` | Individual story content (receives props from content collection) | Parent `Stories` |
-| `LocalExperiments` | Tab UI + 4 experiment panels | `experiments-tabs.ts` |
-| `VolunteerForm` | Full form (name, email, roles, message) | `forms.ts` → Netlify Forms |
-| `Paths` / `Partners` / `FinalCTA` | Static content sections | None (pure Astro markup) |
-| `submission-created` | Serverless function: email + Discord webhook | Netlify Forms, SendGrid/Resend, Discord |
+| Component | Type | Path | Responsibility |
+|-----------|------|------|----------------|
+| Whitepaper page | Astro page | `src/pages/whitepaper.astro` | Renders MDX whitepaper with WhitepaperLayout, ToC sidebar |
+| WhitepaperLayout | Astro layout | `src/layouts/WhitepaperLayout.astro` | Two-column layout: sticky ToC sidebar + prose content area |
+| Whitepaper content | MDX collection entry | `src/content/whitepaper/mind-framework.mdx` | The actual whitepaper text with embedded components |
+| Dashboard page | Astro page | `src/pages/dashboard.astro` | Composes dashboard components, passes build-time data as props |
+| ScaleSelector | Astro component | `src/components/dashboard/ScaleSelector.astro` | Static HTML for firm/city/country/global tab navigation |
+| DashboardPanel | Astro component | `src/components/dashboard/DashboardPanel.astro` | Container with canvas elements and score display markup |
+| AggregationTree | Astro component | `src/components/dashboard/AggregationTree.astro` | SVG/HTML markup for hierarchical aggregation visualization |
+| Dashboard script | TypeScript | `src/scripts/dashboard.ts` | Client-side interactivity: Chart.js rendering, scale switching, score animation |
+| MIND score library | TypeScript | `src/lib/mind-score.ts` | Shared `calcScore()`, `getHealthState()`, `getBindingConstraint()` -- used by zone-zero.ts and dashboard.ts |
+| World Bank loader | TypeScript | `src/lib/world-bank-loader.ts` | Build-time fetch utility: calls World Bank API v2, transforms to MIND-compatible shape, caches as JSON |
+| Indicator mapping | TypeScript | `src/lib/indicators.ts` | Maps World Bank indicator codes to MIND dimensions (M/I/N/D), normalization functions |
+| Dashboard data | JSON (generated) | `src/data/dashboard-data.json` | Pre-fetched, normalized World Bank data (committed or generated at build) |
 
----
+### Modified Files
 
-## Script Architecture: How Three.js/GSAP Integrate with Astro
-
-### Pattern: Bundled TypeScript Modules with DOM Anchoring
-
-Astro processes `<script>` tags by default — bundling imports, supporting TypeScript, and deduplicating across component instances. The pattern for Three.js/GSAP:
-
-1. **Component provides DOM anchors** (canvas elements, data attributes for config)
-2. **Script imports are placed in the component's `<script>` tag** — Astro bundles them
-3. **Script initializes by querying the DOM** for the canvas/container elements
-4. **Device capability is checked first** — graceful degradation if underpowered
-
-```astro
-<!-- Hero.astro -->
----
-// No frontmatter logic needed for the particle system
----
-
-<section class="hero" aria-label="Hero">
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-  <div class="hero__content">
-    <!-- Hero text content -->
-  </div>
-</section>
-
-<script>
-  import { initHeroParticles } from '../scripts/hero-particles';
-  
-  const canvas = document.getElementById('particle-canvas') as HTMLCanvasElement;
-  if (canvas) {
-    initHeroParticles(canvas);
-  }
-</script>
-```
-
-```typescript
-// src/scripts/hero-particles.ts
-import * as THREE from 'three';
-import { getDeviceCapability } from './device-detect';
-
-export function initHeroParticles(canvas: HTMLCanvasElement) {
-  const { isMobile, prefersReducedMotion } = getDeviceCapability();
-  if (prefersReducedMotion) return; // Graceful exit
-  
-  const PARTICLE_COUNT = isMobile ? 1500 : 4000;
-  // ... Three.js setup using the passed canvas
-}
-```
-
-### Pattern: GSAP ScrollTrigger with Cleanup
-
-GSAP ScrollTrigger instances must be registered once and cleaned up if Astro view transitions are ever added. For now (single page, no view transitions), the pattern is simpler:
-
-```typescript
-// src/scripts/gsap-reveals.ts
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-export function initClipWipes() {
-  const pillarCards = gsap.utils.toArray('.pillar-card') as HTMLElement[];
-  pillarCards.forEach((card, i) => {
-    // ... clip-path animation setup
-  });
-}
-
-export function initScrollReveals() {
-  // IntersectionObserver-based reveals (lighter than ScrollTrigger for simple fades)
-}
-```
-
-### Pattern: Zone Zero Simulator (Self-Contained Island)
-
-The Zone Zero simulator is the most complex interactive component. It manages:
-- 4 range sliders (input state)
-- Three.js particle visualization (output)
-- Health assessment UI (derived state)
-- URL param sharing (persistence)
-- OG meta updates (side effect)
-
-Architecture it as a **single self-contained module** that exports one `initZoneZero(container)` function. All internal state is encapsulated.
-
-```typescript
-// src/scripts/zone-zero.ts
-import * as THREE from 'three';
-import gsap from 'gsap';
-import { getDeviceCapability } from './device-detect';
-
-interface ZoneZeroState {
-  scores: { m: number; i: number; n: number; d: number };
-  isCollapsed: boolean;
-}
-
-export function initZoneZero(container: HTMLElement) {
-  const { isMobile, prefersReducedMotion } = getDeviceCapability();
-  if (prefersReducedMotion) return; // Show static fallback
-  
-  const canvas = container.querySelector('#zz-canvas') as HTMLCanvasElement;
-  if (!canvas) return;
-  
-  // All state, Three.js scene, event handlers scoped here
-  // Hydrate from URL params
-  // Return cleanup function (future-proofing for view transitions)
-}
-```
-
-### Script Loading Strategy
-
-| Script | Load Timing | Rationale |
-|--------|------------|-----------|
-| `theme.ts` | Immediate (in `<head>` via `is:inline`) | Prevents FOUC on theme |
-| `hero-particles.ts` | Page load (default `<script>`) | Above the fold, critical visual |
-| `gsap-reveals.ts` | Page load (default `<script>`) | Animations fire on scroll |
-| `morph-engine.ts` | Page load (default `<script>`) | Needs ScrollTrigger registered early |
-| `zone-zero.ts` | Page load (default `<script>`) | Complex, but user scrolls to it |
-| `forms.ts` | Page load (default `<script>`) | Must be ready when user reaches form |
-| `countdown.ts` | Page load (default `<script>`) | Lightweight, runs on interval |
-| `experiments-tabs.ts` | Page load (default `<script>`) | Lightweight, event handlers only |
-
-**Why not `client:visible` islands?** Because these aren't framework components. Astro's `client:visible` only works with React/Svelte/Vue islands. For vanilla scripts, the equivalent is checking visibility within the script itself (IntersectionObserver) before initializing heavy work — which the existing code already does for the morph engine and Zone Zero simulator.
-
----
+| File | Change |
+|------|--------|
+| `src/content.config.ts` | Add `whitepaper` collection with MDX glob pattern |
+| `src/scripts/zone-zero.ts` | Import `calcScore` from `src/lib/mind-score.ts` instead of inline definition |
+| `src/components/Nav.astro` | Add Whitepaper and Dashboard links |
+| `src/layouts/BaseLayout.astro` | No structural changes needed -- new layouts extend independently |
+| `astro.config.mjs` | Add `@astrojs/mdx` integration |
+| `package.json` | Add `@astrojs/mdx`, `chart.js` dependencies |
 
 ## Data Flow
 
-### Content Flow (Build Time)
+### Whitepaper Data Flow (Build-Time Only)
 
 ```
-Content Collections (Markdown)
-  └── stories/*.md → Stories.astro → StoryPanel.astro (iterated)
-  └── experiments/*.md → LocalExperiments.astro (tab content)
-
-Design Tokens (CSS)
-  └── tokens.css → imported in BaseLayout.astro → available globally
-
-Static Assets
-  └── public/ → served at root (og-render.html, fonts, favicons)
+src/content/whitepaper/mind-framework.mdx
+    |
+    v  (Astro content collection with glob loader)
+src/content.config.ts  -- defines 'whitepaper' collection, schema with Zod
+    |
+    v  (getEntry('whitepaper', 'mind-framework'))
+src/pages/whitepaper.astro
+    |
+    v  (render() from astro:content)
+WhitepaperLayout.astro  -- receives headings[] for ToC, <Content /> for body
+    |
+    v  (static HTML output)
+dist/whitepaper/index.html
 ```
 
-### Form → Email → Community Pipeline (Runtime)
+### Dashboard Data Flow (Hybrid: Build-Time Fetch + Client-Side Rendering)
 
 ```
-User Action                  Backend                         Outcome
-───────────                  ───────                         ───────
-1. Email capture form     →  Netlify Forms (netlify attr)  → Stored in Netlify dashboard
-   (hero section)             └── triggers submission-created.ts
-                                    ├── POST to Discord webhook (new-signup channel)
-                                    ├── POST to Resend/SendGrid (welcome email #1)
-                                    └── Add to email list (Resend audience / Buttondown)
+BUILD TIME:
+  World Bank API v2 (https://api.worldbank.org/v2/...)
+      |
+      v  (fetch at build via npm script or Astro content loader)
+  src/lib/world-bank-loader.ts  -- fetches indicators, normalizes 0-100
+      |
+      v  (writes to filesystem or feeds content collection)
+  src/data/dashboard-data.json  -- {countries: {...}, indicators: {...}}
+      |
+      v  (imported by dashboard page at build)
+  src/pages/dashboard.astro  -- serializes data into <script> tag or data attribute
+      |
+      v
+  dist/dashboard/index.html  -- static HTML with embedded JSON data
 
-2. Volunteer form         →  Netlify Forms (netlify attr)  → Stored in Netlify dashboard
-   (full signup)              └── triggers submission-created.ts
-                                    ├── POST to Discord webhook (includes role info)
-                                    ├── POST to email service (welcome sequence trigger)
-                                    ├── Generate Discord invite link (role-specific)
-                                    └── Add to email list with role tags
-
-3. Welcome email sequence →  Email service (Resend/Buttondown) drip campaign
-   (4 emails / 14 days)       Email 1: Welcome + Discord invite (immediate)
-                               Email 2: MIND framework deep-dive (Day 3)
-                               Email 3: Your role, your first task (Day 7)
-                               Email 4: Community check-in + next steps (Day 14)
+CLIENT SIDE:
+  <script> in DashboardPanel.astro
+      |
+      v  (reads JSON from data attribute or inline script)
+  src/scripts/dashboard.ts
+      |
+      v  (Chart.js renders bar/radar charts, calcScore from mind-score.ts)
+  Canvas elements in DOM  -- interactive charts, scale switching, score display
 ```
 
-### Key Design Decisions for the Pipeline
+### Key Design Decision: Build-Time Data Fetch
 
-| Decision | Rationale |
-|----------|-----------|
-| Netlify Forms over custom backend | Free tier (100 submissions/month), zero infrastructure, native Astro support |
-| `submission-created` function | Netlify's built-in event trigger — no polling, no webhook config needed |
-| Resend over SendGrid | Better DX, generous free tier (3,000 emails/month), simpler API |
-| Discord webhook over bot | Webhooks are stateless, no server needed, free, no bot hosting |
-| Single function handles both forms | Check `form-name` field to route logic; simpler than 2 functions |
+**Why not client-side fetch from World Bank API?**
 
-### Pipeline Architecture Detail
+1. **CORS uncertainty** -- World Bank API CORS headers are not guaranteed for all browser origins. Build-time fetch from Node.js has zero CORS issues.
+2. **Data staleness is acceptable** -- World Development Indicators update annually. Fetching at build time (triggered by deploys) is sufficient.
+3. **Performance** -- Zero API latency on page load. Data is pre-embedded in the static HTML.
+4. **Reliability** -- No runtime dependency on external API availability. Site works even if World Bank API is down.
+5. **Budget** -- No proxy server or serverless function needed for API relay.
+
+**Fallback for missing data:** Pre-commit a baseline `dashboard-data.json` with recent data. The build script updates it when World Bank API is available, but the site builds successfully even if the API is unreachable.
+
+## World Bank Indicator Mapping to MIND Dimensions
+
+### Material Capital (M)
+| Indicator Code | Name | Rationale |
+|---------------|------|-----------|
+| `NY.GDP.PCAP.PP.KD` | GDP per capita (PPP, constant $) | Core material wealth proxy |
+| `EG.ELC.ACCS.ZS` | Access to electricity (% of population) | Infrastructure baseline |
+| `SH.H2O.BASW.ZS` | Basic water services (% of population) | Physical commons |
+| `IT.NET.USER.ZS` | Internet users (% of population) | Digital infrastructure |
+
+### Intelligence Capital (I)
+| Indicator Code | Name | Rationale |
+|---------------|------|-----------|
+| `SE.ADT.LITR.ZS` | Adult literacy rate | Knowledge baseline |
+| `SE.TER.ENRR` | Tertiary education enrollment (gross %) | Higher education access |
+| `GB.XPD.RSDV.GD.ZS` | R&D expenditure (% of GDP) | Knowledge investment |
+| `IP.PAT.RESD` | Patent applications (residents) | Innovation output (normalize per capita) |
+
+### Network Capital (N)
+| Indicator Code | Name | Rationale |
+|---------------|------|-----------|
+| `NE.TRD.GNFS.ZS` | Trade (% of GDP) | Economic interconnection |
+| `IT.CEL.SETS.P2` | Mobile subscriptions (per 100 people) | Communication density |
+| `BX.TRF.PWKR.CD.DT` | Personal remittances received | Diaspora network strength |
+| `IC.BUS.EASE.XQ` | Ease of doing business score | Institutional network quality |
+
+### Diversity Capital (D)
+| Indicator Code | Name | Rationale |
+|---------------|------|-----------|
+| `SL.TLF.CACT.FE.ZS` | Female labor force participation | Gender diversity proxy |
+| `SM.POP.NETM` | Net migration | Cultural diversity flow |
+| `NV.IND.MANF.ZS` | Manufacturing value added (% of GDP) | Economic diversification (inverse of resource dependence) |
+| `EN.ATM.CO2E.PC` | CO2 emissions per capita | Ecological stress (inverse -- lower is better) |
+
+### Normalization Strategy
+
+Each indicator is normalized to 0-100 scale using min-max normalization across all countries in the dataset. Inverse indicators (CO2 emissions) are flipped. Missing values use the regional median. The per-dimension score is the geometric mean of its constituent indicators (matching the MIND multiplicative philosophy). The overall MIND score uses the same geometric mean formula as Zone Zero: `(M/100 * I/100 * N/100 * D/100)^0.25 * 100`.
+
+## Whitepaper Architecture Details
+
+### Content Collection Setup
 
 ```typescript
-// netlify/functions/submission-created.ts
-import type { Handler } from '@netlify/functions';
-
-interface FormPayload {
-  payload: {
-    form_name: string;
-    data: {
-      email: string;
-      name?: string;
-      roles?: string;
-      message?: string;
-    };
-  };
-}
-
-export const handler: Handler = async (event) => {
-  const { payload } = JSON.parse(event.body!) as FormPayload;
-  const { form_name, data } = payload;
-  
-  // Route based on which form submitted
-  if (form_name === 'email-capture') {
-    await sendWelcomeEmail(data.email);
-    await notifyDiscord(`New email signup: ${data.email}`);
-  }
-  
-  if (form_name === 'volunteer-signup') {
-    await sendWelcomeEmail(data.email, data.name, data.roles);
-    await notifyDiscord(`New volunteer: ${data.name} — Roles: ${data.roles}`);
-    await addToEmailList(data.email, { name: data.name, roles: data.roles });
-  }
-  
-  return { statusCode: 200, body: 'OK' };
-};
-```
-
----
-
-## Progressive Enhancement Strategy
-
-### Tier 1: Core Content (No JavaScript)
-
-All content is rendered as static HTML at build time by Astro. If JavaScript fails to load or is disabled:
-- All text content is readable
-- All links work
-- Forms display (though submission requires JS for Netlify's AJAX handling — provide a `<noscript>` fallback pointing to Netlify's native POST action)
-- Navigation links work (anchor links)
-- Images and static elements are visible
-
-### Tier 2: Enhanced Layout (CSS Only)
-
-- Design tokens and responsive layout work without JS
-- `@media (prefers-reduced-motion: reduce)` disables all transitions
-- Dark theme is default (no FOUC — set in HTML attribute at build time)
-- Scroll snap / sticky positioning works natively
-
-### Tier 3: Full Interactivity (JavaScript)
-
-Loaded progressively based on device capability:
-
-```typescript
-// src/scripts/device-detect.ts
-export interface DeviceCapability {
-  isMobile: boolean;
-  isLowEnd: boolean;
-  prefersReducedMotion: boolean;
-  supportsWebGL: boolean;
-  tier: 'full' | 'reduced' | 'minimal';
-}
-
-export function getDeviceCapability(): DeviceCapability {
-  const isMobile = window.innerWidth < 768;
-  const cores = navigator.hardwareConcurrency || 2;
-  const isLowEnd = cores <= 4 && isMobile;
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  // WebGL check
-  let supportsWebGL = false;
-  try {
-    const c = document.createElement('canvas');
-    supportsWebGL = !!(c.getContext('webgl2') || c.getContext('webgl'));
-  } catch {}
-  
-  let tier: 'full' | 'reduced' | 'minimal' = 'full';
-  if (prefersReducedMotion || !supportsWebGL) tier = 'minimal';
-  else if (isLowEnd) tier = 'reduced';
-  
-  return { isMobile, isLowEnd, prefersReducedMotion, supportsWebGL, tier };
-}
-```
-
-### Performance Budget by Tier
-
-| Tier | Particle Count (Hero) | Particle Count (Morph) | Particle Count (ZZ) | GSAP Animations |
-|------|----------------------|----------------------|---------------------|-----------------|
-| `full` | 4,000 | 3,200 | 1,800 | All clip-path wipes + counters |
-| `reduced` | 1,500 | 1,200 | 800 | Simplified (fade only, no clip-path) |
-| `minimal` | 0 (static gradient BG) | 0 (static image/CSS fallback) | 0 (sliders + text only) | None (CSS transitions only) |
-
----
-
-## Patterns to Follow
-
-### Pattern 1: Astro Component as Markup Shell + Script Anchor
-
-**What:** Components provide semantic HTML structure and anchor points. Scripts initialize off DOM queries.
-
-**When:** Always — this is the core pattern for the entire site.
-
-**Example:**
-```astro
-<!-- ZoneZeroSimulator.astro -->
----
-// Props could accept default values or config
-interface Props {
-  defaults?: { m: number; i: number; n: number; d: number };
-}
-const { defaults = { m: 70, i: 60, n: 50, d: 40 } } = Astro.props;
----
-
-<section class="zone-zero section" id="zone-zero" 
-  data-defaults={JSON.stringify(defaults)}
-  aria-label="Zone Zero Simulator">
-  
-  <div class="zz-canvas-wrap">
-    <canvas id="zz-canvas" aria-hidden="true"></canvas>
-  </div>
-  
-  <!-- Slider controls, health UI, etc. -->
-  
-  <noscript>
-    <p class="zz-noscript">Enable JavaScript to use the interactive simulator.</p>
-  </noscript>
-</section>
-
-<script>
-  import { initZoneZero } from '../scripts/zone-zero';
-  const container = document.getElementById('zone-zero');
-  if (container) initZoneZero(container);
-</script>
-```
-
-### Pattern 2: Content Collection for Repeating Content
-
-**What:** Use Astro content collections for story panels and experiment tabs — keeps content separate from presentation.
-
-**When:** Any content that repeats a pattern (case studies, experiment types).
-
-**Example:**
-```typescript
-// src/content.config.ts
-import { defineCollection, z } from 'astro:content';
-
-const stories = defineCollection({
-  type: 'content',
+// src/content.config.ts (additions)
+const whitepaper = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/whitepaper' }),
   schema: z.object({
     title: z.string(),
-    era: z.string(),
-    location: z.string(),
-    badge: z.string(),
-    badgeColor: z.string(),
-    statNumber: z.string(),
-    statLabel: z.string(),
-    shape: z.enum(['network', 'radial', 'rings', 'explosion', 'grid', 'spinout']),
-    sortOrder: z.number(),
+    subtitle: z.string().optional(),
+    authors: z.array(z.string()),
+    date: z.string(),
+    version: z.string(),
+    abstract: z.string(),
+    sortOrder: z.number().default(1),
   }),
 });
 
-export const collections = { stories };
+export const collections = { stories, experiments, whitepaper };
 ```
 
-### Pattern 3: CSS-First Animation with GSAP Enhancement
+### WhitepaperLayout Pattern
 
-**What:** CSS handles basic transitions (hover, focus, theme). GSAP adds scroll-triggered reveals only when loaded.
-
-**When:** All non-critical animations.
-
-**Why:** If GSAP fails to load, the page still looks good — just without entrance animations.
-
-```css
-/* Base state — visible by default */
-.pillar-card {
-  opacity: 1;
-  transition: transform 0.3s ease;
-}
-
-/* Only when JS adds this class do we hide for reveal */
-.pillar-card[data-animate] {
-  opacity: 0;
-  clip-path: polygon(0% 100%, 0% 100%, 0% 100%, 0% 100%);
-}
-
-.pillar-card[data-animate].revealed {
-  opacity: 1;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
+```
++--------------------------------------------------+
+| Nav (existing)                                    |
++--------------------------------------------------+
+|         |                                         |
+|  Sticky |   Prose Content Area                    |
+|   ToC   |   (MDX rendered via <Content />)        |
+|  Sidebar|                                         |
+|         |   - Headings with auto-generated IDs    |
+|  h2 ----+   - Embedded components (callouts,      |
+|  h2 ----+     equations, MIND diagrams)           |
+|    h3 --+   - Footnotes                           |
+|  h2 ----+   - Citations                           |
+|         |                                         |
++--------------------------------------------------+
+| Footer (existing)                                 |
++--------------------------------------------------+
 ```
 
-### Pattern 4: Netlify Forms with Progressive Enhancement
+**Table of Contents** is generated from `getHeadings()` (built into Astro's MDX processing). No plugin needed. The ToC component receives the headings array and renders a nested list with anchor links. Scroll-spy highlighting uses IntersectionObserver (matching existing reveal pattern).
 
-**What:** Forms use standard HTML form attributes for Netlify detection, with JavaScript enhancing the UX.
+### MDX Component Overrides
+
+The whitepaper MDX can embed interactive components:
 
 ```astro
-<form 
-  name="volunteer-signup" 
-  method="POST" 
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  action="/success/"
->
-  <input type="hidden" name="form-name" value="volunteer-signup" />
-  <p class="hidden"><input name="bot-field" /></p>
-  
-  <!-- Form fields -->
-  
-  <button type="submit" class="btn btn--primary">Join the Movement</button>
-</form>
+---
+// src/pages/whitepaper.astro
+import { getEntry, render } from 'astro:content';
+import WhitepaperLayout from '../layouts/WhitepaperLayout.astro';
+import MindEquation from '../components/whitepaper/MindEquation.astro';
+import Callout from '../components/whitepaper/Callout.astro';
+import Citation from '../components/whitepaper/Citation.astro';
+
+const entry = await getEntry('whitepaper', 'mind-framework');
+const { Content, headings } = await render(entry);
+---
+<WhitepaperLayout title={entry.data.title} headings={headings}>
+  <Content components={{ MindEquation, Callout, Citation }} />
+</WhitepaperLayout>
+```
+
+## Dashboard Architecture Details
+
+### Scale Levels
+
+| Scale | Data Source | Interactive? | Notes |
+|-------|-----------|-------------|-------|
+| **Global** | World Bank aggregates | View-only (build-time data) | World average + regional averages |
+| **Country** | World Bank per-country indicators | Selectable country dropdown | ~200 countries, pre-fetched at build |
+| **City** | User-input hybrid | Editable sliders (like Zone Zero) | No reliable public API for city-level MIND data. Users input estimates. Links to methodology. |
+| **Firm** | User-input only | Editable sliders | No public data source. Self-assessment tool with guided questions. |
+
+### Chart.js Integration
+
+**Why Chart.js over D3.js:**
+- 55KB gzipped vs D3's 80KB+ -- smaller bundle for a secondary page
+- Canvas rendering (3-9x faster than SVG for this data volume)
+- Built-in responsive behavior, animations, and tooltips
+- Simpler API for standard chart types (radar, bar) needed here
+- D3 is overkill -- we need radar charts and bar charts, not custom force layouts
+
+**Chart types per view:**
+- **Radar chart:** 4-axis (M/I/N/D) overlay comparing selected entity vs benchmark
+- **Bar chart:** Horizontal bars per sub-indicator with drill-down
+- **Aggregation tree:** Custom SVG (not Chart.js) showing how firm->city->country->global compose
+
+### Dashboard Island Pattern
+
+```astro
+<!-- src/components/dashboard/DashboardPanel.astro -->
+<div id="mind-dashboard" class="dashboard" data-countries={JSON.stringify(countries)}>
+  <div class="dashboard__scale-tabs">
+    <!-- Static HTML tabs: Global | Country | City | Firm -->
+  </div>
+  <div class="dashboard__chart-area">
+    <canvas id="dashboard-radar" width="400" height="400"></canvas>
+    <canvas id="dashboard-bars" width="600" height="300"></canvas>
+  </div>
+  <div class="dashboard__score-panel">
+    <!-- Score display, binding constraint, health state -->
+  </div>
+  <div class="dashboard__aggregation">
+    <!-- SVG aggregation tree -->
+  </div>
+</div>
 
 <script>
-  import { enhanceForm } from '../scripts/forms';
-  const form = document.querySelector('[name="volunteer-signup"]') as HTMLFormElement;
-  if (form) enhanceForm(form);
+  import { initDashboard } from '../../scripts/dashboard';
+  const el = document.getElementById('mind-dashboard');
+  if (el) {
+    const data = JSON.parse(el.dataset.countries || '{}');
+    initDashboard(el, data);
+  }
 </script>
 ```
 
-The `enhanceForm` function intercepts submit, shows loading state, handles AJAX submission, and displays success UI — but if JS fails, the form still POSTs normally to Netlify's endpoint with a redirect to `/success/`.
+**Data injection:** Build-time data is serialized into a `data-*` attribute on the container element. The client script reads it on hydration. This avoids a separate JSON fetch request and keeps everything in a single HTTP response. For large datasets (200 countries x 16 indicators), this adds ~50-80KB to the HTML payload -- acceptable given the page is specifically for data exploration.
 
----
+### Shared MIND Score Module
+
+```typescript
+// src/lib/mind-score.ts
+export interface MindScores {
+  m: number; // 0-100
+  i: number; // 0-100
+  n: number; // 0-100
+  d: number; // 0-100
+}
+
+export interface HealthState {
+  score: number;
+  badge: 'thriving' | 'stressed' | 'critical' | 'collapsed';
+  name: string;
+  insight: string;
+}
+
+/** Geometric mean MIND score calculation. Zero in any dimension = zero total. */
+export function calcScore(vals: MindScores): number {
+  const { m, i, n, d } = vals;
+  if (m <= 0 || i <= 0 || n <= 0 || d <= 0) return 0;
+  return Math.round(
+    Math.pow((m / 100) * (i / 100) * (n / 100) * (d / 100), 0.25) * 100
+  );
+}
+
+/** Health state lookup from MIND score. */
+export function getHealthState(score: number): HealthState { ... }
+
+/** Find the dimension with the lowest score (binding constraint). */
+export function getBindingConstraint(vals: MindScores): { dim: keyof MindScores; value: number; name: string; insight: string } { ... }
+
+/** Normalize a raw indicator value to 0-100 using min-max bounds. */
+export function normalize(value: number, min: number, max: number, invert?: boolean): number { ... }
+```
+
+This module is imported by both `zone-zero.ts` and `dashboard.ts`. The Zone Zero refactor is a small change: replace the inline `calcScore` function with an import from `src/lib/mind-score.ts`.
+
+## Build-Time Data Pipeline
+
+### Option A: npm Script (Recommended)
+
+```
+npm run fetch-data  -->  src/lib/world-bank-loader.ts  -->  src/data/dashboard-data.json
+npm run build       -->  Astro reads JSON, injects into pages
+```
+
+A pre-build script fetches from World Bank API v2 and writes `dashboard-data.json`. This file is committed to git so builds never fail due to API unavailability. The script is run manually or in CI before deploy when data refresh is desired.
+
+**Why over Astro custom content loader:** Simpler to debug, doesn't couple data fetching to Astro's build pipeline, the JSON file serves as a clear cache/checkpoint, and the data only needs refreshing when World Bank publishes annual updates (not every build).
+
+### Option B: Astro Custom Content Loader
+
+```typescript
+// In content.config.ts
+const worldBankData = defineCollection({
+  loader: async () => {
+    const response = await fetch('https://api.worldbank.org/v2/...');
+    // Transform and return entries
+  },
+  schema: z.object({ ... }),
+});
+```
+
+More "Astro-native" but adds build-time API dependency. Use only if the team wants data to refresh on every deploy.
+
+### Recommendation: Option A
+
+Commit a baseline JSON file. Provide `npm run fetch-data` for manual refresh. Update in CI monthly or when World Bank publishes new data. This decouples data freshness from site deployability.
+
+## Patterns to Follow
+
+### Pattern 1: Page-Specific Layouts
+**What:** Each new page type gets its own layout extending BaseLayout concerns.
+**When:** Whitepaper needs two-column ToC layout; dashboard needs full-width chart layout.
+```
+WhitepaperLayout.astro  -- imports BaseLayout patterns (head, fonts, analytics)
+DashboardLayout.astro   -- imports BaseLayout patterns, adds Chart.js-specific meta
+```
+
+### Pattern 2: Data Injection via data-* Attributes
+**What:** Build-time data serialized into HTML data attributes, read by client scripts.
+**When:** Dashboard country data, pre-computed scores.
+**Why:** Matches existing pattern (Zone Zero uses `data-target` for bar values). No separate fetch, no CORS, no loading states.
+
+### Pattern 3: Progressive Enhancement for Dashboard
+**What:** Dashboard renders meaningful static content (country list, latest scores as text) before JavaScript loads. Charts enhance on hydration.
+**When:** Always -- matches the Astro zero-JS-by-default philosophy.
+**How:** Server-render a table of top/bottom MIND scores. JavaScript replaces it with interactive charts.
+
+### Pattern 4: Shared Library Extraction
+**What:** Move shared logic (MIND scoring, health states, dimension metadata) to `src/lib/`.
+**When:** Any logic used by more than one script module.
+**Why:** Zone Zero and Dashboard must produce identical scores. Single source of truth prevents divergence.
 
 ## Anti-Patterns to Avoid
 
-### Anti-Pattern 1: Wrapping Three.js in a Framework Island
+### Anti-Pattern 1: Client-Side API Fetching for World Bank Data
+**What:** Calling World Bank API from the browser on page load.
+**Why bad:** CORS uncertainty, API latency on every visit, external dependency at runtime, no offline/cache story, wastes user bandwidth on data that changes annually.
+**Instead:** Build-time fetch, commit JSON, serve statically.
 
-**What:** Using `<ThreeScene client:load />` with a React/Svelte wrapper around Three.js.
+### Anti-Pattern 2: React/Svelte Island for Dashboard
+**What:** Adding a React or Svelte dependency to render the dashboard as a framework island.
+**Why bad:** Adds 40-130KB of framework runtime for a component that doesn't need reactive state management. Chart.js is imperative (`.update()` calls), not declarative. Breaks the existing vanilla-TS pattern.
+**Instead:** Vanilla TypeScript + Chart.js in an Astro `<script>` tag, matching Zone Zero's architecture.
 
-**Why bad:** Adds a framework runtime (React = 40KB+) for zero benefit. Three.js is imperative — it doesn't use reactivity. The wrapper adds latency and complexity.
+### Anti-Pattern 3: Whitepaper as a Standalone .astro Page with Inline Content
+**What:** Writing the entire whitepaper as HTML inside a single Astro component.
+**Why bad:** No heading extraction for ToC, no content/presentation separation, harder to edit prose, no MDX component embedding.
+**Instead:** MDX content collection entry rendered via `<Content />` with custom components.
 
-**Instead:** Use Astro's native `<script>` with TypeScript imports to initialize Three.js directly on canvas elements.
+### Anti-Pattern 4: Live Content Collections for Dashboard Data
+**What:** Using Astro's experimental live content collections to fetch World Bank data at runtime.
+**Why bad:** Experimental feature in Astro 5.x (behind flag), requires SSR mode (currently static-only site), adds server infrastructure costs on Netlify, and the data updates annually -- live fetching adds complexity for zero benefit.
+**Instead:** Static build-time data with manual refresh script.
 
-### Anti-Pattern 2: Using `is:inline` for Everything
-
-**What:** Putting all JavaScript in `<script is:inline>` tags to replicate the monolithic HTML behavior.
-
-**Why bad:** Skips Astro's bundling, deduplication, TypeScript processing, and tree-shaking. Results in larger bundles and no import support.
-
-**Instead:** Use default `<script>` tags with imports. Only use `is:inline` for the theme toggle (needs to run before first paint to prevent FOUC) and external CDN scripts (if keeping CDN approach).
-
-### Anti-Pattern 3: Single Monolithic Script File
-
-**What:** Putting all 1,200+ lines of JavaScript in one file.
-
-**Why bad:** No code splitting, no tree-shaking, everything loads regardless of need.
-
-**Instead:** Split into logical modules (hero-particles, morph-engine, zone-zero, etc.) that Astro can bundle per-component.
-
-### Anti-Pattern 4: Using define:vars for Heavy Components
-
-**What:** Using `define:vars` to pass Astro frontmatter data to Three.js scripts.
-
-**Why bad:** `define:vars` disables bundling — the script becomes inline and cannot import npm packages.
-
-**Instead:** Pass configuration via `data-*` attributes on the component's root element, and read them in the script with `element.dataset`.
-
----
+### Anti-Pattern 5: Duplicating calcScore Logic
+**What:** Writing a separate MIND score function in dashboard.ts.
+**Why bad:** Two implementations will inevitably diverge. Users comparing Zone Zero slider results with dashboard country scores will see inconsistencies.
+**Instead:** Single `src/lib/mind-score.ts` imported by both modules.
 
 ## Scalability Considerations
 
-| Concern | Current (v1) | Future (v2+) |
-|---------|-------------|--------------|
-| Pages | 2 (index + privacy) | 5-10 (blog, team, whitepaper, city tool) |
-| Content | Hardcoded in HTML | Content collections (Markdown) |
-| Forms | 2 (email capture + volunteer) | 3-4 (contact, city application) |
-| Routing | Single page + privacy | Multi-page with shared layout |
-| i18n | English only | Content collections support i18n (future P3) |
-| Auth | None | Not needed for v1; magic link if v3 |
-| API | None | MIND Score API (P3) via Netlify Functions |
+| Concern | Current (v1.1) | At 50 Countries Selected | At All 200 Countries |
+|---------|----------------|--------------------------|----------------------|
+| Data payload | ~50KB JSON in HTML | Same (all data pre-loaded) | ~80KB JSON (acceptable) |
+| Chart rendering | Instant (<50ms) | Instant | Instant (Chart.js handles this volume trivially) |
+| Build time | +5-10s for World Bank fetch | Same (fetched once) | Same |
+| Page weight | +55KB (Chart.js) + data | Same | Same |
 
----
+The dashboard does not need pagination, lazy loading, or virtualization at this data scale. 200 countries x 16 indicators x ~8 bytes = ~25KB raw data. With country names and metadata, ~80KB total. This is well within a single static page's budget.
 
-## Suggested Build Order (Dependencies)
+## Suggested Build Order
 
-Phase order matters because later components depend on earlier infrastructure:
+### Phase 1: Shared Foundation (No visible output yet)
+1. **Extract `src/lib/mind-score.ts`** from `zone-zero.ts` -- calcScore, getHealthState, getBindingConstraint, dimension metadata
+2. **Refactor `zone-zero.ts`** to import from shared lib -- verify Zone Zero still works identically
+3. **Create `src/lib/indicators.ts`** -- World Bank indicator code mapping, normalization functions
+4. **Update `src/content.config.ts`** -- add whitepaper collection definition
 
-```
-Phase 1: Foundation (no dependencies)
-├── BaseLayout.astro (HTML shell, design tokens, fonts)
-├── tokens.css + base.css (design system)
-├── device-detect.ts (shared utility)
-└── Nav.astro + theme.ts (site-wide)
+**Rationale:** Everything else depends on the shared score library. Refactoring Zone Zero first proves the extraction works without adding new features. Indicator mapping is needed by both the data pipeline and dashboard.
 
-Phase 2: Static Content Sections (depends on Phase 1)
-├── All section components as pure Astro markup
-├── Content collections for stories + experiments
-├── Footer.astro
-└── Privacy page
+### Phase 2: Whitepaper Infrastructure
+5. **Install `@astrojs/mdx`**, update `astro.config.mjs`
+6. **Create `WhitepaperLayout.astro`** -- two-column layout with sticky ToC sidebar
+7. **Create `src/components/whitepaper/`** -- Callout, MindEquation, Citation, FigureCaption components
+8. **Create `src/content/whitepaper/mind-framework.mdx`** -- initial whitepaper content
+9. **Create `src/pages/whitepaper.astro`** -- page route that renders the MDX entry
+10. **Create `src/scripts/whitepaper-toc.ts`** -- scroll-spy IntersectionObserver for ToC highlighting
 
-Phase 3: Interactivity Layer (depends on Phase 1 + 2 markup)
-├── hero-particles.ts (Three.js hero)
-├── gsap-reveals.ts (scroll animations)
-├── morph-engine.ts (story morph)
-├── zone-zero.ts (simulator)
-├── countdown.ts + experiments-tabs.ts
-└── Progressive enhancement (tier system)
+**Rationale:** Whitepaper has zero dependency on the data pipeline or dashboard. It can ship independently. The MDX infrastructure is also useful if future content (blog posts, methodology docs) needs rich formatting.
 
-Phase 4: Pipeline (depends on form markup from Phase 2)
-├── forms.ts (client-side enhancement)
-├── Netlify Forms config (netlify attributes on forms)
-├── submission-created.ts serverless function
-├── Email service integration (Resend)
-├── Discord webhook integration
-└── Welcome email sequence setup
+### Phase 3: Data Pipeline
+11. **Create `src/lib/world-bank-loader.ts`** -- Node.js script to fetch and normalize World Bank data
+12. **Create `scripts/fetch-data.ts`** -- npm script entry point (`npm run fetch-data`)
+13. **Generate `src/data/dashboard-data.json`** -- initial data fetch, commit baseline
+14. **Add npm script to `package.json`** -- `"fetch-data": "npx tsx scripts/fetch-data.ts"`
 
-Phase 5: Polish & Performance
-├── Lighthouse optimization pass
-├── Mobile performance tuning (particle budgets)
-├── Success/error page flows
-├── Analytics events (Plausible custom events)
-└── OG image generation (keep existing og-render.html)
-```
+**Rationale:** Data pipeline must exist before dashboard can render anything meaningful. Separating it as a standalone step means the dashboard can develop against the committed JSON file even if the API script needs iteration.
 
-**Build order rationale:**
-- Design system and layout must exist before components can be styled
-- Static HTML sections must exist before scripts can attach to DOM elements
-- Form markup must exist before Netlify can detect forms at deploy time
-- Interactivity is layered on top — the site works without it
-- Pipeline needs working forms to test end-to-end
+### Phase 4: Dashboard Core
+15. **Install `chart.js`**, add types
+16. **Create `DashboardLayout.astro`** or extend BaseLayout with dashboard-specific needs
+17. **Create `src/components/dashboard/ScaleSelector.astro`** -- tab UI for Global/Country/City/Firm
+18. **Create `src/components/dashboard/DashboardPanel.astro`** -- chart containers + score display
+19. **Create `src/scripts/dashboard.ts`** -- Chart.js initialization, country selector, scale switching
+20. **Create `src/pages/dashboard.astro`** -- page route composing dashboard components with injected data
 
----
+**Rationale:** Depends on Phase 1 (shared score lib) and Phase 3 (data). The dashboard is the most complex new feature and should come after the foundation is solid.
 
-## Deployment Architecture
+### Phase 5: Aggregation Visualization + Polish
+21. **Create `src/components/dashboard/AggregationTree.astro`** -- hierarchical composition SVG
+22. **Create `src/scripts/aggregation.ts`** -- interactive tree animation (click to drill down)
+23. **Add City/Firm input modes** -- slider-based input (reusing Zone Zero patterns) for scales without API data
+24. **Nav updates** -- add Whitepaper and Dashboard to Nav.astro
+25. **Cross-linking** -- whitepaper links to dashboard ("see live data"), dashboard links to whitepaper ("read the methodology")
+26. **Analytics events** -- Plausible custom events for dashboard interactions
+
+**Rationale:** Aggregation tree is the most novel visualization and depends on all four scales working. Polish and cross-linking come last because they require both whitepaper and dashboard to exist.
+
+### Dependency Graph
 
 ```
-GitHub (main branch)
-  └── Push triggers Netlify CI/CD
-        ├── astro build (generates static HTML/CSS/JS)
-        ├��─ Netlify detects forms in HTML (data-netlify attribute)
-        ├── Netlify deploys functions (netlify/functions/*.ts)
-        └── Deploys to CDN edge
-
-Runtime:
-  Netlify CDN → serves static assets (HTML, CSS, JS, images)
-  Netlify Forms → captures submissions
-  Netlify Functions → submission-created triggers on new submission
-  Resend API → sends transactional/drip emails
-  Discord Webhook → posts to #new-signups channel
-  Plausible Cloud → receives analytics pings (no cookie, GDPR-safe)
+Phase 1 (Shared Lib)
+    |           \
+    v            v
+Phase 2       Phase 3
+(Whitepaper)  (Data Pipeline)
+    |            |
+    |            v
+    |        Phase 4 (Dashboard Core)
+    |            |
+    v            v
+    Phase 5 (Aggregation + Polish + Cross-linking)
 ```
 
----
+**Phases 2 and 3 can run in parallel** -- they share no dependencies beyond Phase 1. Phase 4 requires Phase 3. Phase 5 requires both 2 and 4.
+
+## New Dependencies
+
+| Package | Version | Size (gzipped) | Purpose |
+|---------|---------|----------------|---------|
+| `@astrojs/mdx` | ^4.x | ~15KB | MDX processing for whitepaper content collection |
+| `chart.js` | ^4.4.x | ~55KB | Canvas-based charts for dashboard (radar, bar) |
+
+**Total new JS shipped to client:** ~55KB (Chart.js only, loaded only on `/dashboard/` page). MDX is build-time only. This keeps the homepage unchanged at its current performance budget.
 
 ## Sources
 
-- [Astro Islands Architecture](https://docs.astro.build/en/concepts/islands/) - Official documentation on island model
-- [Astro Scripts and Event Handling](https://docs.astro.build/en/guides/client-side-scripts/) - Script processing behavior
-- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) - Structured content management
-- [Astro Project Structure](https://docs.astro.build/en/basics/project-structure/) - Official directory conventions
-- [Astro Template Directives](https://docs.astro.build/en/reference/directives-reference/) - client:* directives reference
-- [GSAP + Three.js + Astro (Codrops)](https://tympanus.net/codrops/2026/02/02/building-a-scroll-revealed-webgl-gallery-with-gsap-three-js-astro-and-barba-js/) - Production integration pattern
-- [Netlify Forms Setup](https://docs.netlify.com/manage/forms/setup/) - Form detection and handling
-- [Netlify Form Notifications](https://docs.netlify.com/manage/forms/notifications/) - submission-created event trigger
-- [Deploy Astro to Netlify](https://docs.astro.build/en/guides/deploy/netlify/) - Deployment integration
-- [Netlify Astro Toolbox Template](https://github.com/netlify-templates/astro-toolbox) - Forms + Functions reference
-- [Discord Webhooks](https://discord-media.com/en/news/discord-webhooks-en.html) - Lightweight webhook integration
+- Astro Content Collections: https://docs.astro.build/en/guides/content-collections/
+- Astro Content Loader API: https://docs.astro.build/en/reference/content-loader-reference/
+- Astro MDX Integration: https://docs.astro.build/en/guides/integrations-guide/mdx/
+- Astro Data Fetching: https://docs.astro.build/en/guides/data-fetching/
+- Astro Markdown getHeadings(): https://docs.astro.build/en/guides/markdown-content/
+- World Bank Indicators API v2: https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation
+- World Bank Indicator Queries: https://datahelpdesk.worldbank.org/knowledgebase/articles/898599-indicator-api-queries
+- World Development Indicators catalog: https://datacatalog.worldbank.org/search/dataset/0037712/world-development-indicators
+- Worldwide Governance Indicators: https://www.worldbank.org/en/publication/worldwide-governance-indicators
+- Chart.js documentation: https://www.chartjs.org/docs/latest/
+- Chart.js vs D3.js performance: https://www.xjavascript.com/blog/comparison-between-d3-js-and-chart-js-only-for-charts/
+- Astro Live Content Collections: https://astro.build/blog/live-content-collections-deep-dive/

@@ -1,322 +1,335 @@
-# Domain Pitfalls
+# Pitfalls Research
 
-**Domain:** Movement platform migration (monolithic HTML to Astro with Three.js/GSAP/Netlify Forms)
+**Domain:** Adding HTML whitepaper + multi-scale MIND dashboard to existing Astro movement site
 **Researched:** 2026-04-21
+**Confidence:** HIGH
 
 ## Critical Pitfalls
 
-Mistakes that cause rewrites, lost conversions, or major rework.
+### Pitfall 1: The Firm/City Data Desert — Promising UX That Real Data Cannot Deliver
+
+**What goes wrong:**
+The dashboard promises "pick any firm" or "explore your city" but publicly available data for MIND-relevant metrics (Material, Intelligence, Network, Diversity) simply does not exist for most firms and most cities. ESG data providers cover large-cap public companies only -- LSEG covers just 1,300 private companies globally out of hundreds of millions. The World Bank's own ESG coverage analysis found that over 50% of ESG indicators have no values for the most recent study year, and only 41 of 127 ESG indicators had data from 2017 or later for at least 50% of countries. At city level, US Census ACS provides single-year estimates only for geographies with 65,000+ population. Smaller cities and non-US cities are a data desert.
+
+**Why it happens:**
+The MIND framework is novel -- no existing data source maps directly to its four dimensions. You must proxy: map World Bank indicators to M/I/N/D. Each proxy introduces assumptions. Developers build the UI first ("pick a firm from this dropdown") then discover the data gap when they try to populate it. The gap between "conceptually possible" and "actually available via free public APIs" is enormous.
+
+**How to avoid:**
+1. Start with data inventory BEFORE designing UX. For each scale level (firm/city/country/global), catalog exactly which free APIs provide which MIND-proxy indicators, with actual coverage percentages.
+2. Design the dashboard around available data, not aspirational data. Country-level is the strongest tier (World Bank). City-level is US-only via Census ACS for large cities. Firm-level is essentially unavailable via free public APIs.
+3. Make the hybrid model (real data where available, user-input where not) the PRIMARY architecture, not a fallback. The user-input path IS the firm-level experience.
+4. Use a "data confidence badge" -- show users which values are from real sources vs. estimates vs. user-input.
+
+**Warning signs:**
+- Dropdown menus for firm/city selection with no data behind them
+- Mock data in demos that nobody has a plan to replace
+- "We'll add that data source later" appearing repeatedly
+- UX designs showing specific firm names with detailed MIND breakdowns
+
+**Phase to address:**
+Data inventory phase (first phase of v1.1). Do not design UI until data availability is confirmed per scale level.
 
 ---
 
-### Pitfall 1: Three.js SSR Crashes via `window`/`document` References
+### Pitfall 2: Build-Time Data Fetching Brittleness in Astro Static Output
 
-**What goes wrong:** Three.js requires browser globals (`window`, `document`, `WebGLRenderingContext`). Astro renders components at build time by default. Any Three.js code that runs during SSR will crash the build with `window is not defined`.
+**What goes wrong:**
+Astro fetches all component data at build time for static output. If World Bank API, Census API, or any external source is down, slow, or rate-limited during `astro build`, the entire build fails or deploys with stale/missing data. Netlify CI rebuilds happen on every git push -- each rebuild hits all external APIs again. The SEC EDGAR API limits to 10 req/sec. Census API limits to 500 queries/day without a key.
 
-**Why it happens:** Developers wrap Three.js in a standard Astro component or React/Svelte component and forget that Astro's island architecture still attempts server-side rendering before hydration unless explicitly told otherwise.
+**Why it happens:**
+Developers treat `fetch()` in Astro frontmatter like runtime calls, but they execute during `astro build` in CI. A flaky API that works in local dev fails intermittently in CI. No caching layer exists between builds by default.
 
-**Consequences:** Build failures. Intermittent "works in dev, breaks in production" because Vite's dev server is more permissive than the production build.
+**How to avoid:**
+1. Implement a local data cache: fetch from APIs into JSON files in the repo (or build artifact). Have the build read from cached JSON, never from live APIs.
+2. Run a separate "data refresh" script on a schedule (daily/weekly cron via GitHub Actions) that updates the cached JSON.
+3. Never call external APIs directly from Astro component frontmatter.
+4. Pin data snapshots in the repo for country-level data (World Bank updates annually). Census data updates yearly. This data does not need real-time fetching.
+5. For truly live data (if any), use a `client:visible` island that fetches at runtime via a Netlify Function proxy.
 
-**Prevention:**
-- Use `client:only="react"` (or `client:only="svelte"`) directive exclusively for Three.js wrapper components. This skips SSR entirely.
-- NEVER use `client:load` or `client:visible` for Three.js components -- these still attempt server render first.
-- For the raw `<script>` approach (no framework wrapper), use Astro's `<script>` tag which only runs client-side, but guard all Three.js code with `if (typeof window !== 'undefined')` as defensive measure.
-- The current codebase uses inline `<script>` blocks with IIFE patterns -- these translate cleanly to Astro `<script>` tags which are naturally client-only.
+**Warning signs:**
+- `astro build` failures in CI with network errors
+- Build times increasing from seconds to minutes as API calls multiply
+- Different data appearing on different deploys
+- "Works on my machine" because local dev caches but CI does not
 
-**Detection:** Build errors mentioning `window`, `document`, or `navigator` during `astro build`. Blank/missing canvas in production but working in dev.
-
-**Phase:** Migration (component architecture phase)
-
----
-
-### Pitfall 2: GSAP ScrollTrigger Zombie Instances After Navigation
-
-**What goes wrong:** ScrollTrigger instances persist across Astro page navigations (especially with View Transitions). On returning to a page, new instances stack on top of old ones, causing doubled animations, incorrect scroll positions, and memory leaks.
-
-**Why it happens:** Astro's View Transitions API swaps DOM content without full page reloads. GSAP ScrollTrigger attaches scroll listeners and creates DOM wrappers (pins, spacers) that don't automatically clean up between navigations.
-
-**Consequences:** Animations fire multiple times, pinned elements stack incorrectly, memory usage grows with each navigation, and eventually the page becomes unresponsive.
-
-**Prevention:**
-- Use `gsap.context()` to scope all animations, then call `ctx.revert()` on cleanup.
-- Listen for `astro:before-swap` event to revert all GSAP contexts before DOM swap.
-- Listen for `astro:after-swap` to reinitialize animations on the new DOM.
-- If NOT using View Transitions (single-page site with anchor links only), this pitfall is less severe but still applies if sections are dynamically loaded.
-- Pattern:
-  ```javascript
-  let ctx;
-  document.addEventListener('astro:after-swap', () => {
-    if (ctx) ctx.revert();
-    ctx = gsap.context(() => {
-      // All ScrollTrigger animations here
-    });
-  });
-  document.addEventListener('astro:before-swap', () => {
-    if (ctx) ctx.revert();
-  });
-  ```
-
-**Detection:** Animations playing twice. Console warnings about duplicate ScrollTrigger IDs. Memory profiler showing growing detached DOM nodes.
-
-**Phase:** Migration (animation integration phase). Note: since the current site is essentially a single page and may remain so initially, this is CRITICAL if View Transitions are added later.
+**Phase to address:**
+Data architecture phase. Establish the cache-first pattern before writing any API integration code.
 
 ---
 
-### Pitfall 3: Netlify Forms Not Detected at Deploy Time
+### Pitfall 3: Whitepaper Content Destroying Site Cohesion and Performance
 
-**What goes wrong:** Netlify's form detection works by parsing static HTML during post-processing. If forms exist only inside JavaScript-rendered components (client:only islands), Netlify never sees them and form submissions silently fail -- returning 404 or being dropped.
+**What goes wrong:**
+An academic whitepaper (10,000+ words, footnotes, citations, tables, equations) is architecturally and aesthetically different from a movement/marketing site with particles, animations, and conversion CTAs. Developers either (a) cram the whitepaper into the existing single-page layout, making it unreadable, or (b) create a separate page with completely different styling that feels like a different site. Typography for long-form academic reading conflicts with the bioluminescent dark-theme marketing aesthetic. The whitepaper page's CSS bloats the shared bundle if not scoped.
 
-**Why it happens:** The volunteer signup form currently exists in the monolithic HTML. When migrated to an Astro component that's rendered client-side (e.g., because it has interactive role-selection cards), the form may not appear in the build output HTML.
+**Why it happens:**
+Marketing sites optimize for scanning (short sections, bold CTAs, visual breaks). Academic papers optimize for deep reading (long paragraphs, citations, linear flow). These are fundamentally different reading modes. Developers underestimate the typography and layout work required.
 
-**Consequences:** The most critical conversion path (volunteer signup) breaks silently. Users see success states (from JS) but data is never captured. This is EXACTLY the current broken state and risks being recreated.
+**How to avoid:**
+1. Create the whitepaper as a dedicated Astro page (`/whitepaper`) with its own layout. Share Nav and Footer but use a distinct content layout.
+2. Use Astro's scoped CSS or a dedicated stylesheet for whitepaper typography. Do not pollute the global stylesheet.
+3. Use `@tailwindcss/typography` prose classes as the base, customized to the bioluminescent theme.
+4. Strip heavy animations from the whitepaper page -- no particles, no GSAP scroll effects on content. The whitepaper is a reading experience.
+5. Implement table of contents navigation -- Astro's `render()` provides heading extraction. Sticky sidebar ToC on desktop, collapsible on mobile.
+6. For citations and footnotes, use `remark-gfm` (built into Astro for footnote syntax) and `rehype-citation` for bibliography.
 
-**Prevention:**
-- Ensure the form is in a server-rendered Astro component (NOT `client:only`). The form HTML itself needs no JS -- only the submission handler does.
-- Add a hidden static HTML form "blueprint" in `public/` as a fallback. This file contains an identical form with all field names, `data-netlify="true"`, and `netlify-honeypot="bot-field"`. Netlify detects it at deploy time.
-- After deploy, verify form appears in Netlify dashboard under Forms before considering migration complete.
-- The interactive role-selection UI can be a separate `client:visible` island INSIDE the server-rendered form -- Astro supports nested islands.
+**Warning signs:**
+- Whitepaper content written directly in an Astro component instead of Markdown/MDX
+- No separate layout file for the whitepaper page
+- Footnotes implemented as tooltips or modals instead of standard academic footnotes
+- Mobile whitepaper page loading Three.js particles from the shared layout
+- Reading time exceeding 30 minutes with no navigation aids
 
-**Detection:** Form not appearing in Netlify dashboard after deploy. Test submission returning non-200 status. Check Netlify deploy logs for "Form detected" messages.
-
-**Phase:** Form backend phase (P0 -- this is the PRIMARY broken thing to fix)
-
----
-
-### Pitfall 4: Email Deliverability Death Spiral on New Domain
-
-**What goes wrong:** Welcome sequence emails land in spam or are silently dropped. New domain (intelligenteconomics.ai) has zero sender reputation. Gmail/Outlook apply strict scrutiny to first-time senders, especially on newer TLDs (.ai).
-
-**Why it happens:** Domain reputation starts at zero (not neutral -- actively suspicious). Sending even modest volume (50+ emails/day) from a new domain without warming triggers spam filters. Missing or misconfigured SPF/DKIM/DMARC records guarantee spam folder placement.
-
-**Consequences:** Every volunteer who signs up gets a welcome sequence they never see. They disengage before receiving onboarding. The entire conversion funnel after signup is broken invisibly.
-
-**Prevention:**
-- Configure SPF, DKIM, and DMARC records BEFORE sending any email. Start DMARC at `p=none` to monitor.
-- Use a reputable email service (Buttondown, Resend, or Mailchimp) that handles authentication automatically.
-- Warm the domain gradually: week 1-2 send to 5-10 confirmed subscribers daily, scaling over 4-6 weeks.
-- Keep the welcome sequence to 4 emails over 14 days (already planned -- this is correct).
-- Include a plain-text version of every email.
-- Monitor bounce rate (<2%) and spam complaints (<0.1% -- Gmail's hard ceiling).
-- Consider using a subdomain (e.g., `mail.intelligenteconomics.ai`) to isolate sender reputation from the primary domain.
-
-**Detection:** Check email service dashboard for delivery rates. Test with mail-tester.com before launch. Gmail Postmaster Tools for domain reputation monitoring.
-
-**Phase:** Email sequence phase (P1). Must start SPF/DKIM/DMARC setup in P0 even if emails don't send until P1.
+**Phase to address:**
+Whitepaper phase (should be its own phase, not bundled with dashboard work).
 
 ---
 
-### Pitfall 5: Particle System Killing Mobile Battery and Thermals
+### Pitfall 4: API Source Proliferation -- "Just One More Data Source" Scope Creep
 
-**What goes wrong:** Three continuous `requestAnimationFrame` loops (hero particles, morph scene, Zone Zero simulator) running simultaneously drain mobile batteries in minutes, trigger thermal throttling, and cause frame drops that make the entire page feel broken.
+**What goes wrong:**
+MIND has four dimensions at four scale levels. That is 16 cells in a matrix, each potentially needing a different API. Developers start with World Bank for countries, add Census for US cities, SEC EDGAR for firms, BLS for labor data, BEA for economic data, then education data from another source, diversity data from yet another. Each API has different auth, pagination, response formats, rate limits, and schemas. The integration layer becomes unmaintainable.
 
-**Why it happens:** The current code reduces particle count on mobile (4000 to 1500 for hero, 3200 to 1200 for morph, 1800 to 800 for Zone Zero) but ALL THREE render loops still run continuously, even when off-screen. Each maintains its own WebGL context. Mobile GPUs cannot sustain three simultaneous WebGL renderers.
+**Why it happens:**
+The MIND framework is cross-cutting -- no single data source covers all four dimensions. The temptation to add "just one more source" to fill a gap in one matrix cell is constant. Each individual addition seems small but combinatorial complexity explodes.
 
-**Consequences:** Page feels sluggish on mobile. Users bounce before reaching the signup form. Lighthouse mobile score tanks below 50. Battery drain creates negative association with the brand.
+**How to avoid:**
+1. Set a hard cap: maximum 3 external APIs for v1.1. Recommended: World Bank (country), Census ACS (US cities), and SEC EDGAR (public companies only).
+2. Define a unified internal data schema for MIND scores. Every API adapter must transform its source into this schema. Never expose raw API shapes to dashboard components.
+3. Use the adapter pattern: one adapter per source, same interface. Adding a source means adding one adapter file, not touching dashboard code.
+4. For v1.1, explicitly accept that firm-level and many city-level scores will be user-input. Document this as a design decision, not a gap.
+5. Track API count as a complexity metric. A 4th API requires removing one or deferring to v1.2.
 
-**Prevention:**
-- Pause render loops when canvas is not visible using IntersectionObserver. Only animate the currently visible Three.js scene.
-- Share a single WebGL renderer across all three scenes (or at minimum, dispose off-screen renderers).
-- On mobile, consider replacing the morph scene with CSS/SVG animations and keeping only ONE Three.js instance (hero OR simulator, not both).
-- Use `renderer.dispose()` and null out references when switching contexts.
-- Set a frame budget: if `requestAnimationFrame` delta exceeds 32ms (below 30fps), reduce particle count dynamically.
-- The existing `_isMobile` detection is crude (width < 768 OR hardwareConcurrency <= 4). Add `navigator.deviceMemory` and `navigator.connection.effectiveType` checks for more nuanced degradation.
+**Warning signs:**
+- More than 3 different `fetch()` targets in the codebase
+- API-specific data transformation logic scattered across components
+- "We need X data for the Y dimension" appearing in every planning session
+- Dashboard mockups showing data granularity no free API provides
 
-**Detection:** Test on actual mid-range Android device (not just Chrome DevTools throttling). Monitor FPS with `stats.js` during development. Lighthouse mobile performance score.
-
-**Phase:** Performance optimization (P0/P1 -- must be addressed during migration, not after)
-
----
-
-## Moderate Pitfalls
-
----
-
-### Pitfall 6: Hydration Directive Overuse Negates Astro's Performance Advantage
-
-**What goes wrong:** Developers default to `client:load` on every interactive component, shipping unnecessary JavaScript and eliminating Astro's zero-JS-by-default benefit. The migrated site ends up heavier than the monolithic original.
-
-**Why it happens:** When migrating, the instinct is "this had JavaScript in the original, so it needs hydration." But many behaviors (scroll reveals, theme toggle, nav highlight) can be plain `<script>` tags without framework hydration overhead.
-
-**Prevention:**
-- Audit each interactive behavior: does it need React/Svelte state management, or is it a simple DOM manipulation?
-- Use Astro's native `<script>` tags for: theme toggle, nav scroll behavior, countdown timer, intersection observer reveals, scroll-spy highlighting.
-- Reserve `client:only` for: Three.js scenes, Zone Zero simulator.
-- Use `client:visible` for: GSAP ScrollTrigger animations (they don't need to load until the section scrolls into view).
-- Use `client:idle` for: non-critical interactivity like role selection cards.
-
-**Detection:** Compare final bundle size against original 226KB. If larger, hydration is being overused. Check Network tab for framework JS being loaded.
-
-**Phase:** Migration (component architecture)
+**Phase to address:**
+Data architecture phase (first phase). Lock the API roster before writing integration code.
 
 ---
 
-### Pitfall 7: Netlify Forms Spam Flood Despite Honeypot + reCAPTCHA
+### Pitfall 5: Dashboard Island Hydration Blowing the Performance Budget
 
-**What goes wrong:** Spam submissions overwhelm the form inbox. Honeypot fields alone are ineffective against modern bots. Netlify community reports persistent spam even with reCAPTCHA enabled -- "significantly surging spam submissions" reported in late 2024/early 2025.
+**What goes wrong:**
+The interactive MIND dashboard requires JavaScript for drill-down navigation, data visualization, and user input. If built as a single large island, it loads the entire visualization library (D3.js ~80KB gzipped, or Chart.js ~60KB) plus dashboard logic on hydration, pushing total JS past the 200KB budget. Combined with existing Three.js (~150KB) from the hero, the site's JS footprint doubles. On mobile, hydration jank makes the dashboard unusable during loading.
 
-**Why it happens:** Sophisticated bots identify and avoid honeypot fields. The Netlify free tier's spam filtering is limited. Movement sites with public-facing "join us" messaging attract both bot crawlers and bad-faith submissions.
+**Why it happens:**
+Developers build the dashboard as one component because firm->city->country->global drill-down feels like one feature. But Astro's island architecture means the entire island hydrates as a unit.
 
-**Prevention:**
-- Layer defenses: honeypot field + Netlify's built-in spam detection + a custom JS time-based check (reject submissions under 3 seconds).
-- Add a non-obvious field validation (e.g., "What year is it?" or a simple checkbox like "I'm a human joining this movement").
-- Use Netlify's `data-netlify-recaptcha="true"` as additional layer.
-- Implement rate limiting via Netlify Functions if spam volume becomes unmanageable.
-- Consider Buttondown for the email capture (hero) and only use Netlify Forms for the detailed volunteer form -- separates concerns and reduces attack surface.
-- Monitor form submissions weekly in early launch period.
+**How to avoid:**
+1. Split the dashboard into multiple islands: static overview (server-rendered, no JS), interactive scale selector (tiny island, `client:visible`), and visualization canvas (separate island, `client:visible` with lazy-loaded chart library).
+2. Use lightweight rendering. The existing `MindDashboard.astro` bar charts use CSS -- extend this pattern. Only load a charting library for detailed drill-down views.
+3. Server-render the default country-level view as static HTML/CSS (data baked at build time). Only hydrate JavaScript when the user initiates drill-down.
+4. Use dynamic `import()` for the visualization library -- do not include it in the island's initial bundle.
+5. Test on throttled mobile (Slow 3G in DevTools) before considering the dashboard "done."
 
-**Detection:** Check Netlify Forms dashboard for spam percentage. Set up Netlify email notifications for form submissions to spot patterns early.
+**Warning signs:**
+- Dashboard island bundle exceeding 100KB gzipped
+- Lighthouse mobile score dropping below 75 after adding dashboard
+- Visible layout shift when dashboard hydrates
+- Dashboard appearing as blank rectangle for 2+ seconds on mobile
 
-**Phase:** Form backend (P0)
-
----
-
-### Pitfall 8: CSS/Design Token Splitting Breaks Visual Consistency
-
-**What goes wrong:** When splitting the 2,066+ lines of CSS from the monolithic file into component-scoped styles, design tokens get duplicated, cascade ordering changes, and subtle visual regressions appear (spacing inconsistencies, color mismatches, transition timing differences).
-
-**Why it happens:** The monolithic file relies on CSS cascade ordering and specificity battles that work because everything is in one file. Astro's scoped styles break these implicit dependencies.
-
-**Prevention:**
-- Extract ALL design tokens (CSS custom properties from `:root`) into a single `global.css` that's imported in the Astro layout FIRST.
-- Keep utility classes (`.reveal`, `.visible`, `.section-label`) in global CSS rather than scoping them.
-- Component-scoped styles should ONLY contain component-specific rules, never override tokens.
-- Use Astro's `is:global` directive sparingly for styles that genuinely need global scope.
-- Do a side-by-side visual regression check (screenshot comparison) after each component extraction.
-
-**Detection:** Visual differences between original and migrated site. Use Percy or manual screenshot comparison at each breakpoint.
-
-**Phase:** Migration (component splitting)
+**Phase to address:**
+Dashboard implementation phase. Architectural split decision must happen before component coding.
 
 ---
 
-### Pitfall 9: Plausible Analytics Blocked by Ad Blockers Without Proxy
+### Pitfall 6: CORS Blocking Client-Side API Calls With No Fallback
 
-**What goes wrong:** 30-40% of tech-savvy visitors (exactly the "intellectual explorers" this movement targets) use ad blockers that block Plausible's script, making analytics data incomplete and unreliable for funnel optimization.
+**What goes wrong:**
+Browser `fetch()` calls to external APIs (World Bank, Census, SEC) may be blocked by CORS. The World Bank API supports JSONP (suggesting historical CORS issues), and CORS behavior for government APIs is inconsistently documented. A dashboard that works in local dev fails silently in production. Users see an empty dashboard with no error messaging.
 
-**Why it happens:** Ad blockers maintain blocklists that include `plausible.io` domains. Without proxying through your own domain, the analytics script is blocked before it loads.
+**Why it happens:**
+CORS is browser-only -- build-time fetches from Node.js work fine. Developers build/test with build-time data, then add client-side fetching for drill-down without testing CORS in production. Government APIs often lack proper `Access-Control-Allow-Origin: *` headers because they were designed for server-to-server use.
 
-**Prevention:**
-- Set up Plausible proxy through Netlify `_redirects` file:
-  ```
-  /js/script.js https://plausible.io/js/script.js 200
-  /api/event https://plausible.io/api/event 200
-  ```
-- Use non-obvious path names (avoid `/analytics/`, `/stats/`, `/plausible/`).
-- Disable Netlify's "Bundle JS" and "Minify JS" asset optimization to prevent URL rewriting of the proxied script.
-- Test with uBlock Origin enabled to verify proxy works.
+**How to avoid:**
+1. Route ALL client-side API calls through a Netlify Function proxy. Never call external APIs directly from browser JavaScript.
+2. Browser calls `/.netlify/functions/mind-data?scale=country&id=USA`, function calls World Bank from server-side, returns data.
+3. Add response caching in the Netlify Function to avoid hammering external APIs.
+4. Test every API integration in a Netlify Deploy Preview, not just local dev.
+5. Implement error states: "Data temporarily unavailable" with retry. Never show a blank dashboard.
 
-**Detection:** Compare server-side page view counts (from Netlify Analytics if available) with Plausible counts. Large discrepancy indicates blocking.
+**Warning signs:**
+- Console errors mentioning `Access-Control-Allow-Origin` in Deploy Previews
+- Dashboard working in `astro dev` but showing empty panels in production
+- Direct `fetch('https://api.worldbank.org/...')` in client-side island code
+- No Netlify Functions in the project for data proxying
 
-**Phase:** Analytics setup (P0)
-
----
-
-### Pitfall 10: Discord Community Ghost Town Effect
-
-**What goes wrong:** Discord server is set up with many channels but no activity. New volunteers join, see empty channels, and immediately disengage. The "ghost town" impression kills the sense of momentum a movement needs.
-
-**Why it happens:** Launching a community server before you have a critical mass of active participants. Too many channels dilute conversation, making each one look dead.
-
-**Prevention:**
-- Start with MAXIMUM 5 channels: #welcome, #general, #introductions, #resources, #volunteer-coordination.
-- Do NOT create role-specific channels until there are 20+ active members in each role.
-- Seed initial conversations (Rob + early volunteers) before sending anyone from the site.
-- Set up an auto-welcome bot that gives new joiners a specific first task ("introduce yourself and tell us what aspect of MIND interests you most").
-- Include activity in the Discord as part of the welcome email sequence -- give people a reason to return.
-- Only link the Discord from the site AFTER there's visible activity.
-
-**Detection:** Track join-to-first-message ratio. If below 30%, the onboarding is failing. Monitor 7-day retention rate.
-
-**Phase:** Community infrastructure (P1). Do NOT launch publicly until P1 email sequences are driving engaged users there.
+**Phase to address:**
+Data architecture phase. Proxy pattern must be established before any client-side data fetching.
 
 ---
 
-## Minor Pitfalls
+### Pitfall 7: Hierarchical Aggregation Math That Doesn't Hold Up
+
+**What goes wrong:**
+MIND is multiplicative (M x I x N x D = P). Aggregating upward (firms->city, cities->country) requires defining how scores compose. Naive averaging of multiplicative scores produces misleading results. A city with one firm at M=90,I=90,N=90,D=0 (MIND=0) and another at M=50,I=50,N=50,D=50 (MIND=312,500) has arithmetic mean 156,250 -- hiding that half the economy has catastrophic zero. The zero-floor property (MIND's key insight) is lost in aggregation.
+
+**Why it happens:**
+Developers implement aggregation as arithmetic means because that is the default mental model. The multiplicative MIND framework requires a different aggregation strategy, but the whitepaper may not specify one, leaving it as a hasty implementation decision.
+
+**How to avoid:**
+1. Define aggregation methodology in the whitepaper BEFORE building the dashboard. This is a framework decision, not an engineering decision.
+2. Show distribution/histogram of scores at each level rather than a single aggregate. Show "30% of firms have a zero in at least one dimension" alongside aggregates.
+3. If averaging, use geometric mean (consistent with multiplicative framework). Geometric mean of 0 and 312,500 is 0 -- preserving zero-floor.
+4. Show aggregation methodology transparently in the UI. Academic credibility requires showing the math.
+5. Allow toggling between aggregation methods to show sensitivity.
+
+**Warning signs:**
+- Aggregated scores that hide underlying zeros
+- No documentation of aggregation methodology in codebase or UI
+- City/country scores that cannot decompose back to components
+- Stakeholder confusion about what an aggregated MIND score means
+
+**Phase to address:**
+Whitepaper phase (methodology) must precede dashboard phase (implementation). The math must be defined before the code.
 
 ---
 
-### Pitfall 11: FormSubmit.co Confirmation Loop Persisting After Migration
+### Pitfall 8: Stale Data Presented as Current Without Timestamps
 
-**What goes wrong:** The current FormSubmit.co integration requires Rob to click a confirmation email before submissions are delivered. If the migration doesn't fully remove FormSubmit.co references and replace them with Netlify Forms, some form submissions could route to both systems or to the broken one.
+**What goes wrong:**
+World Bank data is typically 1-3 years behind. Census ACS has a 1-year lag. SEC filings are quarterly. The dashboard displays values without indicating vintage, leading policymakers to treat 2023 World Bank data as "the current state" in 2026. This undermines credibility with exactly the audience the framework needs to convince.
 
-**Prevention:** Search the codebase for ALL instances of `formsubmit.co` and `Rob@theoradical.ai` and verify they're fully replaced. There are currently at least 2 instances (early email capture + volunteer form).
+**Why it happens:**
+API responses include date fields but developers display values without dates. "Latest available" for some indicators may be 4+ years old. The World Bank's own analysis found 13% of ESG indicators have no values for the most recent 4 years or more.
 
-**Phase:** Form backend (P0) -- first thing to fix
+**How to avoid:**
+1. Every data point must show source and vintage year inline, not in a footnote. Example: "Material: 72 (World Bank, 2023)"
+2. Implement data freshness indicator: green (<1yr), yellow (1-2yr), orange (2-3yr), red (>3yr).
+3. When proxying MIND dimensions from multiple indicators, show the oldest vintage in the composite.
+4. Store data vintage alongside values in the cache. Log which indicators updated on refresh.
+5. Add "Data last refreshed" timestamp visible on the dashboard page.
 
----
+**Warning signs:**
+- No date/year fields in internal data schema
+- Dashboard values with no source attribution
+- "Latest" used without defining what year that means
+- Policymakers citing dashboard numbers (must be trustworthy if they do)
 
-### Pitfall 12: Three.js Version Pinning Trap
-
-**What goes wrong:** The current site pins Three.js r148 with a CDN comment noting it's "last reliable UMD global build." Migrating to npm imports may pull a much newer version with breaking API changes (geometry constructors, material properties, etc.).
-
-**Prevention:**
-- Pin to `three@0.148.0` in package.json initially. Upgrade deliberately after migration is complete.
-- If upgrading: `BufferGeometry` is now just `Geometry` in newer versions; `PointsMaterial` API may have changed; check migration guide for the target version.
-- Use ES module imports (`import * as THREE from 'three'`) rather than UMD global.
-
-**Detection:** Console errors about undefined constructors or deprecated methods after installation.
-
-**Phase:** Migration (dependency setup)
-
----
-
-### Pitfall 13: Countdown Timer Timezone Inconsistency
-
-**What goes wrong:** The 1000-day countdown (targeting 2029-01-09) may show different values depending on visitor timezone, and during migration, the timer logic could break if moved to a server-rendered component.
-
-**Prevention:** Keep countdown as a client-only `<script>` tag. Use `new Date('2029-01-09T00:00:00Z')` (UTC) for consistency. Display "approximately X days" rather than exact to avoid confusion.
-
-**Phase:** Migration (component splitting) -- low risk, just don't overcomplicate it
+**Phase to address:**
+Data schema design (data architecture phase). Vintage/source must be first-class schema fields.
 
 ---
 
-### Pitfall 14: Partner Organizations Section Legal Liability
+## Technical Debt Patterns
 
-**What goes wrong:** Listing partner organizations without explicit consent implies endorsement. For a movement proposing novel economic frameworks, implied endorsement from established institutions (UN, World Bank, etc.) could trigger cease-and-desist or reputation damage.
+| Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
+|----------|-------------------|----------------|-----------------|
+| Hardcoded MIND proxy indicator mappings | Fast to implement | Cannot update indicator-to-dimension mappings without code changes | MVP only -- move to config file in v1.2 |
+| Single JSON file for all cached data | Simple cache implementation | File grows unwieldy, cache invalidation is all-or-nothing | Acceptable for <50 countries. Split by scale level if growing. |
+| Inlining whitepaper content in Astro component | No content pipeline needed | Cannot update whitepaper without developer, no versioning | Never -- use Markdown/MDX from day one |
+| Skipping error states in dashboard | Faster initial development | Users see blank panels, lose trust, file bugs | Never -- error states must ship with v1 of dashboard |
+| Using `any` types for API response data | Faster API integration | Type errors at runtime, dangerous refactoring | Never -- define typed interfaces for every API response |
+| Client-side fetch without proxy | No Netlify Function setup | CORS failures in production, exposed API keys if added later | Never -- always proxy through Netlify Functions |
 
-**Prevention:** PROJECT.md already flags "Honest partner organizations section (no implied endorsements)." Implementation must use language like "Organizations working in this space" or "Related initiatives" -- never "Partners" or "Supporters" without written consent. Include disclaimer.
+## Integration Gotchas
 
-**Detection:** Review copy for any language suggesting organizational endorsement before deploy.
+| Integration | Common Mistake | Correct Approach |
+|-------------|----------------|------------------|
+| World Bank API v2 | Assuming all countries have all indicators for all years | Check for null values, implement gap-fill logic, show "no data" explicitly |
+| World Bank API v2 | Fetching per_page=50 (default) and missing pages | Set `per_page=1000` or implement pagination loop. Country list is ~217 entries. |
+| World Bank API v2 | Calling from browser JavaScript | Call from build-time Node.js or Netlify Function. CORS behavior undocumented. |
+| US Census ACS API | Not registering for an API key | Free key removes 500 queries/day/IP limit. Register at api.census.gov. Required for production. |
+| US Census ACS API | Assuming city-level data exists for all metrics | Single-year estimates only for 65,000+ population. Smaller cities need 5-year estimates with wider error margins. |
+| SEC EDGAR API | Exceeding 10 req/sec rate limit | Implement throttling. Include `User-Agent` header with contact email (SEC requirement). |
+| SEC EDGAR API | Expecting structured MIND-relevant data | EDGAR provides financial filings (10-K, 10-Q), not pre-computed metrics. Extracting Intelligence/Diversity/Network from filings requires NLP -- far beyond v1.1 scope. |
+| Netlify Functions | Cold start latency on first interaction | Show loading state. Consider periodic warm ping if latency >3s. |
+| MailerLite (existing) | Whitepaper download triggering duplicate subscriber | Use MailerLite's upsert endpoint to check before creating. |
 
-**Phase:** Content migration -- copy review needed
+## Performance Traps
 
----
+| Trap | Symptoms | Prevention | When It Breaks |
+|------|----------|------------|----------------|
+| Loading D3/Chart.js for static bar charts | 80KB+ JS for charts that could be CSS | Use CSS-only bars for overview, load charting lib only for drill-down | Immediately -- wastes budget on every load |
+| SVG charts with 200+ country data points | Sluggish pan/zoom, high memory on mobile | Canvas rendering for country comparisons, SVG only for single-country detail | >50 SVG elements with transitions |
+| Fetching all country data on dashboard load | 3-5s initial load, 500KB+ JSON | Fetch summary first (name + aggregate), detail on demand | >100 countries with 4 dimensions each |
+| Unoptimized whitepaper images/figures | Page exceeds 2MB, slow on mobile | Use Astro `<Image>` with WebP/AVIF, lazy-load figures below fold | Any image >100KB |
+| Dashboard + Three.js hero on same page | Combined JS >300KB, mobile Lighthouse <60 | Dashboard on own page (`/dashboard`), not a section in `index.astro` | Immediately if on same page |
 
-## Phase-Specific Warnings
+## Security Mistakes
 
-| Phase Topic | Likely Pitfall | Mitigation |
-|-------------|---------------|------------|
-| Component splitting | CSS cascade breakage (#8) | Extract tokens first, visual regression test after each component |
-| Three.js islands | SSR crash (#1), hydration overuse (#6) | Use `client:only` exclusively, never `client:load` for WebGL |
-| Form backend | Netlify detection failure (#3), spam (#7) | Static HTML blueprint in public/, test post-deploy |
-| GSAP animations | ScrollTrigger zombies (#2) | Use `gsap.context()`, cleanup on navigation events |
-| Email automation | Deliverability death spiral (#4) | SPF/DKIM/DMARC before first send, warm gradually |
-| Mobile performance | Battery/thermal kill (#5) | IntersectionObserver pause, single renderer, frame budget |
-| Analytics | Ad blocker gap (#9) | Proxy via Netlify redirects, verify with blocker enabled |
-| Community (Discord) | Ghost town (#10) | Seed before linking, minimal channels, delayed public launch |
-| Domain/DNS | Email auth records | Set up SPF/DKIM/DMARC in P0 even if emails start in P1 |
-| View Transitions | GSAP re-initialization | Avoid View Transitions initially OR implement full cleanup pattern |
+| Mistake | Risk | Prevention |
+|---------|------|------------|
+| Storing Census API key in client-side JS | Key exposed, abused against your quota | Store in Netlify env var, access only from Netlify Functions |
+| Exposing raw API responses to client | Leaks API structure, potential PII in Census microdata | Transform and filter in Netlify Function before returning |
+| No input sanitization on user-input MIND scores | XSS if input reflected in URL params or shared views | Validate numeric 0-100, sanitize before display, never `innerHTML` |
+| Whitepaper allowing raw HTML injection via MDX | XSS through custom components | Use Astro built-in Markdown rendering (sanitizes by default). Audit MDX components. |
+
+## UX Pitfalls
+
+| Pitfall | User Impact | Better Approach |
+|---------|-------------|-----------------|
+| "Pick a firm" dropdown with no firms having data | User selects company, sees empty dashboard, loses trust | Show "Enter your firm's data" as primary firm-level experience. Frame user-input as the feature. |
+| Country comparison without context | Raw MIND scores meaningless without baseline | Show rank/percentile: "Material: 72 (ranked 45th of 193 countries)" |
+| Dashboard as first impression for new visitors | Visitors see data before understanding MIND, bounce | Dashboard at `/dashboard`, linked from main page after MIND explanation. Not in homepage scroll. |
+| Whitepaper with no progressive disclosure | Policymaker sees 10,000 words, bounces | Executive summary (500 words) at top, expandable sections, PDF download option. |
+| Mobile dashboard with 4-level drill-down | Tiny tap targets, horizontal overflow, unusable hierarchy | On mobile, single-level view with clear back/forward navigation. No side-by-side on narrow screens. |
+| No connection between whitepaper and dashboard | Two features feel unrelated | Whitepaper links to dashboard views. Dashboard cites whitepaper methodology. |
+
+## "Looks Done But Isn't" Checklist
+
+- [ ] **Dashboard data:** All values have source attribution and vintage year -- verify no "orphan numbers"
+- [ ] **Dashboard errors:** Every API call has loading, error, and empty states -- verify by disconnecting network
+- [ ] **Dashboard mobile:** Drill-down works on 375px viewport -- verify on real device
+- [ ] **Whitepaper ToC:** Scrollspy highlights current section -- verify by full-document scroll
+- [ ] **Whitepaper footnotes:** All links scroll to footnote AND back-link returns -- verify round-trip
+- [ ] **Whitepaper print:** Download/print renders acceptably -- verify with Ctrl+P
+- [ ] **Data freshness:** Cache refresh script runs in GitHub Actions -- verify last successful run date
+- [ ] **CORS:** All dashboard data loads in Deploy Preview, not just local dev -- verify in preview URL
+- [ ] **Aggregation:** Zero in any dimension propagates correctly through aggregation -- verify with test data
+- [ ] **Accessibility:** Charts have screen reader alternatives (data tables, aria-labels) -- verify with VoiceOver
+- [ ] **Performance:** Dashboard page Lighthouse mobile >= 75 -- verify with production build
+
+## Recovery Strategies
+
+| Pitfall | Recovery Cost | Recovery Steps |
+|---------|---------------|----------------|
+| Firm data desert discovered mid-build | LOW | Pivot firm level to user-input-only. Remove dropdown, add manual entry. 1-2 day refactor. |
+| Build-time API failures in CI | MEDIUM | Add local JSON cache fallback. Modify build to read cache if API unreachable. 2-3 days. |
+| Whitepaper styling conflicts with site | MEDIUM | Extract to dedicated layout with isolated styles. 2-3 days if done early. |
+| CORS blocking in production | LOW | Add Netlify Function proxy. ~30 lines per API. 1 day per source. |
+| Dashboard too heavy for mobile | HIGH | Requires architectural split into multiple islands + lazy loading. 3-5 days if monolithic. |
+| Aggregation methodology questioned | HIGH | Whitepaper revision + dashboard logic update + re-cache. Prevent by defining methodology first. |
+| Stale data presented as current | LOW | Add vintage year to schema and display. 1 day if schema supports it, 3-5 days if retrofitting. |
+| API source count exceeds maintainability | MEDIUM | Implement adapter pattern retroactively, consolidate transforms. 2-4 days. |
+
+## Pitfall-to-Phase Mapping
+
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| Firm/City Data Desert | Phase 1: Data Inventory | Spreadsheet mapping every MIND dimension to available API indicators per scale level with coverage % |
+| Build-Time Fetch Brittleness | Phase 1: Data Architecture | Build succeeds with network disconnected (reads from local cache) |
+| Whitepaper Site Cohesion | Phase 2: Whitepaper | Whitepaper page loads zero Three.js/GSAP JS, has own layout, Lighthouse >= 90 |
+| API Source Proliferation | Phase 1: Data Architecture | API roster document exists, capped at 3, additions require explicit approval |
+| Dashboard Performance | Phase 3: Dashboard | Lighthouse mobile >= 75 on dashboard page, JS bundle < 100KB for initial view |
+| CORS Blocking | Phase 1: Data Architecture | Every external API call routes through Netlify Function, tested in Deploy Preview |
+| Aggregation Math | Phase 2: Whitepaper | Whitepaper defines aggregation with examples, dashboard implements exactly that |
+| Stale Data Timestamps | Phase 1: Data Schema | Every data point has `source`, `year`, and `accessedDate` fields |
 
 ## Sources
 
-- [Astro Framework Components - Client Directives](https://docs.astro.build/en/guides/framework-components/)
-- [Astro Troubleshooting Docs](https://docs.astro.build/en/guides/troubleshooting/)
-- [GSAP ScrollTrigger + Astro View Transitions](https://gsap.com/community/forums/topic/40950-compatibility-with-gsap-scrolltrigger-astro-view-transitiosn-api/)
-- [Astro View Transitions Breaks ScrollTrigger](https://gsap.com/community/forums/topic/41197-astro-viewtransitions-breaks-scrolltrigger-the-second-time-i-enter-a-page/)
-- [ScrollTrigger Cleanup in SPAs](https://gsap.com/community/forums/topic/40561-single-page-cannot-completely-destroy-scrolltrigger/)
-- [GSAP kill() Documentation](https://gsap.com/docs/v3/Plugins/ScrollTrigger/kill()/)
-- [Netlify Forms Troubleshooting Tips](https://docs.netlify.com/manage/forms/troubleshooting-tips/)
-- [Netlify Forms Spam Filters](https://docs.netlify.com/manage/forms/spam-filters/)
-- [Netlify Forms on Astro - Forum Discussion](https://answers.netlify.com/t/netlify-forms-on-astro-no-framework-doesnt-work/103723)
-- [Netlify Forms Not Found with Astro](https://answers.netlify.com/t/no-form-submission-with-astro-static-generator/113932)
-- [Netlify Forms Usage and Billing](https://docs.netlify.com/manage/forms/usage-and-billing/)
-- [Plausible Proxy via Netlify](https://plausible.io/docs/proxy/guides/netlify)
-- [Email Warm-Up Best Practices 2025](https://www.mailpool.ai/blog/email-warm-up-best-practices-complete-2025-guide)
-- [DKIM DMARC SPF Best Practices 2025](https://saleshive.com/blog/dkim-dmarc-spf-best-practices-email-security-deliverability/)
-- [Three.js Performance Tips](https://www.utsubo.com/blog/threejs-best-practices-100-tips)
-- [GSAP Accessible Animation (prefers-reduced-motion)](https://gsap.com/resources/a11y/)
-- [Astro client:only SSR issue #5601](https://github.com/withastro/astro/issues/5601)
-- [Discord Guide for Progressive Organizers and Movements](https://commonslibrary.org/ecda-how-to-use-discord-a-guide-for-progressive-organizers-parties-movements/)
-- [Building Nonprofit Communities on Discord](https://bluewing.co/blog/building-strong-nonprofit-communities-on-discord-a-comprehensive-guide/)
-- [Buttondown Welcome Sequence Docs](https://docs.buttondown.com/welcome-sequence)
-- [Scroll-Revealed WebGL Gallery with GSAP, Three.js, Astro (Codrops 2026)](https://tympanus.net/codrops/2026/02/02/building-a-scroll-revealed-webgl-gallery-with-gsap-three-js-astro-and-barba-js/)
+- [World Bank API Documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation)
+- [World Bank ESG Data Coverage Gaps](https://worldbank.github.io/ESG_gaps_research/background.html) -- 50%+ indicators missing for most recent year
+- [World Bank Development Best Practices](https://datahelpdesk.worldbank.org/knowledgebase/articles/902064-development-best-practices)
+- [US Census API Rate Limits](https://www.census.gov/data/developers/guidance/api-user-guide/help.html) -- 500 queries/day without key
+- [US Census API Key Signup](https://api.census.gov/data/key_signup.html)
+- [SEC EDGAR APIs](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) -- 10 req/sec, User-Agent required
+- [SEC Rate Control Limits](https://www.sec.gov/filergroup/announcements-old/new-rate-control-limits)
+- [Astro Data Fetching Docs](https://docs.astro.build/en/guides/data-fetching/)
+- [Astro Islands Architecture](https://docs.astro.build/en/concepts/islands/)
+- [Astro Bundle Size Analysis](https://docs.astro.build/en/recipes/analyze-bundle-size/)
+- [Astro Markdown Content](https://docs.astro.build/en/guides/markdown-content/) -- footnotes via remark-gfm
+- [rehype-citation for bibliography](https://www.timlrx.com/blog/streamlining-citations-in-markdown/)
+- [Astro Table of Contents patterns](https://github.com/theisel/astro-toc)
+- [LSEG ESG Data Coverage](https://www.lseg.com/en/data-analytics/financial-data/company-data/esg-data) -- 1,300 private companies globally
+- [D3.js Hierarchical Visualization](https://d3js.org/d3-hierarchy)
+- [CORS MDN Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS)
+- [Stale-While-Revalidate Pattern](https://www.debugbear.com/docs/stale-while-revalidate)
+
+---
+*Pitfalls research for: MIND Intelligence Layer (v1.1) -- whitepaper + multi-scale dashboard on existing Astro site*
+*Researched: 2026-04-21*

@@ -1,205 +1,199 @@
 # Project Research Summary
 
-**Project:** Intelligent Economics (MIND Framework Movement Platform)
-**Domain:** Movement/advocacy platform — Beyond GDP economic reform with WebGL interactivity
+**Project:** Intelligent Economics — MIND Intelligence Layer (v1.1)
+**Domain:** Policy-oriented academic whitepaper + interactive multi-scale economic dashboard added to existing Astro movement site
 **Researched:** 2026-04-21
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Intelligent Economics is a movement platform for the MIND (Measure, Integrate, Nurture, Direct) economic framework — a novel Beyond GDP approach that adds an Intelligence dimension not found in competitors like Doughnut Economics (DEAL), WEAll, or OECD's framework. The current site is technically impressive (Three.js particles, GSAP scroll animations, Zone Zero simulator) but has a broken conversion funnel: form submissions route to FormSubmit.co but were never confirmed, meaning every volunteer signup is silently lost. The primary engineering challenge is not building new features — it is migrating the existing monolithic HTML into a structured Astro component architecture while fixing the conversion pipeline and preserving the visual quality.
+This milestone extends an already-complete Astro 5.x movement site with two new capabilities: a publishable HTML whitepaper for the MIND framework, and an interactive multi-scale dashboard backed by real World Bank data. The foundational stack (Astro, Tailwind v4, Three.js, GSAP, Netlify Forms, MailerLite) is validated and unchanged. New additions are narrow and justified: MDX + @tailwindcss/typography for the whitepaper, Apache ECharts 6 for the dashboard, and a build-time World Bank API data pipeline. The architecture extends cleanly without introducing frameworks, SSR, or runtime data fetching.
 
-The recommended approach is Astro 5.x (stable) with Tailwind v4, vanilla TypeScript scripts for Three.js/GSAP (no framework wrappers), Netlify Forms replacing FormSubmit.co, and MailerLite for welcome sequence automation. The architecture avoids React/Svelte entirely — Three.js and GSAP are imperative libraries that work better as bundled TypeScript modules with DOM anchoring than as reactive framework components. The email pipeline (Netlify Forms → submission-created function → MailerLite API) is well-documented and zero-infrastructure. Discord handles community identity; no custom auth is needed or appropriate.
+The critical strategic posture for this milestone is data-first design. The MIND framework covers four dimensions at four scale levels (firm, city, country, global), but publicly available free data is essentially only reliable at the country level via the World Bank API. City data is US-only for large populations via Census ACS. Firm-level data does not exist via free public APIs — the user-input self-assessment model IS the firm experience, not a fallback. Building UX before confirming data availability is the single most likely way this milestone fails. Every design decision must start with "what data actually exists for this."
 
-The dominant risks are: (1) Three.js SSR crashes during migration if not handled with `client:only` or scoped `<script>` tags; (2) Netlify Forms not detecting forms inside client-rendered components; (3) email deliverability failure on a new .ai domain without SPF/DKIM/DMARC setup; and (4) mobile thermal/battery drain from three simultaneous WebGL render loops. All four risks have well-understood mitigations and must be addressed in Phase 1. The movement's competitive differentiation — a live Zone Zero simulator and an authentic 1000-day policy countdown — is already built and just needs to survive the migration intact.
+The main technical risks are dashboard performance (the new ECharts island + existing Three.js must stay within the 200KB JS budget by keeping dashboard on its own /dashboard route), build-time data brittleness (World Bank API must never block a deploy — commit a JSON snapshot and refresh on a schedule), and aggregation methodology (the multiplicative MIND formula must be defined in the whitepaper before the dashboard implements it, or credibility suffers). These risks are all preventable with the right phase order: shared library extraction and data inventory before any UI work.
 
 ## Key Findings
 
 ### Recommended Stack
 
-The stack is entirely built around Astro's static-first architecture with Netlify as the platform layer. Astro 5.x (not the Astro 6 beta) is the correct choice for production reliability. Tailwind v4 replaces the existing inline CSS with a utility-first system that is Vite-native and requires no PostCSS config. Three.js and GSAP are already used in the site and remain the right choices — GSAP is now fully free including all plugins, and Three.js 0.184 is actively maintained. The form-to-email pipeline uses exclusively platform services (Netlify Forms, Netlify Functions, MailerLite) with zero custom backend infrastructure.
+The v1.0 stack is unchanged. The v1.1 additions are: `@astrojs/mdx` (5.0.x) for whitepaper content collection with inline interactive components; `@tailwindcss/typography` (0.5.x) for prose styles via `@plugin` directive; `remark-math` + `rehype-katex` for build-time math rendering (zero client JS — KaTeX produces static HTML); `remark-gfm` for footnotes (required explicitly when custom remark plugins are added). For the dashboard: Apache ECharts 6 (tree-shakeable ES modules, built-in radar/bar/treemap/map, no React dependency, Apache 2.0 license). Data: World Bank API v2 (free, no key, 217 countries, CORS-safe from Node.js). Architecture research prefers Chart.js 4.4 for simplicity; STACK.md prefers ECharts 6 for feature depth. Resolution: use ECharts — it handles treemap/sunburst/drill-down/map that Chart.js cannot without plugins.
 
-**Core technologies:**
-- Astro 5.18.x: Static site generator — zero JS by default, content-first, Netlify-native
-- Three.js 0.184.x: Hero particles, morph engine, Zone Zero simulator — already in site, use vanilla (no R3F)
-- GSAP 3.15.x: Scroll animations, ScrollTrigger — now 100% free including SplitText/MorphSVG
-- Tailwind CSS 4.2.x: Utility CSS with OKLCH bioluminescent palette — Vite-native, no tailwind.config.js needed
-- Netlify Forms: Volunteer and email capture form backend — free, zero-config, replaces FormSubmit.co
-- MailerLite: Welcome sequence automation — free tier covers 1,000 subscribers + full automation builder
-- Plausible Analytics: Privacy-first analytics — proxied via Netlify redirects to bypass ad blockers
+**Core new technologies:**
+- `@astrojs/mdx` 5.0.x: MDX content collection for whitepaper — enables embedding interactive Astro components inline with prose
+- `@tailwindcss/typography` 0.5.x: Battle-tested prose styles, avoids writing 20+ custom element overrides
+- `rehype-katex` 7.0.x + `remark-math` 7.0.x: Build-time math rendering, zero runtime JS, ~28KB CSS only on whitepaper page
+- Apache ECharts 6.0.x: Hierarchical drill-down, radar, bar, world map — one dependency, Apache 2.0, tree-shakeable to ~200KB
+- World Bank API v2: 217 countries, 1600+ indicators, free, no key required, annual data suitable for build-time fetch
+
+**Do not add:** D3.js (5-10x more code for same charts), React/Preact (no reason — ECharts is vanilla JS), Plotly (3MB bundle), any database (all data is static JSON).
 
 ### Expected Features
 
-**Must have (table stakes) — P0:**
-- Working email capture form: stops losing every signup (current FormSubmit.co is broken/unconfirmed)
-- Privacy-respecting analytics (Plausible) with ad-blocker proxy
-- Honest partner section: remove implied endorsements, use "Organizations working in this space" framing
-- Mobile-responsive design: 60%+ of traffic is mobile; current Three.js needs conditional degradation
+**Must have (whitepaper):**
+- Structured long-form HTML page: title, abstract, sections, subsections, TOC, citations
+- Sticky TOC sidebar with scroll-spy highlighting (IntersectionObserver, Astro `getHeadings()`)
+- Responsive reading layout (65-75 char line length, sidebar collapses to top-nav on mobile)
+- Print/PDF-friendly CSS (`@media print`, linearized layout, no Puppeteer needed)
+- Citation and reference formatting (remark-gfm footnote syntax sufficient for v1.1)
+- Social sharing meta tags (og:title, og:description, og:image with designed card)
 
-**Must have (table stakes) — P1:**
-- Lightweight email signup near hero (minimal friction, email-only)
-- Welcome email sequence (4 emails / 14 days): immediate confirmation + nurture to Discord
-- Discord community with seeded activity before public launch (role-based channels, max 5 at start)
-- Team/About page: named founder, brief bio, trust signals
+**Must have (dashboard):**
+- Country-level MIND score visualization for 217 countries (World Bank data)
+- Radar chart showing M/I/N/D dimension balance per country
+- Bar chart comparing dimensions across countries
+- Country search/selection
+- Binding constraint identification ("Nigeria's binding constraint is Network at 31")
+- Data source attribution with vintage year on every chart
+- Loading and error states (never show a blank panel)
+- Mobile-responsive charts
 
-**Should have (competitive differentiators):**
-- Zone Zero simulator: already built, unique in the Beyond GDP space — needs mobile optimization
-- 1000-day countdown timer: already built, authentic urgency tied to real policy deadlines
-- Explicit ladder of engagement: Email → Discord → Working Group → Chapter Lead
-- 4-email welcome sequence that explicitly drives progression through the ladder
+**Should have (differentiators):**
+- Multi-scale drill-down (country first, city as 5-10 curated showcase, firm as user-input only)
+- Side-by-side country comparison (2-4 countries, overlaid radar charts)
+- Zone Zero integration: "See this country in the simulator" pre-loads real MIND scores via existing URL param system
+- Whitepaper-dashboard cross-linking: MDX inline `<MindMiniChart />` widgets embedded in whitepaper prose
+- MIND methodology transparency panel (which World Bank indicators feed each dimension)
+- Hierarchical aggregation visualization (firm scores compose to city, city to country, etc.)
 
-**Defer to P2:**
-- MIND Score dashboard with World Bank data (requires stable architecture first)
-- Academic whitepaper / methodology publication
-- Newsletter system (requires having content worth sharing)
-
-**Defer to P3+:**
-- "MIND Score for My City" tool (complex, requires validated methodology)
-- Multi-language support (permanent resource drain; English-first)
-- Volunteer matching / project boards (requires critical mass first)
-- Donation functionality (legal complexity; premature before traction)
+**Defer to post-v1.1:**
+- Time-series animation (Gapminder-style) — high complexity, data is available, defer to v1.2
+- Choropleth world map — adds 1-2MB GeoJSON, minimal analytical value over sortable table
+- Custom indicator selection — undermines the opinionated MIND methodology
+- User accounts — URL state encoding is sufficient, no backend exists
+- Automated city/firm data from APIs — does not exist as free public data
 
 ### Architecture Approach
 
-The correct architecture is Astro as a markup shell with vanilla TypeScript modules for interactivity — not framework islands. Three.js and GSAP are imperative DOM-manipulation libraries that don't benefit from React/Svelte reactivity wrappers, and adding a framework runtime (React = 40KB+) provides zero value here. Instead, components provide semantic HTML structure and data-attribute anchors; bundled TypeScript scripts initialize by querying the DOM. This is the same pattern as the existing site, just structured as components rather than one monolithic file.
+The existing single-page `index.astro` is untouched. Two new routes are added: `/whitepaper` (MDX content collection rendered with WhitepaperLayout) and `/dashboard` (dashboard page composing ECharts islands). Shared MIND score logic is extracted from `zone-zero.ts` into `src/lib/mind-score.ts` so both Zone Zero and the dashboard produce identical scores. World Bank data is fetched via a standalone Node.js script (`npm run fetch-data`), written to `src/data/dashboard-data.json` (committed to git), and injected into the dashboard page at build time via `data-*` attributes. No SSR, no runtime API calls from the browser, no framework islands.
 
 **Major components:**
-1. BaseLayout.astro — HTML shell, design tokens, Plausible analytics snippet, font loading
-2. Hero.astro + hero-particles.ts — particle canvas element + Three.js initialization on DOM query
-3. ZoneZeroSimulator.astro + zone-zero.ts — self-contained module with all state encapsulated
-4. Stories.astro + morph-engine.ts — scroll-driven particle morph; IntersectionObserver pauses off-screen
-5. EmailCapture.astro + VolunteerForm.astro — static HTML forms with `data-netlify="true"`; JS enhances UX
-6. submission-created.ts (Netlify Function) — routes form submissions to MailerLite and Discord webhook
-7. Content collections (stories/, experiments/) — Markdown-driven story panels and experiment tabs
-8. device-detect.ts (shared utility) — three-tier capability detection: full / reduced / minimal
+1. `src/lib/mind-score.ts` — shared `calcScore()`, `getHealthState()`, `getBindingConstraint()`, `normalize()` — single source of truth for all MIND math
+2. `src/lib/world-bank-loader.ts` + `scripts/fetch-data.ts` — build-time data pipeline; transforms World Bank API v2 responses into normalized 0-100 MIND scores per country
+3. `src/data/dashboard-data.json` — committed baseline; updated by `npm run fetch-data`; decouples data freshness from site deployability
+4. `src/layouts/WhitepaperLayout.astro` — two-column layout: sticky TOC sidebar + prose content area; no Three.js/GSAP loaded
+5. `src/content/whitepaper/mind-framework.mdx` — whitepaper content as MDX; embeds `<MindEquation />`, `<Callout />`, `<MindMiniChart />` components inline
+6. `src/components/dashboard/DashboardPanel.astro` — ECharts container with data injected via `data-countries` attribute; script reads on hydration
+7. `src/scripts/dashboard.ts` — client-side ECharts initialization, country selection, scale switching; imports from `mind-score.ts`
+
+**Key patterns:**
+- Build-time data injection via `data-*` attributes (matches existing Zone Zero `data-target` pattern)
+- Progressive enhancement: server-render a country ranking table as static HTML; JavaScript replaces with interactive charts
+- Page-specific layouts (WhitepaperLayout, DashboardLayout) that extend BaseLayout patterns without polluting global styles
+- Shared library extraction: any logic used by more than one module lives in `src/lib/`
 
 ### Critical Pitfalls
 
-1. **Three.js SSR crash** — Never use `client:load` or `client:visible` for Three.js; use `client:only` or native Astro `<script>` tags (which are client-only by nature). Guard all Three.js code against server execution.
+1. **Firm/City Data Desert** — No free public APIs provide MIND-relevant data for most firms and cities. Inventory data availability per scale level BEFORE designing UX. The user-input self-assessment IS the firm-level experience, not a fallback.
 
-2. **Netlify Forms not detected** — Forms must exist in server-rendered Astro HTML, not inside `client:only` components. Add a static HTML form blueprint in `public/` as a deploy-time fallback. Verify form appears in Netlify dashboard post-deploy before considering it done.
+2. **Build-Time Fetch Brittleness** — World Bank API outage during `astro build` fails the deploy. Commit baseline `dashboard-data.json` to git. Run `npm run fetch-data` on a schedule separate from deploys. Site must build with network disconnected.
 
-3. **Email deliverability death spiral** — Configure SPF, DKIM, and DMARC records before sending a single email. Use MailerLite (handles authentication automatically). Warm the domain gradually. Start DMARC at `p=none`. The `.ai` TLD triggers heightened scrutiny from Gmail/Outlook.
+3. **Dashboard Performance Budget Breach** — ECharts + Three.js combined exceed 200KB if co-located. Keep dashboard on its own `/dashboard` route. Use `client:visible` + dynamic `import()` for ECharts. Dashboard page JS budget: ~200KB gzipped.
 
-4. **Mobile thermal/battery drain from three simultaneous WebGL loops** — All three Three.js scenes (hero, morph, Zone Zero) run continuous `requestAnimationFrame` loops. Pause off-screen loops with IntersectionObserver. Consider replacing the morph scene with CSS/SVG on mobile, keeping only one Three.js instance active at a time.
+4. **Aggregation Math Mismatch** — Arithmetic mean of multiplicative MIND scores hides zeros. Define aggregation methodology in the whitepaper (geometric mean preserves zero-floor) before implementing dashboard aggregation logic. Methodology must precede code.
 
-5. **GSAP ScrollTrigger zombie instances** — If View Transitions are ever added, use `gsap.context()` + `ctx.revert()` on `astro:before-swap`. Even without View Transitions, scope all ScrollTrigger instances for future-proofing.
+5. **Stale Data Without Timestamps** — World Bank data is typically 1-3 years behind. Make `source`, `year`, and `accessedDate` first-class schema fields from day one. Every chart must display vintage year.
+
+6. **CORS Blocking in Production** — World Bank API CORS behavior undocumented for browser use. All client-side data fetching (if any) must route through a Netlify Function proxy. Primary architecture uses build-time data, so this is a safety constraint for future drill-down features.
 
 ## Implications for Roadmap
 
-Based on combined research, the suggested phase structure follows a strict dependency order: fix what's broken first, then build the growth engine, then establish intellectual credibility, then scale.
+Based on the dependency chain across all four research files, the natural phase structure is:
 
-### Phase 1: Fix the Broken Funnel (P0)
+### Phase 1: Shared Foundation + Data Inventory
+**Rationale:** Everything downstream depends on (a) the shared MIND score library and (b) confirmed data availability per scale level. Starting with UI design before data inventory is the most common failure mode identified in PITFALLS.md. Zone Zero refactor proves the extraction works before adding new features.
+**Delivers:** `src/lib/mind-score.ts` extracted and tested; Zone Zero refactored to import from it; `src/lib/indicators.ts` with World Bank indicator mapping and normalization functions; `src/data/dashboard-data.json` baseline fetch; data availability confirmed per scale level; API roster locked at max 3 sources (World Bank, Census ACS, SEC EDGAR); data schema with `source`, `year`, `accessedDate` fields defined
+**Addresses:** Data pipeline foundation, MIND score consistency across all features
+**Avoids:** Firm/City Data Desert, Build-Time Brittleness, API Source Proliferation, Stale Data, Aggregation Math Mismatch
 
-**Rationale:** Every day the form is broken is a volunteer permanently lost. This is not optional and has no prerequisites. It is also the highest-confidence work — the failure mode is precisely understood.
+### Phase 2: Whitepaper
+**Rationale:** Zero dependency on the data pipeline — can ship independently. Establishes intellectual credibility before the dashboard exists. Also must define the aggregation methodology that Phase 3 implements.
+**Delivers:** `/whitepaper` route with MDX content, sticky TOC sidebar, responsive reading layout, print CSS, remark-gfm footnotes, social meta tags; WhitepaperLayout with scoped typography; whitepaper MDX with embedded `<MindEquation />` and `<Callout />` components; aggregation methodology formally documented
+**Uses:** `@astrojs/mdx`, `@tailwindcss/typography`, `remark-math`, `rehype-katex`, `remark-gfm`
+**Avoids:** Whitepaper Content Destroying Site Cohesion (dedicated layout, no Three.js/GSAP loaded on whitepaper page), Aggregation Math Mismatch (define before building)
 
-**Delivers:** Working conversion pipeline. Email submissions captured and confirmed. Analytics measuring the funnel. Partner section no longer a legal liability.
+### Phase 3: Country Dashboard Core
+**Rationale:** Phase 1 provides shared score library and baseline data JSON. Phase 2 provides the aggregation methodology definition. Dashboard can now be built on solid foundation.
+**Delivers:** `/dashboard` route with ECharts radar + bar charts for 217 countries; country search/selection; binding constraint callout; data source attribution with vintage year; loading + error states; mobile-responsive layout; progressive enhancement (server-rendered ranking table before JS)
+**Uses:** Apache ECharts 6 (tree-shaken to ~200KB, `client:visible`), `src/lib/mind-score.ts`, `src/data/dashboard-data.json`
+**Implements:** DashboardPanel, ScaleSelector, data-attribute injection pattern
+**Avoids:** Dashboard Performance Budget Breach (own route, `client:visible`, dynamic imports), CORS Blocking
 
-**Addresses:** Working email capture form, Plausible analytics, honest partner section fix.
+### Phase 4: Country Comparison + Zone Zero Integration
+**Rationale:** Moderate effort on top of Phase 3. High value for policy practitioners. Zone Zero pre-loading requires only URL parameter extension — the system already exists.
+**Delivers:** 2-4 country comparison with overlaid radar charts; "Compare with..." UI; "See this country in the simulator" button pre-loading Zone Zero with real MIND scores; bookmarkable `/dashboard?countries=NGA,JPN,BRA&view=radar` URLs; social sharing extended from Zone Zero pattern; Plausible custom events for dashboard interactions
 
-**Avoids:** Pitfall 3 (Netlify Forms detection), Pitfall 11 (FormSubmit.co zombie), Pitfall 9 (Plausible ad-blocker gap), Pitfall 14 (partner endorsement liability).
+### Phase 5: Whitepaper-Dashboard Cross-Linking + City/Firm Scales
+**Rationale:** Requires both whitepaper (Phase 2) and dashboard (Phase 3+4). City and firm scales are the multi-scale differentiator but require curated data assembly (city) and self-assessment UX (firm).
+**Delivers:** MDX inline `<MindMiniChart country="NGA" />` widgets embedded in whitepaper; bidirectional whitepaper/dashboard linking; 5-10 curated showcase city profiles with manually assembled MIND indicators; firm self-assessment UI (Zone Zero slider pattern reused); "Submit your city's data" form for community expansion
 
-**Note:** Also set up SPF/DKIM/DMARC DNS records in this phase even though email sequences don't send until Phase 2.
-
-### Phase 2: Build the Growth Engine (P1)
-
-**Rationale:** With the funnel working, the priority shifts to nurturing signups into community members. This phase builds the full acquisition-to-activation pipeline. Discord must be seeded before being publicly linked. Mobile performance must be fixed before the site can be the primary conversion surface.
-
-**Delivers:** Full email-to-Discord pipeline, 4-email welcome sequence, mobile-performant Three.js, Team/About page, hero email capture form, ladder of engagement visible on site.
-
-**Addresses:** Lightweight hero signup, welcome sequence (4 emails/14 days), Discord community, Team/About, mobile performance optimization, Zone Zero mobile fix, ladder of engagement.
-
-**Avoids:** Pitfall 4 (email deliverability), Pitfall 5 (mobile battery drain), Pitfall 10 (Discord ghost town), Pitfall 7 (form spam flood).
-
-**Research flag:** Welcome sequence email content is a creative/strategic deliverable, not a technical one — needs review of timing and messaging before MailerLite automation setup.
-
-### Phase 3: Astro Migration and Component Architecture (P1 parallel or sequential)
-
-**Rationale:** The monolithic HTML must be decomposed into Astro components to enable maintainability, content collections, and the data pipeline. This is the most technically complex phase. It can proceed in parallel with Phase 2 or follow it, but must be complete before any P2 features.
-
-**Delivers:** Astro 5.x project with Tailwind v4, all sections as components, content collections for stories/experiments, TypeScript scripts for all Three.js/GSAP logic, progressive enhancement tiers.
-
-**Uses:** Full recommended stack — Astro 5.18, Tailwind 4.2, Three.js 0.184, GSAP 3.15, @astrojs/netlify.
-
-**Avoids:** Pitfall 1 (Three.js SSR), Pitfall 2 (GSAP ScrollTrigger zombies), Pitfall 6 (hydration overuse), Pitfall 8 (CSS token splitting), Pitfall 12 (Three.js version pinning), Pitfall 13 (countdown timezone).
-
-**Research flag:** Needs careful visual regression testing at each component extraction step. Side-by-side screenshot comparison required.
-
-### Phase 4: Credibility and Data Tools (P2)
-
-**Rationale:** Once the funnel is working and you have 100+ email subscribers, the priority shifts to intellectual credibility. The MIND Score dashboard differentiates from all competitors (DEAL has static diagrams, OECD has PDFs). Academic paper publication establishes the framework's legitimacy.
-
-**Delivers:** MIND Score dashboard with World Bank API data, academic whitepaper published, newsletter system for ongoing communication, testimonials from early community members.
-
-**Addresses:** MIND Score dashboard, academic whitepaper, newsletter system, testimonials/social proof.
-
-**Research flag:** World Bank API integration and D3/Observable visualization for MIND Score dashboard will need a dedicated research phase — data normalization methodology and API authentication patterns are non-trivial.
-
-### Phase 5: Scale and Localization (P3+)
-
-**Rationale:** Deferred until movement has 500+ subscribers and 20+ active Discord members. Features in this phase require critical mass to avoid empty project board and ghost town effects.
-
-**Delivers:** "MIND Score for My City" tool, volunteer matching/project boards, multi-language support (if organic demand exists), action tools (petitions, letter-writing) tied to specific policy campaigns.
-
-**Research flag:** "MIND Score for My City" requires dedicated research into city-level data sources and validated methodology. Do not start until the national MIND Score dashboard is proven out.
+### Phase 6: Hierarchical Aggregation Visualization + Polish
+**Rationale:** The aggregation tree is the "aha moment" for the framework but requires all four scale levels to be meaningful. Comes last.
+**Delivers:** `AggregationTree.astro` — SVG hierarchical composition showing how MIND scores roll up across scales; Nav updates (Whitepaper and Dashboard links); full accessibility audit (screen reader alternatives for charts, aria-labels); Lighthouse audit on dashboard page (mobile >= 75 target)
 
 ### Phase Ordering Rationale
 
-- Phases 1 and 2 are driven by lost-signup urgency — the cost of delay is permanent and compounding.
-- Phase 3 (migration) is a prerequisite for Phase 4 (data tools) but can overlap with Phase 2 since form backend changes are deployment-level, not architecture-level.
-- Discord setup must precede Phase 2 email sequences because welcome email #3 invites to Discord — sending that email to an empty/unseeded server would trigger the ghost town pitfall.
-- SPF/DKIM/DMARC (Phase 1 DNS work) must precede Phase 2 email sending — DNS propagation takes 24-72 hours.
-- Visual regression testing during Phase 3 migration prevents the CSS token splitting pitfall from compounding across later phases.
+- Phase 1 before everything: shared score library is a blocking dependency for Zone Zero refactor and dashboard. Data inventory prevents UX built on data that doesn't exist.
+- Phases 2 and 3 can run in parallel after Phase 1 — they share no dependencies beyond the shared score lib.
+- Phase 3 before Phase 4: comparison view is an extension of single-country view.
+- Phase 5 requires Phases 2+3+4 to cross-link meaningfully.
+- Phase 6 requires all scales to exist before the aggregation visualization is coherent.
 
 ### Research Flags
 
-Phases needing deeper research during planning:
-- **Phase 4 (MIND Score dashboard):** World Bank API integration, D3/Observable visualization patterns, data normalization for MIND dimensions — non-trivial, needs dedicated research-phase.
-- **Phase 5 (City tool):** City-level data sources, input validation methodology, UX for policy practitioners — requires validated national methodology first.
+Phases likely needing deeper research during planning:
+- **Phase 1 (Data Inventory):** World Bank indicator coverage varies by country and year. Normalization methodology (min-max bounds, null value handling, regional median gap-fill) needs validation against actual API responses. Run `npm run fetch-data` early and inspect real data gaps before finalizing the schema.
+- **Phase 3 (ECharts data injection):** The `define:vars` pattern with 80KB+ JSON payloads is standard but untested at this data volume. Validate with a prototype before committing — alternative is a separate JSON fetch that's explicitly isolated to the `/dashboard` route.
+- **Phase 5 (City Data Assembly):** Manual curation of 5-10 city profiles requires deciding which indicators to use for non-US cities where Census ACS doesn't apply. This is a methodology decision, not just a data task — needs explicit scoping before the phase begins.
 
 Phases with standard patterns (skip research-phase):
-- **Phase 1 (Fix funnel):** Netlify Forms, Plausible proxy — well-documented with official guides.
-- **Phase 2 (Growth engine):** MailerLite automation, Discord setup — standard patterns, MailerLite docs are excellent.
-- **Phase 3 (Astro migration):** Astro + Three.js + GSAP integration — documented in Codrops tutorial (2026-02-02), official Astro docs are comprehensive.
+- **Phase 2 (Whitepaper):** MDX content collections in Astro are well-documented with official recipes. `getHeadings()` + IntersectionObserver TOC is a solved pattern. No surprises expected.
+- **Phase 4 (Zone Zero Integration):** URL parameter system already exists and works. Extending it to accept a `country` parameter is a small, low-risk change.
+- **Phase 6 (Polish/Analytics):** Plausible custom events already implemented for 6 events in v1.0. Extension is straightforward.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | All technologies verified against official docs and npm. GSAP free license confirmed. Tailwind v4 Vite-native confirmed. Astro 6 beta deliberately excluded. |
-| Features | HIGH | Competitor analysis against DEAL, WEAll, 350.org, Sunrise Movement. Ladder of engagement pattern well-documented. |
-| Architecture | HIGH | Astro vanilla script pattern confirmed via Codrops tutorial and official Astro client-side scripts docs. Anti-patterns clearly identified. |
-| Pitfalls | HIGH | All critical pitfalls have cited GitHub issues, forum threads, and official troubleshooting docs. Netlify Forms + Astro detection issue confirmed in multiple forum reports. |
+| Stack | HIGH | All technologies verified against live npm packages and official docs. One disagreement between ARCHITECTURE.md (Chart.js) and STACK.md (ECharts) — resolved in favor of ECharts for feature depth. |
+| Features | HIGH | Validated against live World Bank API (CORS confirmed, indicator coverage assessed). Competitive analysis against UNDP HDI, OECD Better Life Index, Gapminder is thorough. |
+| Architecture | HIGH | Based on analysis of existing v1.0 codebase (14+ components). Recommended patterns all match existing Zone Zero/MindDashboard patterns — no greenfield assumptions. |
+| Pitfalls | HIGH | World Bank ESG data coverage gaps independently verified. CORS behavior confirmed. Rate limits documented with sources. Aggregation math pitfall is analytically correct. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **MailerLite vs. Resend discrepancy:** STACK.md recommends MailerLite; ARCHITECTURE.md data flow references Resend. Resolution: MailerLite is the correct choice (automation sequences, 1,000 free subscribers). Resend is transactional-only. Update architecture docs accordingly.
-- **Three.js version pinning:** PITFALLS.md recommends pinning to `three@0.148.0` initially; STACK.md recommends `three@0.184.0`. Confirm which version the existing site uses before migration to avoid API breakage. Pin to current site version first, upgrade deliberately after migration.
-- **Discord timeline dependency:** Welcome email sequence and Discord setup must be coordinated — email #3 (Day 7) invites to Discord. Discord must have visible activity before that email sends. Plan seeding period before go-live.
-- **Netlify Forms free tier limits:** Post-September 2025 credit-based plans changed Netlify pricing. Verify current submission limits before relying on free tier at scale.
+- **Normalization bounds for World Bank indicators:** Min-max normalization requires deciding whether bounds are theoretical (0-100 for percentages) or empirical (min/max in current dataset). Empirical bounds shift as countries change. Resolve in Phase 1 and document in `indicators.ts`.
+
+- **Aggregation formula for multi-scale:** Geometric mean preserves zero-floor, but the whitepaper must specify how to weight firms within a city (equally? by employment? by revenue?). This weighting choice significantly affects city MIND scores. Resolve in Phase 2 (whitepaper) before Phase 5 (city scale).
+
+- **ECharts `define:vars` payload size:** Architecture calls for injecting ~80KB JSON via data attributes. Validate this approach with a prototype — if Astro's bundler double-serializes the data, switch to a separate static JSON import on the `/dashboard` route.
+
+- **Census ACS API key for production:** Free Census API without a key is rate-limited to 500 queries/day per IP. A Netlify build with city data needs a Census API key as a Netlify environment variable. Free (instant registration) but must be set up before Phase 5.
+
+- **Chart.js vs ECharts decision:** ARCHITECTURE.md recommends Chart.js 4.4 for simplicity; STACK.md recommends ECharts 6 for feature depth. This summary resolves in favor of ECharts. The roadmapper should note this and flag it for confirmation before Phase 3 begins.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Astro 5.18 official docs — Islands, client directives, content collections, project structure
-- Tailwind CSS v4 release blog — Vite-native integration, OKLCH color space, single-import config
-- GSAP pricing page — Confirmed 100% free including all plugins (2025 license change)
-- Netlify Forms docs — Static form detection, submission-created function trigger, spam filters
-- MailerLite features page — Automation builder, free tier limits, REST API
-- Plausible Netlify proxy guide — Redirect rules for ad-blocker bypass
-- Codrops: Scroll-Revealed WebGL Gallery with GSAP, Three.js, Astro (2026-02-02) — Production integration pattern
+- World Bank API v2 documentation — indicator codes, CORS behavior, pagination (verified live 2026-04-21)
+- Astro 5.x docs — content collections, MDX integration, `getHeadings()`, client directives, islands architecture
+- Apache ECharts 6 documentation — tree-shaking, ECharts-in-Astro pattern, drill-down with dataGroupId
+- Tailwind CSS v4 + `@tailwindcss/vite` — Vite-native, no PostCSS config, `@plugin` directive
+- remark-math + rehype-katex — build-time math rendering, npm versions confirmed
+- World Bank ESG data coverage gaps research — 50%+ indicators missing for most recent year
+- Netlify Forms usage and billing docs — free unlimited on new credit-based plans
 
 ### Secondary (MEDIUM confidence)
-- GSAP community forums — ScrollTrigger + Astro View Transitions cleanup patterns
-- Netlify Answers community — Astro static site form detection issues (multiple confirmed reports)
-- 350.org, Sunrise Movement, DEAL, WEAll — Competitor feature analysis (live site observation)
-- CiviClick, Beautiful Trouble — Ladder of engagement framework documentation
+- Census ACS API rate limits and coverage — 65,000+ population threshold for single-year estimates
+- SEC EDGAR API — 10 req/sec limit, User-Agent requirement; cannot meaningfully yield MIND data without NLP
+- ECharts vs D3 comparison — multiple independent sources agree ECharts is better fit for standard chart types
+- echarts-countries-js — community-maintained GeoJSON, stable but not official ECharts project
 
 ### Tertiary (LOW confidence)
-- Netlify credit-based pricing post-Sept 2025 — Exact submission limits need direct verification
-- Discord growth best practices — Community-specific, verify timing with actual Discord server analytics
+- Aggregation methodology for hierarchical MIND scores — inferred from multiplicative framework philosophy; not yet formally specified in whitepaper
+- OECD vs World Bank indicator coverage for Beyond GDP frameworks — summary from secondary literature, not direct API comparison
 
 ---
 *Research completed: 2026-04-21*
