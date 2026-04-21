@@ -1,0 +1,408 @@
+/* ─── WHITEPAPER STYLES ──────────────────────────────────────────── */
+/* Light-mode override for whitepaper content area */
+
+.whitepaper-content {
+  --wp-bg: #ffffff;
+  --wp-text: #1a1a2e;
+  --wp-text-muted: #555577;
+  --wp-heading: #0d0d1a;
+  --wp-accent: oklch(0.72 0.19 163);
+  --wp-accent-dim: oklch(0.72 0.19 163 / 0.1);
+  --wp-border: #e0e0e8;
+  --wp-link: oklch(0.55 0.19 163);
+  background: var(--wp-bg);
+  color: var(--wp-text);
+}
+
+/* Serif typography for academic reading */
+.whitepaper-content {
+  font-family: Georgia, 'Times New Roman', 'DejaVu Serif', serif;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.8;
+}
+
+/* ─── HEADINGS ───────────────────────────────────────────────────── */
+.whitepaper-content :is(h1, h2, h3, h4) {
+  font-family: var(--font-display);
+  color: var(--wp-heading);
+  line-height: 1.3;
+}
+
+.whitepaper-content h1 {
+  font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whitepaper-content h2 {
+  font-size: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+  font-weight: 600;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--wp-border);
+}
+
+.whitepaper-content h3 {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.whitepaper-content h4 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ─── PARAGRAPHS & PROSE ─────────────────────────────────────────── */
+.whitepaper-content p {
+  margin-bottom: 1.25rem;
+}
+
+.whitepaper-content strong {
+  color: var(--wp-heading);
+  font-weight: 700;
+}
+
+.whitepaper-content em {
+  font-style: italic;
+}
+
+.whitepaper-content a {
+  color: var(--wp-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 180ms ease;
+}
+
+.whitepaper-content a:hover {
+  color: var(--wp-accent);
+}
+
+/* ─── LISTS ──────────────────────────────────────────────────────── */
+.whitepaper-content ul,
+.whitepaper-content ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.whitepaper-content ul { list-style-type: disc; }
+.whitepaper-content ol { list-style-type: decimal; }
+
+.whitepaper-content li {
+  margin-bottom: 0.5rem;
+}
+
+.whitepaper-content li::marker {
+  color: var(--wp-accent);
+}
+
+/* ─── BLOCKQUOTES ────────────────────────────────────────────────── */
+.whitepaper-content blockquote {
+  border-left: 3px solid var(--wp-accent);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  background: var(--wp-accent-dim);
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: var(--wp-text-muted);
+}
+
+.whitepaper-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── TABLES ─────────────────────────────────────────────────────── */
+.whitepaper-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+}
+
+.whitepaper-content th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--wp-heading);
+  border-bottom: 2px solid var(--wp-border);
+  padding: 0.75rem 1rem;
+}
+
+.whitepaper-content td {
+  border-bottom: 1px solid var(--wp-border);
+  padding: 0.75rem 1rem;
+}
+
+.whitepaper-content tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── CODE ───────────────────────────────────────────────────────── */
+.whitepaper-content code {
+  font-family: 'Fira Code', 'SF Mono', 'Consolas', monospace;
+  font-size: 0.875em;
+  background: oklch(0.95 0.01 260);
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  color: var(--wp-heading);
+}
+
+.whitepaper-content pre {
+  background: #1a1a2e;
+  color: #e8e8f0;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.whitepaper-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* ─── KATEX EQUATIONS ────────────────────────────────────────────── */
+.whitepaper-content .katex-display {
+  background: var(--wp-accent-dim);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--wp-accent);
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.whitepaper-content .katex-display > .katex {
+  text-align: center;
+}
+
+.whitepaper-content .katex {
+  font-size: 1.1em;
+}
+
+/* ─── SECTION DIVIDERS ───────────────────────────────────────────── */
+.whitepaper-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--wp-accent),
+    transparent
+  );
+  margin: 3rem 0;
+  opacity: 0.4;
+}
+
+/* ─── FOOTNOTES / REFERENCES ─────────────────────────────────────── */
+.whitepaper-content section.footnotes,
+.whitepaper-content .data-footnotes {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--wp-border);
+  font-size: 0.875rem;
+  color: var(--wp-text-muted);
+}
+
+.whitepaper-content section.footnotes h2,
+.whitepaper-content .data-footnotes h2 {
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+
+.whitepaper-content section.footnotes ol {
+  padding-left: 1.25rem;
+}
+
+.whitepaper-content section.footnotes li {
+  margin-bottom: 0.75rem;
+}
+
+/* ─── WHITEPAPER HEADER ──────────────────────────────────────────── */
+.whitepaper-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--wp-border);
+}
+
+.whitepaper-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.whitepaper-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  color: var(--wp-text-muted);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.whitepaper-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--wp-text-muted);
+  font-family: var(--font-body);
+}
+
+.whitepaper-abstract {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--wp-accent-dim);
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--wp-accent);
+  font-style: italic;
+  color: var(--wp-text-muted);
+  line-height: 1.7;
+}
+
+/* ─── TOC SIDEBAR — DESKTOP ──────────────────────────────────────── */
+.toc-desktop {
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.toc-desktop nav {
+  padding: 1rem 0;
+}
+
+.toc-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--wp-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+#toc a {
+  display: block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8125rem;
+  font-family: var(--font-body);
+  color: var(--wp-text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 180ms ease;
+  line-height: 1.4;
+}
+
+#toc a:hover {
+  color: var(--wp-heading);
+  border-left-color: var(--wp-border);
+}
+
+#toc a.active {
+  color: var(--wp-accent);
+  border-left-color: var(--wp-accent);
+  font-weight: 600;
+}
+
+#toc a[data-depth="3"] {
+  padding-left: 1.5rem;
+  font-size: 0.75rem;
+}
+
+/* ─── TOC — MOBILE ───────────────────────────────────────────────── */
+.toc-mobile {
+  margin-bottom: 2rem;
+}
+
+.toc-mobile summary {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--wp-heading);
+  padding: 0.75rem 1rem;
+  background: var(--wp-accent-dim);
+  border-radius: 0.5rem;
+  border: 1px solid var(--wp-border);
+  list-style: none;
+}
+
+.toc-mobile summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc-mobile summary::before {
+  content: "\25B6\FE0E";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 180ms ease;
+  font-size: 0.75rem;
+}
+
+.toc-mobile[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.toc-mobile .toc-mobile-list {
+  padding: 0.5rem 0;
+  border: 1px solid var(--wp-border);
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background: var(--wp-bg);
+}
+
+/* ─── RESPONSIVE TOC VISIBILITY ──────────────────────────────────── */
+@media (max-width: 1023px) {
+  .toc-desktop { display: none; }
+  .toc-mobile { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .toc-mobile { display: none; }
+  .toc-desktop { display: block; }
+}
+
+/* ─── LAYOUT WRAPPER ─────────────────────────────────────────────── */
+.whitepaper-wrapper {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+@media (max-width: 1023px) {
+  .whitepaper-wrapper {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+/* ─── PRINT STYLES ───────────────────────────────────────────────── */
+@media print {
+  .toc-desktop,
+  .toc-mobile,
+  .nav,
+  .footer {
+    display: none !important;
+  }
+
+  .whitepaper-wrapper {
+    grid-template-columns: 1fr;
+    max-width: none;
+    padding: 0;
+  }
+
+  .whitepaper-content {
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  .whitepaper-content .katex-display {
+    background: none;
+    border-left: 2px solid #333;
+  }
+}

@@ -1,0 +1,41 @@
+---
+interface Props {
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+
+const { headings } = Astro.props;
+
+// Filter to h2 and h3 only
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+<!-- Desktop TOC sidebar -->
+<div class="toc-desktop">
+  <nav id="toc" aria-label="Table of Contents">
+    <p class="toc-title">Contents</p>
+    {tocHeadings.map((heading) => (
+      <a
+        href={`#${heading.slug}`}
+        data-depth={heading.depth}
+      >
+        {heading.text}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<!-- Mobile TOC dropdown -->
+<details class="toc-mobile">
+  <summary>Table of Contents</summary>
+  <nav class="toc-mobile-list" id="toc-mobile" aria-label="Table of Contents">
+    {tocHeadings.map((heading) => (
+      <a
+        href={`#${heading.slug}`}
+        data-depth={heading.depth}
+        style={heading.depth === 3 ? 'padding-left: 1.5rem; font-size: 0.75rem;' : ''}
+      >
+        {heading.text}
+      </a>
+    ))}
+  </nav>
+</details>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import 'katex/dist/katex.min.css';
+import '../styles/whitepaper.css';
+
+interface Props {
+  title: string;
+  description: string;
+  subtitle?: string;
+  authors?: string[];
+  date?: string;
+  version?: string;
+  abstract?: string;
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+
+const {
+  title,
+  description,
+  subtitle,
+  authors,
+  date,
+  version,
+  abstract,
+  headings,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <div class="whitepaper-wrapper">
+    <aside class="whitepaper-sidebar">
+      <TableOfContents headings={headings} />
+    </aside>
+    <main class="whitepaper-content">
+      <article>
+        <header class="whitepaper-header">
+          <h1>{title}</h1>
+          {subtitle && <p class="whitepaper-subtitle">{subtitle}</p>}
+          <div class="whitepaper-meta">
+            {authors && authors.length > 0 && (
+              <span>{authors.join(', ')}</span>
+            )}
+            {date && <span>{date}</span>}
+            {version && <span>v{version}</span>}
+          </div>
+          {abstract && (
+            <div class="whitepaper-abstract">
+              <p>{abstract}</p>
+            </div>
+          )}
+        </header>
+        <slot />
+      </article>
+    </main>
+  </div>
+  <Footer />
+</BaseLayout>
