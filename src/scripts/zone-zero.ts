@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import { getDeviceCapability } from './device-detect';
 import { trackEvent } from './analytics';
+import { calcScore } from '../lib/mind-score';
 
 /* -- Types -- */
 interface ZoneZeroState {
@@ -22,13 +23,6 @@ interface HealthState {
   badge: string;
   name: string;
   insight: string;
-}
-
-/* -- Score calculation -- */
-function calcScore(vals: Record<'m' | 'i' | 'n' | 'd', number>): number {
-  const { m, i, n, d } = vals;
-  if (m <= 0 || i <= 0 || n <= 0 || d <= 0) return 0;
-  return Math.round(Math.pow((m / 100) * (i / 100) * (n / 100) * (d / 100), 0.25) * 100);
 }
 
 export function initZoneZero(container: HTMLElement): void {

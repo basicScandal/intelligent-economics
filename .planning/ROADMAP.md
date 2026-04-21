@@ -47,7 +47,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   4. Each country record includes source, year, and accessedDate metadata fields
 **Plans:** 2 plans
 Plans:
-- [ ] 07-01-PLAN.md -- Shared MIND score library extraction + test infrastructure (vitest, tsx, calcScore, getBindingConstraint, normalize)
+- [x] 07-01-PLAN.md -- Shared MIND score library extraction + test infrastructure (vitest, tsx, calcScore, getBindingConstraint, normalize)
 - [ ] 07-02-PLAN.md -- World Bank data pipeline: fetch 16 indicators, normalize, commit JSON baseline
 
 ### Phase 8: Whitepaper
@@ -123,7 +123,7 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 4. Analytics and Tracking | v1.0 | 1/1 | Complete | 2026-04-21 |
 | 5. Performance Optimization | v1.0 | 2/2 | Complete | 2026-04-21 |
 | 6. Growth Engine | v1.0 | 2/2 | Complete | 2026-04-21 |
-| 7. Shared Foundation + Data Pipeline | v1.1 | 0/2 | Planned | - |
+| 7. Shared Foundation + Data Pipeline | v1.1 | 1/2 | In Progress | - |
 | 8. Whitepaper | v1.1 | 0/0 | Not started | - |
 | 9. Country Dashboard Core | v1.1 | 0/0 | Not started | - |
 | 10. Dashboard Advanced | v1.1 | 0/0 | Not started | - |

@@ -9,9 +9,9 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Foundation & Data Pipeline
 
-- [ ] **DATA-01**: Shared MIND score library extracted from Zone Zero with calcScore(), getBindingConstraint(), normalize() functions
+- [x] **DATA-01**: Shared MIND score library extracted from Zone Zero with calcScore(), getBindingConstraint(), normalize() functions
 - [ ] **DATA-02**: Build-time World Bank API fetch for 16 indicators across 217 countries with committed JSON baseline
-- [ ] **DATA-03**: Data normalization pipeline transforming raw indicators to 0-100 MIND dimension scores
+- [x] **DATA-03**: Data normalization pipeline transforming raw indicators to 0-100 MIND dimension scores
 - [ ] **DATA-04**: Indicator methodology transparency panel showing which World Bank indicators feed each MIND dimension
 
 ### Whitepaper
@@ -89,9 +89,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 7 | Pending |
+| DATA-01 | Phase 7 | Complete |
 | DATA-02 | Phase 7 | Pending |
-| DATA-03 | Phase 7 | Pending |
+| DATA-03 | Phase 7 | Complete |
 | DATA-04 | Phase 9 | Pending |
 | PAPER-01 | Phase 8 | Pending |
 | PAPER-02 | Phase 8 | Pending |
