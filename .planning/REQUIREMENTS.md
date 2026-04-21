@@ -29,7 +29,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **CONV-07**: Plausible analytics tracks page views, scroll depth, traffic sources, geographic distribution
 - [ ] **CONV-08**: Form funnel tracked: viewed form, started filling, submitted
 - [ ] **CONV-09**: Zone Zero simulator engagement tracked: opened, interacted, shared
-- [ ] **CONV-10**: Partner organizations section renamed — no implied endorsements, disclaimer visible
+- [x] **CONV-10**: Partner organizations section renamed — no implied endorsements, disclaimer visible
 
 ### Growth
 
@@ -113,7 +113,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONV-07 | Phase 4 | Pending |
 | CONV-08 | Phase 4 | Pending |
 | CONV-09 | Phase 4 | Pending |
-| CONV-10 | Phase 3 | Pending |
+| CONV-10 | Phase 3 | Complete |
 | GROW-01 | Phase 6 | Pending |
 | GROW-02 | Phase 6 | Pending |
 | GROW-03 | Phase 6 | Pending |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-04-21T07:51:14.308Z"
+status: executing
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-04-21T08:03:51.029Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 9
+  completed_plans: 7
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-21)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** Phase 02 — content-migration
+**Current focus:** Phase 03 — conversion-pipeline
 
 ## Current Position
 
-Phase: 3
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 03 (conversion-pipeline) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-04-21
 
 Progress: [░░░░░░░░░░] 0%
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02 P01 | 17min | 2 tasks | 21 files |
 | Phase 02-content-migration P04 | 3min | 2 tasks | 11 files |
 | Phase 02 P03 | 7min | 2 tasks | 10 files |
+| Phase 03 P02 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,7 @@ Recent decisions affecting current work:
 - [Phase 02-content-migration]: Single is:inline script for FOUC prevention; all other scripts bundled via Astro <script> tags
 - [Phase 02-content-migration]: GSAP loaded via npm import (not CDN) -- bundled by Vite at ~46KB gzipped
 - [Phase 02]: All Three.js imports via npm ES modules -- no CDN globals; shared device-detect.ts for consistent mobile/reduced-motion handling
+- [Phase 03]: Partner section uses 'The Landscape' label and prominent disclaimer above grid for honest framing
 
 ### Pending Todos
 
@@ -88,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-21T07:46:03.016Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-04-21T08:03:51.027Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
