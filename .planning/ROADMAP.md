@@ -81,10 +81,10 @@ Plans:
   1. Plausible dashboard shows page views, scroll depth, traffic sources, and geographic distribution
   2. Form funnel events (viewed, started filling, submitted) appear as trackable goals in Plausible
   3. Zone Zero simulator engagement events (opened, interacted, shared) appear in analytics
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Plausible script integration, analytics helper module, form funnel events, and Zone Zero engagement tracking
 
 ### Phase 5: Performance Optimization
 **Goal**: The site runs smoothly on mid-range mobile devices without draining battery or dropping frames
@@ -132,6 +132,6 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 | 1. Foundation and Deploy | 0/2 | Planning complete | - |
 | 2. Content Migration | 0/4 | Planning complete | - |
 | 3. Conversion Pipeline | 0/3 | Planning complete | - |
-| 4. Analytics and Tracking | 0/1 | Not started | - |
+| 4. Analytics and Tracking | 0/1 | Planning complete | - |
 | 5. Performance Optimization | 0/3 | Not started | - |
 | 6. Growth Engine | 0/3 | Not started | - |
