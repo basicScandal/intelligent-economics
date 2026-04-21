@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RankingTable from '../components/dashboard/RankingTable.astro';
+import MethodologyPanel from '../components/dashboard/MethodologyPanel.astro';
+import BindingConstraint from '../components/dashboard/BindingConstraint.astro';
+import { getSlimPayload, getRankingData, getMethodologyData } from '../lib/dashboard-data';
+import { getAttribution } from '../scripts/dashboard/charts';
+import scores from '../data/mind-scores.json';
+
+// Build-time data processing
+const slim = getSlimPayload(scores.countries as any);
+const rankings = getRankingData(slim, 20);
+const methodology = getMethodologyData(scores.indicators as any);
+const attribution = getAttribution(scores.metadata);
+const dataPayload = JSON.stringify(slim);
+---
+
+<BaseLayout title="MIND Dashboard" description="Explore MIND scores for 217 countries backed by real World Bank data">
+  <main class="min-h-screen bg-bg pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Page header -->
+      <header class="mb-8 text-center">
+        <h1 class="font-display text-3xl sm:text-4xl font-bold text-text mb-3">
+          MIND Country Dashboard
+        </h1>
+        <p class="text-text-muted text-lg max-w-2xl mx-auto">
+          Explore MIND framework scores for {slim.length} countries, backed by real World Bank data
+        </p>
+      </header>
+
+      <!-- Search bar placeholder (interactive, added by Plan 03 island) -->
+      <div id="search-container" class="mb-8">
+        <!-- Plan 03 island populates this -->
+      </div>
+
+      <!-- Country detail section (hidden until selection, Plan 03 activates) -->
+      <section id="country-detail" class="hidden mb-8 space-y-6">
+        <!-- Radar chart container -->
+        <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
+
+        <!-- Binding constraint callout (static component, hidden until selection) -->
+        <BindingConstraint dimension="" text="" score={0} dimKey="m" />
+
+        <!-- Data attribution for radar -->
+        <p id="radar-attribution" class="text-xs text-text-muted">{attribution}</p>
+      </section>
+
+      <!-- Methodology panel (always visible, no JS needed) -->
+      <section class="mb-8">
+        <MethodologyPanel indicators={methodology} />
+      </section>
+
+      <!-- Comparison section (hidden until multiple countries selected) -->
+      <section id="comparison-section" class="hidden mb-8">
+        <h2 class="text-xl font-semibold font-display text-text mb-4">Country Comparison</h2>
+        <div id="bar-chart" class="w-full h-64 lg:h-80" style="min-height: 256px" aria-hidden="true"></div>
+        <p id="bar-attribution" class="text-xs text-text-muted mt-2">{attribution}</p>
+      </section>
+
+      <!-- Default ranking table (visible before JS, progressive enhancement) -->
+      <section id="ranking-section" class="mb-8">
+        <h2 class="text-xl font-semibold font-display text-text mb-4">Top Countries by MIND Score</h2>
+        <RankingTable rankings={rankings} />
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Data payload for island hydration (per locked decision - data injection via data attribute) -->
+  <div id="dashboard-data" data-scores={dataPayload} class="hidden"></div>
+
+  <!-- Full indicator data for methodology drill-down -->
+  <script type="application/json" id="indicator-data" set:html={JSON.stringify(scores.indicators)} />
+</BaseLayout>
