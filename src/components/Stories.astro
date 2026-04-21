@@ -1,47 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
-import StoryPanel from './StoryPanel.astro';
-
-const stories = (await getCollection('stories')).sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+// Stories - Placeholder for Plan 02 full implementation
+// TODO: Full historical nucleation stories with morph scene will be implemented in 02-02-PLAN
 ---
 
 <section class="stories section" id="stories">
-
-  <!-- Section intro -->
-  <div class="stories__intro reveal">
-    <div class="section-label">This Has Happened Before</div>
-    <h2 class="section-title">Every civilization-shifting system<br>started as a tiny, protected experiment</h2>
-    <p class="section-body">The nucleation strategy is not theory. History is full of small zones that became unstoppable models. They didn't wait for permission from the old system — they built something so obviously better that the old system became embarrassing.</p>
-  </div>
-
-  <!-- Scroll-driven morph scene -->
-  <div class="morph-scene" id="morph-scene">
-
-    <div class="morph-sticky" id="morph-sticky">
-
-      <!-- LEFT: Three.js particle canvas -->
-      <div class="morph-canvas-pane">
-        <canvas id="morph-canvas" aria-hidden="true"></canvas>
-        <div class="morph-progress" id="morph-progress"></div>
-        <div class="morph-shape-label" id="morph-shape-label" aria-live="polite" aria-atomic="true">Network</div>
-        <div class="morph-scroll-cue">Scroll</div>
-      </div>
-
-      <!-- RIGHT: Story panels -->
-      <div class="morph-panels" id="morph-panels">
-        {stories.map((story, i) => (
-          <StoryPanel
-            title={story.data.title}
-            badge={story.data.badge}
-            badgeColor={story.data.badgeColor}
-            statNumber={story.data.statNumber}
-            statLabel={story.data.statLabel}
-            shape={story.data.shape}
-            body={story.body ?? ''}
-          />
-        ))}
-      </div>
+  <div class="container">
+    <div class="stories__intro reveal">
+      <div class="section-label">This Has Happened Before</div>
+      <h2 class="section-title">Every civilization-shifting system<br>started as a tiny, protected experiment</h2>
+      <p class="section-body">The nucleation strategy is not theory. History is full of small zones that became unstoppable models. They didn't wait for permission from the old system — they built something so obviously better that the old system became embarrassing.</p>
     </div>
-  </div><!-- /morph-scene -->
-
+    <!-- Full morph scene and story panels will be added in Plan 02 -->
+  </div>
 </section>
