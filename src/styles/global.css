@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-display: 'Clash Display', 'Helvetica Neue', sans-serif;
+  --font-body: 'Satoshi', 'Inter', sans-serif;
+
+  /* Colors — mapped from CSS custom properties for Tailwind utility classes */
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-2: var(--color-surface-2);
+  --color-surface-offset: var(--color-surface-offset);
+  --color-border: var(--color-border);
+  --color-divider: var(--color-divider);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-faint: var(--color-text-faint);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-dim: var(--color-primary-dim);
+  --color-primary-glow: var(--color-primary-glow);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-dim: var(--color-secondary-dim);
+  --color-tertiary: var(--color-tertiary);
+  --color-tertiary-dim: var(--color-tertiary-dim);
+}
+
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  /* Typography scale — fluid clamp values */
+  --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-3xl:  clamp(2.5rem, 1rem + 4vw, 5rem);
+  --text-hero: clamp(3rem, 0.5rem + 7vw, 8rem);
+
+  /* Spacing scale */
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem;   --space-20: 5rem;   --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Border radii */
+  --radius-sm: 0.375rem; --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;  --radius-xl: 1rem; --radius-full: 9999px;
+
+  /* Transition */
+  --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Content widths */
+  --content-narrow: 640px; --content-default: 960px; --content-wide: 1200px;
+
+  /* Fonts */
+  --font-display: 'Clash Display', 'Helvetica Neue', sans-serif;
+  --font-body:    'Satoshi', 'Inter', sans-serif;
+
+  /* Dark-first palette — deep space with bioluminescent accents */
+  --color-bg:              #050508;
+  --color-surface:         #0a0a10;
+  --color-surface-2:       #0f0f18;
+  --color-surface-offset:  #12121f;
+  --color-border:          #1e1e30;
+  --color-divider:         #161625;
+  --color-text:            #e8e8f0;
+  --color-text-muted:      #8888aa;
+  --color-text-faint:      #7878aa;
+  --color-text-inverse:    #050508;
+
+  /* Accent: bioluminescent cyan-green (the "nucleation" color) */
+  --color-primary:           #00ff88;
+  --color-primary-hover:     #00e87a;
+  --color-primary-dim:       rgba(0,255,136,0.12);
+  --color-primary-glow:      rgba(0,255,136,0.35);
+  --color-secondary:         #7b4bff;
+  --color-secondary-dim:     rgba(123,75,255,0.12);
+  --color-tertiary:          #00c8ff;
+  --color-tertiary-dim:      rgba(0,200,255,0.1);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.6);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.8);
+  --shadow-glow: 0 0 40px rgba(0,255,136,0.2), 0 0 80px rgba(0,255,136,0.08);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --color-bg:              #f4f4f8;
+  --color-surface:         #ffffff;
+  --color-surface-2:       #f9f9fc;
+  --color-surface-offset:  #ededf5;
+  --color-border:          #d0d0e0;
+  --color-divider:         #e0e0ee;
+  --color-text:            #10101e;
+  --color-text-muted:      #55557a;
+  --color-text-faint:      #aaaacc;
+  --color-text-inverse:    #f4f4f8;
+  --color-primary:         #007a44;
+  --color-primary-hover:   #005e33;
+  --color-primary-dim:     rgba(0,122,68,0.1);
+  --color-primary-glow:    rgba(0,122,68,0.2);
+  --color-secondary:       #5b2ee0;
+  --color-secondary-dim:   rgba(91,46,224,0.1);
+  --color-tertiary:        #0077cc;
+  --color-tertiary-dim:    rgba(0,119,204,0.1);
+  --shadow-glow: 0 0 24px rgba(0,122,68,0.15);
+}
