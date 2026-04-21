@@ -1,2 +1,16 @@
 *.zip
 .DS_Store
+
+# Astro
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Netlify
+.netlify/
+
+# Environment
+.env
+.env.*
