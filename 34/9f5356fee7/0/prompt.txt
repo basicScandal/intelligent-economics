@@ -1,0 +1,230 @@
+<task-notification>
+<task-id>a0797150c331af00b</task-id>
+<tool-use-id>toolu_01Ha4WL2dSvrsGMGVLe9dVVe</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/6bb795c5-1b93-41ca-b2a9-c4240a1bae76/tasks/a0797150c331af00b.output</output-file>
+<status>completed</status>
+<summary>Agent "Stack research for v1.1" completed</summary>
+<result>The STACK.md is comprehensive and complete. Let me provide the structured return.
+
+## RESEARCH COMPLETE
+
+**Project:** Intelligent Economics v1.1 -- MIND Intelligence Layer
+**Mode:** Ecosystem (stack additions for whitepaper + multi-scale dashboard)
+**Confidence:** HIGH
+
+### Key Findings
+
+- **Apache ECharts 6.0** is the right charting library -- built-in treemap, sunburst, radar, and map charts with hierarchical drill-down (`dataGroupId`) cover the firm-to-city-to-country-to-global navigation. Tree-shakeable to ~200KB from ~1MB. Works as vanilla JS in Astro `&lt;script&gt;` tags with no framework wrapper needed.
+
+- **@astrojs/mdx 5.0** + **remark-math** + **rehype-katex** + **@tailwindcss/typography** form the whitepaper content pipeline. KaTeX renders math at build time (zero client JS), prose classes handle academic typography, and MDX allows embedding interactive chart components inline with whitepaper text.
+
+- **Build-time data fetching** is the correct strategy: World Bank API data updates annually, so fetching at build time via native `fetch()` in Astro frontmatter eliminates CORS, rate limits, loading states, and runtime costs. Precomputed MIND scores ship as static JSON.
+
+- **World Bank API v2** covers all four MIND dimensions with 15+ indicators (GDP, R&amp;D expenditure, patents, internet users, Gini index, education spend, gender parity, etc.). Free, no API key, JSON format, semicolon-separated multi-indicator queries.
+
+- **DO NOT add** D3.js (5-10x more code for same charts), Chart.js (no treemap/map/drill-down), React/Preact (ECharts works vanilla), any database (static JSON suffices), or rehype-citation (footnotes via remark-gfm are enough).
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `/Users/scandal/ai/intelligenteconomics/.planning/research/STACK.md` | v1.1 technology additions -- charting, whitepaper pipeline, data APIs, integration patterns |
+
+### Confidence Assessment
+
+| Area | Level | Reason |
+|------|-------|--------|
+| Charting (ECharts 6) | HIGH | npm verified, official docs confirm tree-shaking, drill-down, map support. Astro integration pattern documented by community. |
+| Whitepaper pipeline (MDX + KaTeX) | HIGH | @astrojs/mdx is first-party. remark-math + rehype-katex well-documented with Astro. Tailwind typography plugin confirmed v4 compatible. |
+| World Bank API | HIGH | Official API docs verified. Indicator codes confirmed against data.worldbank.org. Free, no auth, JSON format. |
+| Census/SEC APIs | MEDIUM | APIs confirmed free and available. Specific indicator-to-MIND-dimension mapping needs validation during implementation. City coverage limited to pop &gt; 65K. |
+| Data fetch architecture | HIGH | Build-time fetch is well-documented Astro pattern. Annual data cadence eliminates need for runtime fetching. |
+| Performance budget | MEDIUM | ECharts tree-shaken bundle size (~200KB) is estimated from documentation, not measured. Needs validation after implementation. |
+
+### Roadmap Implications
+
+1. **Whitepaper phase should come before dashboard** -- MDX setup is simpler (content + styling), validates the Astro content pipeline, and produces a standalone deliverable. Dashboard depends on data fetching infrastructure that needs more engineering.
+
+2. **Dashboard should be phased internally**: country-level first (World Bank API is simplest), then city-level (Census API needs API key registration), then firm-level (SEC EDGAR is most complex to parse). User-input hybrid fills gaps at all levels.
+
+3. **ECharts tree-shaking is critical** for performance budget. Import only the specific chart types and components needed -- never `import * from 'echarts'`.
+
+4. **The `define:vars` anti-pattern** (noted in existing ARCHITECTURE.md) applies to ECharts too. Use `data-*` attributes or a separate `.ts` module file instead of `define:vars` for passing data to chart scripts, since `define:vars` disables Astro's bundling.
+
+### Open Questions
+
+- **ECharts 6 vs 5.x stability**: ECharts 6.0 was released ~9 months ago. The default theme changed. If visual style conflicts arise, `echarts/theme/v5.js` restores old defaults. May want to test both.
+- **World Bank API data completeness**: Some indicators have gaps for certain countries/years. The MIND score calculation needs a strategy for missing data (interpolation, exclude, or mark as incomplete).
+- **Census API key provisioning**: Requires registration at census.gov. Need to decide if the key is a build-time env variable on Netlify (straightforward) or if city data should be pre-fetched and committed as static JSON.
+- **SEC EDGAR XBRL parsing complexity**: Extracting R&amp;D expenditure from 10-K filings requires parsing XBRL financial statements. This is significantly more complex than the World Bank JSON API. May want to start with a curated set of ~20 sample firms with pre-extracted data.</result>
+<usage><total_tokens>89590</total_tokens><tool_uses>45</tool_uses><duration_ms>350509</duration_ms></usage>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>a932a225a98a0cb12</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/6bb795c5-1b93-41ca-b2a9-c4240a1bae76/tasks/a932a225a98a0cb12.output</output-file>
+<status>completed</status>
+<summary>Agent "Features research for v1.1" completed</summary>
+<result>The file is comprehensive. Here is my research summary:
+
+---
+
+## RESEARCH COMPLETE
+
+**Project:** Intelligent Economics - MIND Intelligence Layer (v1.1)
+**Mode:** Ecosystem (features focus)
+**Confidence:** HIGH
+
+### Key Findings
+
+- **World Bank API is fully viable for client-side and build-time use.** Verified live: CORS enabled (`Access-Control-Allow-Origin: *`), no authentication required, 217 countries, JSON format with pagination. Key caveat: many indicators return null for some countries, and data lags 2-3 years. Build-time fetch is strongly preferred over client-side -- data updates annually at most.
+
+- **Observable Plot is the right charting library.** Framework-agnostic (vanilla JS, no React dependency), CDN-loadable, supports radar charts via azimuthal projection, bar charts via declarative marks API, built on D3. Fits Astro islands architecture perfectly with `client:visible` hydration.
+
+- **The whitepaper is low-risk, high-impact.** Astro's MDX integration, `getHeadings()` API, and rehype/remark plugin ecosystem make a structured academic HTML page straightforward. remark-gfm handles footnotes natively. rehype-citation handles BibTeX bibliographies. Sticky TOC sidebar is a well-documented Astro pattern.
+
+- **Multi-scale drill-down is the true differentiator but must be phased.** Country data (World Bank API) is immediately available. City data requires manual curation (no single API covers city-level MIND dimensions globally). Firm data is user-input only. Build country first, add city as curated showcase, firm as self-assessment tool.
+
+- **Heavy reuse potential from v1.0 infrastructure.** Zone Zero's `calcScore()` function, URL parameter sharing, MIND color tokens, device capability detection, and Plausible analytics events all transfer directly to the dashboard. The MindDashboard component (currently hardcoded) can be evolved rather than replaced.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `/Users/scandal/ai/intelligenteconomics/.planning/research/FEATURES.md` | Complete feature landscape for v1.1 MIND Intelligence Layer |
+
+### Confidence Assessment
+
+| Area | Level | Reason |
+|------|-------|--------|
+| Whitepaper features | HIGH | Astro MDX patterns well-documented, rehype ecosystem mature |
+| Dashboard features | HIGH | World Bank API verified live, Observable Plot documented |
+| Data availability | HIGH | Tested 15+ indicators across 5 countries, CORS confirmed |
+| Multi-scale feasibility | MEDIUM | Country is straightforward; city/firm require manual data or user input |
+| Competitive landscape | HIGH | Reviewed UNDP HDI, OECD BLI, Gapminder design patterns directly |
+
+### Roadmap Implications
+
+1. **Data pipeline before UI** -- Build-time World Bank fetch and normalization must come first, as it determines what the dashboard can show
+2. **Whitepaper and dashboard can be built in parallel** -- no hard dependency between them until cross-linking phase
+3. **Zone Zero integration is low-hanging fruit** -- URL parameter system already exists, connecting real data to the simulator is a half-day task
+4. **Defer choropleth map, time-series animation, and automated city data** -- high complexity, moderate value; the radar chart + binding constraint identification is the real differentiator
+5. **Build-time fetch with bundled JSON fallback** -- never depend on a third-party API at runtime for a static site
+
+### Open Questions
+
+- **Indicator weighting methodology:** How should 4-5 raw indicators be combined into a single 0-100 dimension score? Equal weight? PCA? Expert-defined? This is a methodology decision, not a technical one, but it must be made before the data pipeline is built.
+- **City data sources:** Which 5-10 cities to curate for the showcase? What data sources exist per city? This requires editorial/research work, not code.
+- **Observable Plot bundle size:** Not verified from official sources. The library depends on D3 which is ~100KB. Needs testing in Astro build to confirm it stays within the 200KB total JS budget alongside Three.js and GSAP.</result>
+<usage><total_tokens>70130</total_tokens><tool_uses>46</tool_uses><duration_ms>475294</duration_ms></usage>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>a062a8f3390d29939</task-id>
+<tool-use-id>toolu_01Ummg2WDDMvcVus2DJZ3mjv</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/6bb795c5-1b93-41ca-b2a9-c4240a1bae76/tasks/a062a8f3390d29939.output</output-file>
+<status>completed</status>
+<summary>Agent "Pitfalls research for v1.1" completed</summary>
+<result>## RESEARCH COMPLETE
+
+**Project:** Intelligent Economics v1.1 MIND Intelligence Layer
+**Mode:** Ecosystem (Pitfalls focus)
+**Confidence:** HIGH
+
+### Key Findings
+
+- **The firm/city data desert is the single biggest risk.** Free public APIs do not provide MIND-relevant metrics for most firms or small cities. The World Bank's own ESG coverage analysis shows 50%+ of indicators are missing for the most recent year. Firm-level must be designed as user-input-first, not API-first.
+- **Build-time API fetching is architecturally wrong for this use case.** World Bank data updates annually, Census yearly -- these should be cached JSON snapshots refreshed by a scheduled script, never fetched live during `astro build`.
+- **CORS is undocumented for government APIs.** World Bank, Census, and SEC EDGAR were all designed for server-to-server use. All client-side API calls must route through Netlify Function proxies from day one.
+- **The multiplicative zero-floor property gets lost in naive aggregation.** Arithmetic mean hides zeros. Aggregation methodology must be defined in the whitepaper before the dashboard code is written.
+- **The whitepaper and dashboard must live on separate pages from the marketing homepage** to avoid performance budget conflicts (Three.js + charting library = 300KB+ JS) and reading mode conflicts.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `/Users/scandal/ai/intelligenteconomics/.planning/research/PITFALLS.md` | 8 critical pitfalls, technical debt patterns, integration gotchas, performance traps, security mistakes, UX pitfalls, recovery strategies, phase mapping |
+
+### Confidence Assessment
+
+| Area | Level | Reason |
+|------|-------|--------|
+| API rate limits/constraints | HIGH | Verified via official documentation (Census, SEC, World Bank help desk) |
+| Data availability gaps | HIGH | World Bank's own published ESG coverage analysis confirms gaps |
+| Astro build-time patterns | HIGH | Verified via Astro official docs on data fetching |
+| CORS behavior for gov APIs | MEDIUM | CORS headers not documented; JSONP support on World Bank implies historical issues |
+| Firm-level data availability | HIGH | ESG data provider coverage (LSEG: 1,300 private companies) confirmed via official sources |
+| Aggregation math risks | HIGH | Mathematical reasoning from MIND's multiplicative formula -- no external source needed |
+
+### Roadmap Implications
+
+1. **Phase 1 must be data inventory + architecture** -- before any UI work. Lock the API roster (max 3), build the cache layer, define the unified MIND score schema with vintage/source fields.
+2. **Phase 2 should be whitepaper** -- defines aggregation methodology that the dashboard must implement. Separate page, own layout, Markdown/MDX content pipeline.
+3. **Phase 3 should be dashboard** -- built on the data layer from Phase 1 and methodology from Phase 2. Split into multiple Astro islands, server-render the default view.
+4. **Firm-level is user-input by design in v1.1**, not a gap to fill later. This is a feature framing decision, not a technical limitation to apologize for.
+
+### Open Questions
+
+- Exact CORS behavior of World Bank API v2 from browser origins (needs Deploy Preview testing)
+- Whether Census ACS API supports CORS or requires server-side proxy (needs testing)
+- Which specific World Bank indicators best proxy each MIND dimension (requires domain expertise, not just engineering research)</result>
+<usage><total_tokens>63858</total_tokens><tool_uses>32</tool_uses><duration_ms>817693</duration_ms></usage>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>a428a96445dc36e7f</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/6bb795c5-1b93-41ca-b2a9-c4240a1bae76/tasks/a428a96445dc36e7f.output</output-file>
+<status>completed</status>
+<summary>Agent "Architecture research for v1.1" completed</summary>
+<result>## RESEARCH COMPLETE
+
+**Project:** Intelligent Economics v1.1 -- MIND Intelligence Layer Architecture
+**Mode:** Ecosystem (architecture focus)
+**Confidence:** HIGH
+
+### Key Findings
+
+- **Whitepaper as MDX content collection entry** -- leverages Astro's built-in `getHeadings()` for auto-generated ToC, `&lt;Content /&gt;` rendering with custom component overrides (Callout, MindEquation, Citation). Requires adding `@astrojs/mdx` integration.
+- **Dashboard data fetched at build time, not client-side** -- World Bank data updates annually. A pre-build npm script fetches indicators, normalizes to 0-100, and writes a committed JSON file. Zero CORS issues, zero runtime API dependency, zero loading states. ~80KB for all 200 countries.
+- **Chart.js over D3.js** -- 55KB gzipped, canvas-based (3-9x faster than SVG), simpler API for the radar/bar charts needed. D3 is overkill here. Loads only on `/dashboard/` page, not homepage.
+- **Shared MIND score library is the critical first step** -- `calcScore()` currently lives inline in `zone-zero.ts`. Must extract to `src/lib/mind-score.ts` so Zone Zero and dashboard produce identical scores. This is Phase 1.
+- **City and firm scales use user-input (Zone Zero pattern), not APIs** -- no reliable public API exists for city-level or firm-level MIND proxy data. These scales reuse the slider input pattern already proven in Zone Zero. Only country and global scales use World Bank data.
+- **16 World Bank indicators mapped to 4 MIND dimensions** -- 4 indicators per dimension (e.g., GDP PPP for Material, tertiary enrollment for Intelligence, trade % GDP for Network, female labor participation for Diversity). Normalized via min-max across all countries, aggregated per dimension via geometric mean.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `/Users/scandal/ai/intelligenteconomics/.planning/research/ARCHITECTURE.md` | Full integration architecture: component boundaries, data flow, build order, indicator mapping, anti-patterns |
+
+### Confidence Assessment
+
+| Area | Level | Reason |
+|------|-------|--------|
+| Whitepaper architecture | HIGH | Astro MDX + content collections is well-documented, matches existing patterns |
+| Dashboard data strategy | HIGH | Build-time fetch is the clear winner for annually-updated data on a static site |
+| Chart.js choice | HIGH | Performance data verified, bundle size confirmed, matches vanilla-TS pattern |
+| World Bank indicator mapping | MEDIUM | Indicator codes verified against World Bank catalog, but normalization thresholds need empirical tuning |
+| Aggregation tree visualization | MEDIUM | Custom SVG component -- no off-the-shelf library needed, but implementation complexity is moderate |
+
+### Roadmap Implications
+
+**5 phases with clear dependency chain.** Phases 2 (whitepaper) and 3 (data pipeline) can run in parallel after Phase 1 (shared lib extraction). Phase 4 (dashboard core) depends on Phase 3. Phase 5 (aggregation + polish) depends on everything.
+
+The shared MIND score library extraction (Phase 1) is the foundation -- everything depends on it and it also validates that the existing Zone Zero simulator still works after refactoring.
+
+### Open Questions
+
+- **World Bank API CORS from browser:** Research was inconclusive on whether the API sends `Access-Control-Allow-Origin: *`. Moot because the architecture recommends build-time fetch, but worth verifying if the team ever wants client-side refresh.
+- **Indicator normalization bounds:** Min-max normalization requires choosing reference bounds. Should these be absolute (theoretical 0-100 range) or relative (percentile across current dataset)? Needs empirical tuning with actual data.
+- **Whitepaper citation format:** Academic vs. web-native footnotes. MDX supports both patterns but the choice affects component design.</result>
+<usage><total_tokens>70071</total_tokens><tool_uses>40</tool_uses><duration_ms>863706</duration_ms></usage>
+</task-notification>
