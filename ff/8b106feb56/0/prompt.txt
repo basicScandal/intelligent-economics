@@ -1,0 +1,15 @@
+/gsd:new-milestone
+
+---
+
+P2 with GSD autonomous
+
+---
+
+for the whitepaper do html and the audience is general public and policy makers
+
+for the dashboard, yes interactive - more like pick a firm, or city, and then a country, and then global unification like a galactic federation
+
+---
+
+use real data sources mostly, but hybrid where they're not available
