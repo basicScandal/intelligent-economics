@@ -25,7 +25,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CONV-03**: If form submission fails, user sees error message with retry option
 - [x] **CONV-04**: Duplicate email submissions are flagged but not rejected
 - [x] **CONV-05**: Single-field email capture visible within first 2 viewport heights of hero
-- [ ] **CONV-06**: Email capture submits to MailerLite and triggers welcome sequence
+- [x] **CONV-06**: Email capture submits to MailerLite and triggers welcome sequence
 - [ ] **CONV-07**: Plausible analytics tracks page views, scroll depth, traffic sources, geographic distribution
 - [ ] **CONV-08**: Form funnel tracked: viewed form, started filling, submitted
 - [ ] **CONV-09**: Zone Zero simulator engagement tracked: opened, interacted, shared
@@ -109,7 +109,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONV-03 | Phase 3 | Complete |
 | CONV-04 | Phase 3 | Complete |
 | CONV-05 | Phase 3 | Complete |
-| CONV-06 | Phase 3 | Pending |
+| CONV-06 | Phase 3 | Complete |
 | CONV-07 | Phase 4 | Pending |
 | CONV-08 | Phase 4 | Pending |
 | CONV-09 | Phase 4 | Pending |

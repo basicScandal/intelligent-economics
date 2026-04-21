@@ -71,7 +71,7 @@ Plans:
 Plans:
 - [x] 03-01-PLAN.md — Form submission handlers (volunteer + email capture) with success/error states and role card selection
 - [x] 03-02-PLAN.md — Partner section content rewrite with honest framing and visible disclaimer
-- [ ] 03-03-PLAN.md — Netlify Function for MailerLite subscriber sync + end-to-end verification checkpoint
+- [x] 03-03-PLAN.md — Netlify Function for MailerLite subscriber sync + end-to-end verification checkpoint
 
 ### Phase 4: Analytics and Tracking
 **Goal**: The team can see exactly how visitors move through the site and where the funnel leaks
