@@ -56,9 +56,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **CPRE-02**: Three.js particle hero with scroll-driven morph engine preserved
 - [x] **CPRE-03**: Interactive Zone Zero simulator with 4 MIND dimension sliders preserved
 - [x] **CPRE-04**: 6 historical case study panels preserved
-- [ ] **CPRE-05**: GSAP ScrollTrigger animations with clip-path diagonal wipes preserved
+- [x] **CPRE-05**: GSAP ScrollTrigger animations with clip-path diagonal wipes preserved
 - [x] **CPRE-06**: Volunteer signup form with role selection cards preserved
-- [ ] **CPRE-07**: Countdown timer (1000-day window ending 2029-01-09) preserved
+- [x] **CPRE-07**: Countdown timer (1000-day window ending 2029-01-09) preserved
 - [x] **CPRE-08**: Privacy policy page preserved and linked from form and footer
 
 ## v2 Requirements
@@ -131,9 +131,9 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CPRE-02 | Phase 2 | Pending |
 | CPRE-03 | Phase 2 | Complete |
 | CPRE-04 | Phase 2 | Complete |
-| CPRE-05 | Phase 2 | Pending |
+| CPRE-05 | Phase 2 | Complete |
 | CPRE-06 | Phase 2 | Complete |
-| CPRE-07 | Phase 2 | Pending |
+| CPRE-07 | Phase 2 | Complete |
 | CPRE-08 | Phase 2 | Complete |
 
 **Coverage:**
