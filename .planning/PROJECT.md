@@ -29,12 +29,25 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 
 ### Active
 
-(None yet — define in next milestone via `/gsd:new-milestone`)
+- [ ] MIND framework HTML whitepaper accessible to general public and policymakers
+- [ ] Multi-scale interactive MIND dashboard (firm → city → country → global)
+- [ ] Real data integration via World Bank API, public APIs, and user-input hybrid
+- [ ] Hierarchical aggregation visualization showing MIND score composition upward
+
+## Current Milestone: v1.1 MIND Intelligence Layer
+
+**Goal:** Give the MIND framework intellectual credibility with a public whitepaper and real-world proof via an interactive multi-scale dashboard.
+
+**Target features:**
+- HTML whitepaper — publishable MIND framework paper on the site
+- Multi-scale MIND dashboard — interactive data visualization at 4 levels: firm → city → country → global
+- Real data integration — World Bank API for countries, public APIs for cities/firms, user-input hybrid where unavailable
+- Hierarchical aggregation — visual showing how MIND scores compose upward
 
 ### Out of Scope
 
-- MIND Score whitepaper / academic paper — next milestone (P2)
-- Real MIND dashboard with World Bank data — next milestone (P2)
+- MIND Score whitepaper / academic paper — moved to Active (v1.1)
+- Real MIND dashboard with World Bank data — moved to Active (v1.1)
 - "MIND Score for My City" tool — future (P3)
 - Multi-language support — future (P3)
 - Volunteer matching & project boards — future (P3)
@@ -94,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 after v1.0 milestone*
+*Last updated: 2026-04-21 after v1.1 milestone start*
