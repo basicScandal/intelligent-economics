@@ -48,7 +48,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 **Plans:** 2 plans
 Plans:
 - [x] 07-01-PLAN.md -- Shared MIND score library extraction + test infrastructure (vitest, tsx, calcScore, getBindingConstraint, normalize)
-- [ ] 07-02-PLAN.md -- World Bank data pipeline: fetch 16 indicators, normalize, commit JSON baseline
+- [x] 07-02-PLAN.md -- World Bank data pipeline: fetch 16 indicators, normalize, commit JSON baseline
 
 ### Phase 8: Whitepaper
 **Goal**: Visitors can read a structured, academically credible MIND framework whitepaper on the site and share it as a standalone URL
