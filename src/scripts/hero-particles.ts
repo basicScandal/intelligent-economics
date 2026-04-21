@@ -11,20 +11,19 @@ import { getDeviceCapability } from './device-detect';
 
 export function initHeroParticles(canvas: HTMLCanvasElement): void {
   const device = getDeviceCapability();
-  if (device.prefersReducedMotion) return;
 
-  const isMobile = device.isMobile;
+  const PARTICLE_COUNTS = { full: 4000, reduced: 1500, minimal: 0 } as const;
+  const PARTICLE_COUNT = PARTICLE_COUNTS[device.tier];
+  if (PARTICLE_COUNT === 0) return; // minimal tier — CSS fallback
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: device.tier === 'full', alpha: true });
+  renderer.setPixelRatio(device.pixelRatioLimit);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 80;
-
-  const PARTICLE_COUNT = isMobile ? 1500 : 4000;
   const positions = new Float32Array(PARTICLE_COUNT * 3);
   const colors = new Float32Array(PARTICLE_COUNT * 3);
   const sizes = new Float32Array(PARTICLE_COUNT);
