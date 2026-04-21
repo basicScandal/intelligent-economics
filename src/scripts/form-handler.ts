@@ -8,6 +8,8 @@
  * them in the dashboard. No client-side dedup logic is needed.
  */
 
+import { trackEvent } from './analytics';
+
 /**
  * Initialize the volunteer signup form with fetch-based submission.
  * On success: hides form, shows success message (CONV-02).
@@ -23,6 +25,15 @@ export function initVolunteerForm(): void {
   const retryBtn = document.getElementById('form-retry');
 
   if (!submitBtn || !successEl) return;
+
+  // CONV-08: Track first interaction with form
+  let formStarted = false;
+  form.addEventListener('focusin', () => {
+    if (!formStarted) {
+      formStarted = true;
+      trackEvent('Form Started', { form: 'volunteer' });
+    }
+  });
 
   const originalBtnText = submitBtn.textContent || 'Join the Nucleation';
 
@@ -64,6 +75,7 @@ export function initVolunteerForm(): void {
       });
 
       if (response.ok) {
+        trackEvent('Form Submitted', { form: 'volunteer' });
         // CONV-02: Show success only after Netlify confirms receipt
         form.style.display = 'none';
         successEl.classList.add('visible');
@@ -140,6 +152,7 @@ export function initEmailCapture(): void {
       });
 
       if (response.ok) {
+        trackEvent('Form Submitted', { form: 'email-capture' });
         form.style.display = 'none';
         successEl.classList.add('visible');
       } else {

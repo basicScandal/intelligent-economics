@@ -9,6 +9,7 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { getDeviceCapability } from './device-detect';
+import { trackEvent } from './analytics';
 
 /* -- Types -- */
 interface ZoneZeroState {
@@ -368,6 +369,20 @@ export function initZoneZero(container: HTMLElement): void {
   }
   animate();
 
+  // CONV-09: Track when simulator scrolls into viewport
+  const zzSection = document.getElementById('zone-zero');
+  if (zzSection) {
+    const zzObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          trackEvent('Simulator Opened');
+          zzObserver.disconnect(); // Fire only once
+        }
+      });
+    }, { threshold: 0.2 });
+    zzObserver.observe(zzSection);
+  }
+
   // Suppress unused variable warning for mindScore / isCollapsed
   void mindScore;
   void isCollapsed;
@@ -381,10 +396,16 @@ export function initZoneZero(container: HTMLElement): void {
   ro.observe(wrap);
 
   // -- Slider events --
+  let sliderInteracted = false;
   (['m', 'i', 'n', 'd'] as const).forEach((k) => {
     sliders[k].addEventListener('input', () => {
       dimScores[k] = parseInt(sliders[k].value, 10);
       updateUI(dimScores);
+      // CONV-09: Track first slider interaction
+      if (!sliderInteracted) {
+        sliderInteracted = true;
+        trackEvent('Simulator Interacted');
+      }
     });
   });
 
@@ -503,6 +524,7 @@ export function initZoneZero(container: HTMLElement): void {
   const copyLabel = document.getElementById('zz-copy-label');
   if (copyBtn && copyLabel) {
     copyBtn.addEventListener('click', async () => {
+      trackEvent('Simulator Shared', { method: 'copy' });
       const url = buildShareURL();
       // Update browser URL + OG meta silently
       history.replaceState(
@@ -549,6 +571,9 @@ export function initZoneZero(container: HTMLElement): void {
     twitterBtn.href =
       'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text + '\n' + url);
   }
+  twitterBtn?.addEventListener('click', () => {
+    trackEvent('Simulator Shared', { method: 'twitter' });
+  });
 
   // LinkedIn share
   const linkedinBtn = document.getElementById('zz-linkedin-btn') as HTMLAnchorElement | null;
@@ -558,6 +583,9 @@ export function initZoneZero(container: HTMLElement): void {
     linkedinBtn.href =
       'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
   }
+  linkedinBtn?.addEventListener('click', () => {
+    trackEvent('Simulator Shared', { method: 'linkedin' });
+  });
 
   // Keep share links current on slider input
   function updateShareLinks(): void {

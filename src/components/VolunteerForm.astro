@@ -184,3 +184,21 @@
   import { initRoleCards } from '../scripts/role-cards';
   initRoleCards();
 </script>
+
+<script>
+  import { trackEvent } from '../scripts/analytics';
+
+  // CONV-08: Track when volunteer form scrolls into viewport
+  const formSection = document.getElementById('signup-form-wrap');
+  if (formSection) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          trackEvent('Form Viewed', { form: 'volunteer' });
+          observer.disconnect(); // Fire only once
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(formSection);
+  }
+</script>
