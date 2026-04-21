@@ -117,7 +117,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md — Team section component with founder card, org status, contact email, and Discord invite on form success
-- [ ] 06-02-PLAN.md — Welcome email sequence templates and Discord community setup guide
+- [x] 06-02-PLAN.md — Welcome email sequence templates and Discord community setup guide
 
 ## Progress
 

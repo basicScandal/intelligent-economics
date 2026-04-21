@@ -33,9 +33,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Growth
 
-- [ ] **GROW-01**: 4-email welcome sequence over 14 days via MailerLite (welcome + MIND explainer, simulator deep-dive, first micro-task by role, progress update + feedback ask)
-- [ ] **GROW-02**: Each welcome email has single clear CTA and unsubscribe link
-- [ ] **GROW-03**: Discord server with role-based channels (#introductions, #economists, #engineers, #designers, #organizers, #researchers, #policymakers, #zone-zero-ideas, #general)
+- [x] **GROW-01**: 4-email welcome sequence over 14 days via MailerLite (welcome + MIND explainer, simulator deep-dive, first micro-task by role, progress update + feedback ask)
+- [x] **GROW-02**: Each welcome email has single clear CTA and unsubscribe link
+- [x] **GROW-03**: Discord server with role-based channels (#introductions, #economists, #engineers, #designers, #organizers, #researchers, #policymakers, #zone-zero-ideas, #general)
 - [x] **GROW-04**: Discord invite link shown on form success screen and included in welcome emails
 - [x] **GROW-05**: Team/About section shows at least one named person with photo/avatar and bio
 - [x] **GROW-06**: Contact email or form available on team page
@@ -114,9 +114,9 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | CONV-08 | Phase 4 | Complete |
 | CONV-09 | Phase 4 | Complete |
 | CONV-10 | Phase 3 | Complete |
-| GROW-01 | Phase 6 | Pending |
-| GROW-02 | Phase 6 | Pending |
-| GROW-03 | Phase 6 | Pending |
+| GROW-01 | Phase 6 | Complete |
+| GROW-02 | Phase 6 | Complete |
+| GROW-03 | Phase 6 | Complete |
 | GROW-04 | Phase 6 | Complete |
 | GROW-05 | Phase 6 | Complete |
 | GROW-06 | Phase 6 | Complete |
