@@ -89,41 +89,41 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| PAPER-01 | — | Pending |
-| PAPER-02 | — | Pending |
-| PAPER-03 | — | Pending |
-| PAPER-04 | — | Pending |
-| PAPER-05 | — | Pending |
-| PAPER-06 | — | Pending |
-| DASH-01 | — | Pending |
-| DASH-02 | — | Pending |
-| DASH-03 | — | Pending |
-| DASH-04 | — | Pending |
-| DASH-05 | — | Pending |
-| DASH-06 | — | Pending |
-| DASH-07 | — | Pending |
-| DASH-08 | — | Pending |
-| DASH-09 | — | Pending |
-| DASH-10 | — | Pending |
-| SCALE-01 | — | Pending |
-| SCALE-02 | — | Pending |
-| SCALE-03 | — | Pending |
-| LINK-01 | — | Pending |
-| LINK-02 | — | Pending |
-| AGG-01 | — | Pending |
-| NAV-01 | — | Pending |
-| A11Y-01 | — | Pending |
-| PERF-01 | — | Pending |
+| DATA-01 | Phase 7 | Pending |
+| DATA-02 | Phase 7 | Pending |
+| DATA-03 | Phase 7 | Pending |
+| DATA-04 | Phase 9 | Pending |
+| PAPER-01 | Phase 8 | Pending |
+| PAPER-02 | Phase 8 | Pending |
+| PAPER-03 | Phase 8 | Pending |
+| PAPER-04 | Phase 8 | Pending |
+| PAPER-05 | Phase 8 | Pending |
+| PAPER-06 | Phase 8 | Pending |
+| DASH-01 | Phase 9 | Pending |
+| DASH-02 | Phase 9 | Pending |
+| DASH-03 | Phase 9 | Pending |
+| DASH-04 | Phase 9 | Pending |
+| DASH-05 | Phase 9 | Pending |
+| DASH-06 | Phase 9 | Pending |
+| DASH-07 | Phase 9 | Pending |
+| DASH-08 | Phase 10 | Pending |
+| DASH-09 | Phase 10 | Pending |
+| DASH-10 | Phase 10 | Pending |
+| SCALE-01 | Phase 11 | Pending |
+| SCALE-02 | Phase 11 | Pending |
+| SCALE-03 | Phase 11 | Pending |
+| LINK-01 | Phase 11 | Pending |
+| LINK-02 | Phase 11 | Pending |
+| AGG-01 | Phase 12 | Pending |
+| NAV-01 | Phase 12 | Pending |
+| A11Y-01 | Phase 12 | Pending |
+| PERF-01 | Phase 12 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 29 total
-- Mapped to phases: 0
-- Unmapped: 29
+- Mapped to phases: 29
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-21*
-*Last updated: 2026-04-21 after initial definition*
+*Last updated: 2026-04-21 after roadmap creation*
