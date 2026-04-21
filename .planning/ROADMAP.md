@@ -65,13 +65,13 @@ Plans:
   3. A single-field email capture is visible within the first 2 viewport heights without scrolling past the hero
   4. Submitting the email capture adds the subscriber to MailerLite and triggers the automation sequence
   5. Partner organizations section displays "Organizations working in this space" framing with visible disclaimer
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md — Form submission handlers (volunteer + email capture) with success/error states and role card selection
+- [ ] 03-02-PLAN.md — Partner section content rewrite with honest framing and visible disclaimer
+- [ ] 03-03-PLAN.md — Netlify Function for MailerLite subscriber sync + end-to-end verification checkpoint
 
 ### Phase 4: Analytics and Tracking
 **Goal**: The team can see exactly how visitors move through the site and where the funnel leaks
@@ -131,7 +131,7 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 |-------|----------------|--------|-----------|
 | 1. Foundation and Deploy | 0/2 | Planning complete | - |
 | 2. Content Migration | 0/4 | Planning complete | - |
-| 3. Conversion Pipeline | 0/3 | Not started | - |
+| 3. Conversion Pipeline | 0/3 | Planning complete | - |
 | 4. Analytics and Tracking | 0/1 | Not started | - |
 | 5. Performance Optimization | 0/3 | Not started | - |
 | 6. Growth Engine | 0/3 | Not started | - |
