@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A movement platform proposing the MIND framework (Material x Intelligence x Network x Diversity = Prosperity) as a post-GDP measure of economic health. The site is the movement's front door — converting intellectual explorers into active volunteers, and giving policy practitioners the tools to evaluate MIND for their jurisdictions. Currently a visually striking but functionally broken single-page site; this milestone transforms it into a modern, conversion-ready platform.
+A modern movement platform for the MIND framework (Material x Intelligence x Network x Diversity = Prosperity) — a post-GDP measure of economic health. Built on Astro with Tailwind v4, deployed on Netlify. The site converts intellectual explorers into active volunteers through an interactive experience (Three.js particles, Zone Zero simulator, GSAP animations) backed by a working conversion pipeline (Netlify Forms, MailerLite email sequences, Discord community).
 
 ## Core Value
 
@@ -12,79 +12,86 @@ A movement platform proposing the MIND framework (Material x Intelligence x Netw
 
 ### Validated
 
-- Site content and intellectual framework (MIND model, Zone Zero simulator, historical case studies, nucleation strategy) — existing, compelling, well-written
-- Visual design language (dark-first bioluminescent palette, Three.js particles, GSAP animations) — existing, striking
-- Privacy policy page — existing
-- Basic accessibility (aria labels, reduced motion, focus-visible) — existing
+- ✓ Astro component architecture with Tailwind v4 OKLCH design tokens — v1.0
+- ✓ Netlify CI/CD with auto-deploy and PR previews — v1.0
+- ✓ All 14+ content sections migrated to Astro components — v1.0
+- ✓ Three.js particles, GSAP animations, Zone Zero simulator preserved — v1.0
+- ✓ Real form backend via Netlify Forms (no more fake success) — v1.0
+- ✓ Email-first capture near hero with MailerLite integration — v1.0
+- ✓ Plausible analytics with form funnel and simulator engagement tracking — v1.0
+- ✓ Honest partner organizations section (no implied endorsements) — v1.0
+- ✓ Welcome email sequence templates (4 emails over 14 days) — v1.0
+- ✓ Discord community setup with role-based channels — v1.0
+- ✓ Team/About section with founder identity and org status — v1.0
+- ✓ Mobile performance optimization (3-tier adaptive particles) — v1.0
+- ✓ Reduced-motion CSS fallbacks and render loop pausing — v1.0
+- ✓ Content-hashed immutable cache headers — v1.0
 
 ### Active
 
-- [ ] Migrate from monolithic HTML to Astro component architecture
-- [ ] Deploy on Netlify with CI/CD from main branch
-- [ ] Real form backend that persists volunteer data
-- [ ] Privacy-respecting analytics (Plausible)
-- [ ] Honest partner organizations section (no implied endorsements)
-- [ ] Email-first lightweight signup near hero section
-- [ ] Community infrastructure (Discord with role-based channels)
-- [ ] Team/About section with named founder(s)
-- [ ] Welcome email sequence (4 emails over 14 days)
-- [ ] Mobile performance optimization (conditional particle reduction)
+(None yet — define in next milestone via `/gsd:new-milestone`)
 
 ### Out of Scope
 
-- MIND Score whitepaper / academic paper — deferred to next milestone (P2)
-- Real MIND dashboard with World Bank data — deferred to next milestone (P2)
+- MIND Score whitepaper / academic paper — next milestone (P2)
+- Real MIND dashboard with World Bank data — next milestone (P2)
 - "MIND Score for My City" tool — future (P3)
 - Multi-language support — future (P3)
 - Volunteer matching & project boards — future (P3)
 - MIND Score API — future (P3)
-- OAuth/magic link login — not needed for v1 signup flow
+- OAuth/magic link login — not needed for current flow
+- User accounts / authentication — not needed for v1
 
 ## Context
 
-- **Beyond GDP movement** is at a UN-level inflection point (2024-2025). No existing framework treats dimensional zero as categorically fatal or includes an Intelligence/AI dimension. This is academically novel.
-- **Current site** is a 5,127-line monolithic HTML file (226KB) with inline CSS/JS. Three.js particle hero (4,000 particles), GSAP scroll animations, interactive Zone Zero simulator with 4 MIND dimension sliders. Visually impressive but unmaintainable.
-- **Form is broken** — `e.preventDefault()` fakes success, data is discarded. Every volunteer "signup" is lost.
-- **No analytics** — flying blind on visitor behavior, funnel effectiveness, content engagement.
-- **Countdown timer** targets 1000-day window ending 2029-01-09.
-- **Form submissions** currently configured for FormSubmit.co to Rob@theoradical.ai but need confirmation click.
-- **Existing planning docs:** SPEC.md (full product spec), BRAINSTORM.md (site analysis), BUSINESS-PANEL.md (strategic analysis), RESEARCH.md (competitive landscape), SPEC-PANEL.md (technical review).
+- **Shipped v1.0** — 37 source files, 6,281 LOC (TypeScript + Astro + CSS), 66 commits
+- **Tech stack:** Astro 5.18.x, Tailwind v4 (CSS-first), Three.js, GSAP, TypeScript strict, Netlify
+- **Site architecture:** 14+ Astro components, 6 content collection entries, 8 TypeScript modules, 1 Netlify Function
+- **Form pipeline:** VolunteerForm + EmailCapture → Netlify Forms → submission-created function → MailerLite
+- **Performance:** 3-tier device detection (full/reduced/minimal), IntersectionObserver render pausing, CSS gradient fallbacks
+- **Analytics:** Plausible with 6 custom events (Form Viewed/Started/Submitted, Simulator Opened/Interacted/Shared)
+- **Beyond GDP movement** at UN inflection point — MIND framework is academically novel (multiplicative zero-floor, Intelligence dimension)
+- **Operational setup needed:** MailerLite account + API key, Plausible account ($9/mo), Discord server creation, replace PLACEHOLDER invite links
 
 ## Constraints
 
 - **Tech Stack**: Astro static site generator — component-based, zero JS by default, Netlify-native
-- **Hosting**: Netlify — handles forms natively, easy CI/CD, already partially configured
-- **Privacy**: No third-party tracking cookies. Analytics must be GDPR-compliant (Plausible).
-- **Performance**: Lighthouse >= 90 desktop, >= 75 mobile. Particles reduced on constrained devices.
-- **Budget**: Volunteer/side project — prefer free tiers and open source tooling
+- **Hosting**: Netlify — handles forms natively, CI/CD from main branch
+- **Privacy**: No third-party tracking cookies. Plausible analytics (GDPR-compliant).
+- **Performance**: Lighthouse >= 90 desktop, >= 75 mobile. Adaptive particle counts.
+- **Budget**: Volunteer/side project — free tiers where possible (Plausible is $9/mo)
 - **Accessibility**: WCAG 2.1 Level AA target
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Astro over Next.js/SvelteKit | Static site with islands of interactivity — no server needed, Netlify-native, zero JS by default | -- Pending |
-| Netlify over GitHub Pages | Native form handling, better CI/CD, already partially configured | -- Pending |
-| Plausible over PostHog | Lighter weight, privacy-first, simpler for a movement site | -- Pending |
-| P0+P1 scope for v1 milestone | Fix the funnel + build growth engine before expanding platform features | -- Pending |
-| Discord over Slack for community | Free, better for public communities, role-based channels | -- Pending |
+| Astro over Next.js/SvelteKit | Static site with islands — no server, Netlify-native, zero JS default | ✓ Good |
+| Netlify over GitHub Pages | Native forms, CI/CD, preview deploys | ✓ Good |
+| Plausible over PostHog | Lightweight, privacy-first, GDPR-compliant | ✓ Good |
+| P0+P1 scope for v1 | Fix funnel + growth engine before platform features | ✓ Good |
+| Discord over Slack | Free, public communities, role-based channels | -- Pending |
+| No Netlify adapter for static | Adapter only needed for SSR; static output auto-detected | ✓ Good |
+| Vanilla script tags over framework islands | No React/Svelte needed; Astro native script bundling works | ✓ Good |
+| MailerLite for email | Free tier (1K subscribers), automation, API v2 | -- Pending |
+| Tailwind v4 CSS-first config | No JS config file needed, @theme directive, OKLCH native | ✓ Good |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd:transition`):
+**After each phase transition:**
 1. Requirements invalidated? -> Move to Out of Scope with reason
 2. Requirements validated? -> Move to Validated with phase reference
 3. New requirements emerged? -> Add to Active
 4. Decisions to log? -> Add to Key Decisions
 5. "What This Is" still accurate? -> Update if drifted
 
-**After each milestone** (via `/gsd:complete-milestone`):
+**After each milestone:**
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 after initialization*
+*Last updated: 2026-04-21 after v1.0 milestone*
