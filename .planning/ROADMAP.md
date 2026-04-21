@@ -112,13 +112,12 @@ Plans:
   3. Team/About section shows at least one named person with photo and bio
   4. Organizational status ("Forming as a nonprofit" or equivalent) is visible on the about section
   5. Contact method (email or form) is available on the team page
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
-- [ ] 06-03: TBD
+- [ ] 06-01-PLAN.md — Team section component with founder card, org status, contact email, and Discord invite on form success
+- [ ] 06-02-PLAN.md — Welcome email sequence templates and Discord community setup guide
 
 ## Progress
 
@@ -133,4 +132,4 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 | 3. Conversion Pipeline | 0/3 | Planning complete | - |
 | 4. Analytics and Tracking | 1/1 | Complete   | 2026-04-21 |
 | 5. Performance Optimization | 0/2 | Planning complete | - |
-| 6. Growth Engine | 0/3 | Not started | - |
+| 6. Growth Engine | 0/2 | Planning complete | - |
