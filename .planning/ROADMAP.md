@@ -45,7 +45,10 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   2. Running `npm run fetch-data` produces a committed JSON file containing normalized 0-100 MIND dimension scores for 217 countries
   3. The site builds successfully with no network access (using the committed JSON baseline)
   4. Each country record includes source, year, and accessedDate metadata fields
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 07-01-PLAN.md -- Shared MIND score library extraction + test infrastructure (vitest, tsx, calcScore, getBindingConstraint, normalize)
+- [ ] 07-02-PLAN.md -- World Bank data pipeline: fetch 16 indicators, normalize, commit JSON baseline
 
 ### Phase 8: Whitepaper
 **Goal**: Visitors can read a structured, academically credible MIND framework whitepaper on the site and share it as a standalone URL
@@ -120,7 +123,7 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 4. Analytics and Tracking | v1.0 | 1/1 | Complete | 2026-04-21 |
 | 5. Performance Optimization | v1.0 | 2/2 | Complete | 2026-04-21 |
 | 6. Growth Engine | v1.0 | 2/2 | Complete | 2026-04-21 |
-| 7. Shared Foundation + Data Pipeline | v1.1 | 0/0 | Not started | - |
+| 7. Shared Foundation + Data Pipeline | v1.1 | 0/2 | Planned | - |
 | 8. Whitepaper | v1.1 | 0/0 | Not started | - |
 | 9. Country Dashboard Core | v1.1 | 0/0 | Not started | - |
 | 10. Dashboard Advanced | v1.1 | 0/0 | Not started | - |
