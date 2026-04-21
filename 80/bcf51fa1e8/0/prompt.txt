@@ -175,3 +175,56 @@
 - Which specific World Bank indicators best proxy each MIND dimension (requires domain expertise, not just engineering research)</result>
 <usage><total_tokens>63858</total_tokens><tool_uses>32</tool_uses><duration_ms>817693</duration_ms></usage>
 </task-notification>
+
+---
+
+<task-notification>
+<task-id>a428a96445dc36e7f</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/6bb795c5-1b93-41ca-b2a9-c4240a1bae76/tasks/a428a96445dc36e7f.output</output-file>
+<status>completed</status>
+<summary>Agent "Architecture research for v1.1" completed</summary>
+<result>## RESEARCH COMPLETE
+
+**Project:** Intelligent Economics v1.1 -- MIND Intelligence Layer Architecture
+**Mode:** Ecosystem (architecture focus)
+**Confidence:** HIGH
+
+### Key Findings
+
+- **Whitepaper as MDX content collection entry** -- leverages Astro's built-in `getHeadings()` for auto-generated ToC, `&lt;Content /&gt;` rendering with custom component overrides (Callout, MindEquation, Citation). Requires adding `@astrojs/mdx` integration.
+- **Dashboard data fetched at build time, not client-side** -- World Bank data updates annually. A pre-build npm script fetches indicators, normalizes to 0-100, and writes a committed JSON file. Zero CORS issues, zero runtime API dependency, zero loading states. ~80KB for all 200 countries.
+- **Chart.js over D3.js** -- 55KB gzipped, canvas-based (3-9x faster than SVG), simpler API for the radar/bar charts needed. D3 is overkill here. Loads only on `/dashboard/` page, not homepage.
+- **Shared MIND score library is the critical first step** -- `calcScore()` currently lives inline in `zone-zero.ts`. Must extract to `src/lib/mind-score.ts` so Zone Zero and dashboard produce identical scores. This is Phase 1.
+- **City and firm scales use user-input (Zone Zero pattern), not APIs** -- no reliable public API exists for city-level or firm-level MIND proxy data. These scales reuse the slider input pattern already proven in Zone Zero. Only country and global scales use World Bank data.
+- **16 World Bank indicators mapped to 4 MIND dimensions** -- 4 indicators per dimension (e.g., GDP PPP for Material, tertiary enrollment for Intelligence, trade % GDP for Network, female labor participation for Diversity). Normalized via min-max across all countries, aggregated per dimension via geometric mean.
+
+### Files Created
+
+| File | Purpose |
+|------|---------|
+| `/Users/scandal/ai/intelligenteconomics/.planning/research/ARCHITECTURE.md` | Full integration architecture: component boundaries, data flow, build order, indicator mapping, anti-patterns |
+
+### Confidence Assessment
+
+| Area | Level | Reason |
+|------|-------|--------|
+| Whitepaper architecture | HIGH | Astro MDX + content collections is well-documented, matches existing patterns |
+| Dashboard data strategy | HIGH | Build-time fetch is the clear winner for annually-updated data on a static site |
+| Chart.js choice | HIGH | Performance data verified, bundle size confirmed, matches vanilla-TS pattern |
+| World Bank indicator mapping | MEDIUM | Indicator codes verified against World Bank catalog, but normalization thresholds need empirical tuning |
+| Aggregation tree visualization | MEDIUM | Custom SVG component -- no off-the-shelf library needed, but implementation complexity is moderate |
+
+### Roadmap Implications
+
+**5 phases with clear dependency chain.** Phases 2 (whitepaper) and 3 (data pipeline) can run in parallel after Phase 1 (shared lib extraction). Phase 4 (dashboard core) depends on Phase 3. Phase 5 (aggregation + polish) depends on everything.
+
+The shared MIND score library extraction (Phase 1) is the foundation -- everything depends on it and it also validates that the existing Zone Zero simulator still works after refactoring.
+
+### Open Questions
+
+- **World Bank API CORS from browser:** Research was inconclusive on whether the API sends `Access-Control-Allow-Origin: *`. Moot because the architecture recommends build-time fetch, but worth verifying if the team ever wants client-side refresh.
+- **Indicator normalization bounds:** Min-max normalization requires choosing reference bounds. Should these be absolute (theoretical 0-100 range) or relative (percentile across current dataset)? Needs empirical tuning with actual data.
+- **Whitepaper citation format:** Academic vs. web-native footnotes. MDX supports both patterns but the choice affects component design.</result>
+<usage><total_tokens>70071</total_tokens><tool_uses>40</tool_uses><duration_ms>863706</duration_ms></usage>
+</task-notification>
