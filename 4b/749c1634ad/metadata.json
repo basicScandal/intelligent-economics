@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "4b749c1634ad",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/07-shared-foundation-data-pipeline/07-VALIDATION.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4b/749c1634ad/0/metadata.json",
+      "transcript": "/4b/749c1634ad/0/full.jsonl",
+      "content_hash": "/4b/749c1634ad/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1489,
+    "cache_creation_tokens": 92438,
+    "cache_read_tokens": 2916424,
+    "output_tokens": 17199,
+    "api_call_count": 35
+  }
+}
