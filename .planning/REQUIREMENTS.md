@@ -12,7 +12,7 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 - [x] **DATA-01**: Shared MIND score library extracted from Zone Zero with calcScore(), getBindingConstraint(), normalize() functions
 - [x] **DATA-02**: Build-time World Bank API fetch for 16 indicators across 217 countries with committed JSON baseline
 - [x] **DATA-03**: Data normalization pipeline transforming raw indicators to 0-100 MIND dimension scores
-- [ ] **DATA-04**: Indicator methodology transparency panel showing which World Bank indicators feed each MIND dimension
+- [x] **DATA-04**: Indicator methodology transparency panel showing which World Bank indicators feed each MIND dimension
 
 ### Whitepaper
 
@@ -25,13 +25,13 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Dashboard Core
 
-- [ ] **DASH-01**: Country-level MIND score radar chart showing M/I/N/D dimension balance for any country
-- [ ] **DASH-02**: Bar chart comparing MIND dimensions across selected countries
-- [ ] **DASH-03**: Country search/selection with autocomplete for 217 countries
-- [ ] **DASH-04**: Binding constraint identification callout per country
-- [ ] **DASH-05**: Data source attribution with vintage year on every chart
-- [ ] **DASH-06**: Mobile-responsive charts with simplified mobile layout
-- [ ] **DASH-07**: Progressive enhancement — server-rendered ranking table before JS hydration
+- [x] **DASH-01**: Country-level MIND score radar chart showing M/I/N/D dimension balance for any country
+- [x] **DASH-02**: Bar chart comparing MIND dimensions across selected countries
+- [x] **DASH-03**: Country search/selection with autocomplete for 217 countries
+- [x] **DASH-04**: Binding constraint identification callout per country
+- [x] **DASH-05**: Data source attribution with vintage year on every chart
+- [x] **DASH-06**: Mobile-responsive charts with simplified mobile layout
+- [x] **DASH-07**: Progressive enhancement — server-rendered ranking table before JS hydration
 
 ### Dashboard Advanced
 
@@ -92,20 +92,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 7 | Complete |
 | DATA-02 | Phase 7 | Complete |
 | DATA-03 | Phase 7 | Complete |
-| DATA-04 | Phase 9 | Pending |
+| DATA-04 | Phase 9 | Complete |
 | PAPER-01 | Phase 8 | Complete |
 | PAPER-02 | Phase 8 | Complete |
 | PAPER-03 | Phase 8 | Complete |
 | PAPER-04 | Phase 8 | Complete |
 | PAPER-05 | Phase 8 | Complete |
 | PAPER-06 | Phase 8 | Complete |
-| DASH-01 | Phase 9 | Pending |
-| DASH-02 | Phase 9 | Pending |
-| DASH-03 | Phase 9 | Pending |
-| DASH-04 | Phase 9 | Pending |
-| DASH-05 | Phase 9 | Pending |
-| DASH-06 | Phase 9 | Pending |
-| DASH-07 | Phase 9 | Pending |
+| DASH-01 | Phase 9 | Complete |
+| DASH-02 | Phase 9 | Complete |
+| DASH-03 | Phase 9 | Complete |
+| DASH-04 | Phase 9 | Complete |
+| DASH-05 | Phase 9 | Complete |
+| DASH-06 | Phase 9 | Complete |
+| DASH-07 | Phase 9 | Complete |
 | DASH-08 | Phase 10 | Pending |
 | DASH-09 | Phase 10 | Pending |
 | DASH-10 | Phase 10 | Pending |

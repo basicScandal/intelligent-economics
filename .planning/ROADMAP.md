@@ -77,7 +77,7 @@ Plans:
   5. On mobile devices, charts reflow to a usable single-column layout; before JavaScript loads, a server-rendered ranking table is visible
 **Plans:** 3 plans
 Plans:
-- [ ] 09-01-PLAN.md — ECharts install + TDD data/chart utility layer (echarts-setup, charts, search, dashboard-data + 32 tests)
+- [x] 09-01-PLAN.md — ECharts install + TDD data/chart utility layer (echarts-setup, charts, search, dashboard-data + 32 tests)
 - [ ] 09-02-PLAN.md — Static Astro dashboard page with ranking table, methodology panel, binding constraint components
 - [ ] 09-03-PLAN.md — Interactive island: ECharts charts, search dropdown, state management, responsive behavior + human verify
 
