@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Astro 5.18.x scaffold with Tailwind v4 OKLCH design tokens and placeholder pages
+- [x] 01-01-PLAN.md — Astro 5.18.x scaffold with Tailwind v4 OKLCH design tokens and placeholder pages
 - [ ] 01-02-PLAN.md — Netlify CI/CD pipeline, GitHub Pages cleanup, and email DNS documentation
 
 ### Phase 2: Content Migration

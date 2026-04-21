@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Architecture
 
-- [ ] **ARCH-01**: Site is built with Astro component architecture — no single file exceeds 500 lines
-- [ ] **ARCH-02**: CSS uses Tailwind v4 with design tokens matching existing bioluminescent palette
-- [ ] **ARCH-03**: JavaScript/TypeScript modules are bundled per-component with tree-shaking
+- [x] **ARCH-01**: Site is built with Astro component architecture — no single file exceeds 500 lines
+- [x] **ARCH-02**: CSS uses Tailwind v4 with design tokens matching existing bioluminescent palette
+- [x] **ARCH-03**: JavaScript/TypeScript modules are bundled per-component with tree-shaking
 - [ ] **ARCH-04**: Site auto-deploys to Netlify from main branch with preview deploys on PRs
 - [ ] **ARCH-05**: Device capability detection classifies visitors into full/reduced/minimal tiers
 - [ ] **ARCH-06**: Three.js particle count adapts to device tier (full: 4000, reduced: 1500, minimal: CSS fallback)
@@ -96,9 +96,9 @@ Deferred to future milestone. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ARCH-01 | Phase 1 | Pending |
-| ARCH-02 | Phase 1 | Pending |
-| ARCH-03 | Phase 1 | Pending |
+| ARCH-01 | Phase 1 | Complete |
+| ARCH-02 | Phase 1 | Complete |
+| ARCH-03 | Phase 1 | Complete |
 | ARCH-04 | Phase 1 | Pending |
 | ARCH-05 | Phase 5 | Pending |
 | ARCH-06 | Phase 5 | Pending |
