@@ -63,3 +63,12 @@
   import { initCountdown } from '../scripts/countdown';
   initCountdown();
 </script>
+
+<script>
+  import { initHeroParticles } from '../scripts/hero-particles';
+
+  const canvas = document.getElementById('particle-canvas') as HTMLCanvasElement;
+  if (canvas) {
+    initHeroParticles(canvas);
+  }
+</script>
