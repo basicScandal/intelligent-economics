@@ -38,9 +38,10 @@ created: 2026-04-21
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 07-01-01 | 01 | 1 | DATA-01 | unit | `npx vitest run src/lib/__tests__/mind-score.test.ts` | ❌ W0 | ⬜ pending |
-| 07-02-01 | 02 | 2 | DATA-02 | integration | `npx tsx scripts/fetch-world-bank.ts --dry-run` | ❌ W0 | ⬜ pending |
-| 07-02-02 | 02 | 2 | DATA-03 | unit | `npx vitest run src/lib/__tests__/normalize.test.ts` | ❌ W0 | ⬜ pending |
+| 07-01-01 | 01 | 1 | DATA-01 | unit | `npx vitest run tests/mind-score.test.ts` | ❌ W0 | ⬜ pending |
+| 07-01-02 | 01 | 1 | DATA-03 | unit | `npx vitest run tests/normalization.test.ts` | ❌ W0 | ⬜ pending |
+| 07-02-01 | 02 | 2 | DATA-02 | integration | `npx tsx scripts/fetch-world-bank.ts` | ❌ W0 | ⬜ pending |
+| 07-02-02 | 02 | 2 | DATA-02 | build | `npx astro build` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -50,8 +51,8 @@ created: 2026-04-21
 
 - [ ] `vitest` and `@vitest/coverage-v8` — install test framework
 - [ ] `vitest.config.ts` — configuration
-- [ ] `src/lib/__tests__/mind-score.test.ts` — stubs for DATA-01
-- [ ] `src/lib/__tests__/normalize.test.ts` — stubs for DATA-03
+- [ ] `tests/mind-score.test.ts` — stubs for DATA-01
+- [ ] `tests/normalization.test.ts` — stubs for DATA-03
 
 *If none: "Existing infrastructure covers all phase requirements."*
 
