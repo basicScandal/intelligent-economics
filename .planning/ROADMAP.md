@@ -63,7 +63,7 @@ Plans:
 **Plans:** 2 plans
 Plans:
 - [x] 08-01-PLAN.md — MDX infrastructure: deps, Astro config, content collection, WhitepaperLayout, TOC component, page route, whitepaper CSS
-- [ ] 08-02-PLAN.md — Full whitepaper prose (3000-4000 words), scroll-spy, print CSS, OG image, social meta tags
+- [x] 08-02-PLAN.md — Full whitepaper prose (3000-4000 words), scroll-spy, print CSS, OG image, social meta tags
 
 ### Phase 9: Country Dashboard Core
 **Goal**: Policy practitioners can explore MIND scores for any country through interactive charts backed by real World Bank data
