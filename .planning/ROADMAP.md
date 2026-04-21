@@ -47,14 +47,13 @@ Plans:
   3. Zone Zero simulator responds to all 4 MIND dimension sliders with visual feedback
   4. GSAP ScrollTrigger animations fire at correct scroll positions with diagonal clip-path wipes
   5. Dark/light theme toggle switches all sections correctly
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 4 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
-- [ ] 02-03: TBD
-- [ ] 02-04: TBD
+- [ ] 02-01-PLAN.md — Static content sections, CSS utilities, Nav/Footer, form markup, privacy page
+- [ ] 02-02-PLAN.md — Content collections (stories/experiments), Zone Zero markup, data-driven components
+- [ ] 02-03-PLAN.md — Three.js scripts (hero particles, morph engine, Zone Zero simulator)
+- [ ] 02-04-PLAN.md — GSAP animations, theme toggle, countdown timer, tab interactions
 
 ### Phase 3: Conversion Pipeline
 **Goal**: Volunteer signups and email captures are reliably persisted — no submission is ever silently lost again
@@ -131,7 +130,7 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and Deploy | 0/2 | Planning complete | - |
-| 2. Content Migration | 0/4 | Not started | - |
+| 2. Content Migration | 0/4 | Planning complete | - |
 | 3. Conversion Pipeline | 0/3 | Not started | - |
 | 4. Analytics and Tracking | 0/1 | Not started | - |
 | 5. Performance Optimization | 0/3 | Not started | - |
