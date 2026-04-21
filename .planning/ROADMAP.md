@@ -60,7 +60,10 @@ Plans:
   3. The MIND formula renders as properly typeset math equations (not plain text or images)
   4. Printing the whitepaper page produces clean, readable PDF-quality output without navigation chrome or broken layout
   5. Sharing the /whitepaper URL on social media displays a rich preview with title, description, and image
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 08-01-PLAN.md — MDX infrastructure: deps, Astro config, content collection, WhitepaperLayout, TOC component, page route, whitepaper CSS
+- [ ] 08-02-PLAN.md — Full whitepaper prose (3000-4000 words), scroll-spy, print CSS, OG image, social meta tags
 
 ### Phase 9: Country Dashboard Core
 **Goal**: Policy practitioners can explore MIND scores for any country through interactive charts backed by real World Bank data
@@ -123,8 +126,8 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 4. Analytics and Tracking | v1.0 | 1/1 | Complete | 2026-04-21 |
 | 5. Performance Optimization | v1.0 | 2/2 | Complete | 2026-04-21 |
 | 6. Growth Engine | v1.0 | 2/2 | Complete | 2026-04-21 |
-| 7. Shared Foundation + Data Pipeline | v1.1 | 1/2 | In Progress | - |
-| 8. Whitepaper | v1.1 | 0/0 | Not started | - |
+| 7. Shared Foundation + Data Pipeline | v1.1 | 2/2 | Complete | 2026-04-21 |
+| 8. Whitepaper | v1.1 | 0/2 | Planned | - |
 | 9. Country Dashboard Core | v1.1 | 0/0 | Not started | - |
 | 10. Dashboard Advanced | v1.1 | 0/0 | Not started | - |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 0/0 | Not started | - |
