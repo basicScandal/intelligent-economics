@@ -53,7 +53,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Content Preservation
 
 - [x] **CPRE-01**: All 14+ existing content sections preserved in Astro components
-- [ ] **CPRE-02**: Three.js particle hero with scroll-driven morph engine preserved
+- [x] **CPRE-02**: Three.js particle hero with scroll-driven morph engine preserved
 - [x] **CPRE-03**: Interactive Zone Zero simulator with 4 MIND dimension sliders preserved
 - [x] **CPRE-04**: 6 historical case study panels preserved
 - [x] **CPRE-05**: GSAP ScrollTrigger animations with clip-path diagonal wipes preserved
@@ -128,7 +128,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | PERF-05 | Phase 5 | Pending |
 | PERF-06 | Phase 5 | Pending |
 | CPRE-01 | Phase 2 | Complete |
-| CPRE-02 | Phase 2 | Pending |
+| CPRE-02 | Phase 2 | Complete |
 | CPRE-03 | Phase 2 | Complete |
 | CPRE-04 | Phase 2 | Complete |
 | CPRE-05 | Phase 2 | Complete |

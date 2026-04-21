@@ -52,7 +52,7 @@ Plans:
 Plans:
 - [x] 02-01-PLAN.md — Static content sections, CSS utilities, Nav/Footer, form markup, privacy page
 - [x] 02-02-PLAN.md — Content collections (stories/experiments), Zone Zero markup, data-driven components
-- [ ] 02-03-PLAN.md — Three.js scripts (hero particles, morph engine, Zone Zero simulator)
+- [x] 02-03-PLAN.md — Three.js scripts (hero particles, morph engine, Zone Zero simulator)
 - [x] 02-04-PLAN.md — GSAP animations, theme toggle, countdown timer, tab interactions
 
 ### Phase 3: Conversion Pipeline
