@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  badge: string;
+  badgeColor: string;
+  statNumber: string;
+  statLabel: string;
+  shape: string;
+  body: string;
+}
+const { title, badge, badgeColor, statNumber, statLabel, shape, body } = Astro.props;
+---
+
+<div class="story-panel" data-shape={shape}>
+  <div class="story-panel__inner">
+    <div class="story-panel__era">
+      <span class="story-panel__badge" style={`background:${badgeColor}1f;color:${badgeColor};`}>{badge}</span>
+    </div>
+    <div class="story-panel__clip">
+      <h3 class="story-panel__title">{title}</h3>
+    </div>
+    <div class="story-panel__stat">
+      <span class="story-panel__stat-num">{statNumber}</span>
+      <span class="story-panel__stat-label">{statLabel}</span>
+    </div>
+    <div class="story-panel__text" set:html={body} />
+  </div>
+</div>

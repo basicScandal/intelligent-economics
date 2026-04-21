@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ZoneZeroSimulator from '../components/ZoneZeroSimulator.astro';
+import Stories from '../components/Stories.astro';
+import LocalExperiments from '../components/LocalExperiments.astro';
 ---
 <BaseLayout title="Home">
   <main class="min-h-screen flex items-center justify-center">
@@ -23,4 +26,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
   </main>
+
+  <ZoneZeroSimulator />
+  <Stories />
+  <LocalExperiments />
 </BaseLayout>

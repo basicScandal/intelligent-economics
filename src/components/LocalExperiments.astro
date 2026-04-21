@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+
+const experiments = (await getCollection('experiments')).sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+---
+
+<section class="local-exp section" id="experiments">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Start Now, Where You Are</div>
+      <h2 class="section-title">You don't need Zone Zero to start the experiment</h2>
+      <p class="section-body" style="max-width: 600px;">The principles of Intelligent Economics can be piloted at any scale — inside a neighborhood, a small business, a startup, or a single team. Each micro-experiment generates real data, proves the model, and trains the people who will build the full zones.</p>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="exp-tabs reveal reveal-delay-1" role="tablist" aria-label="Experiment contexts">
+      {experiments.map((exp, i) => (
+        <button
+          class={`exp-tab${i === 0 ? ' active' : ''}`}
+          data-panel={exp.id}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          {exp.data.tabLabel}
+        </button>
+      ))}
+    </div>
+
+    <!-- Panels -->
+    {experiments.map((exp, i) => (
+      <div
+        class={`exp-panel${i === 0 ? ' active' : ''}`}
+        id={`panel-${exp.id}`}
+        role="tabpanel"
+        {...(i !== 0 ? { inert: '' } : {})}
+      >
+        <Fragment set:html={exp.body} />
+      </div>
+    ))}
+  </div>
+</section>
