@@ -20,11 +20,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Conversion
 
-- [ ] **CONV-01**: Volunteer form data persists to Netlify Forms on submission (name, email, location, expertise, bandwidth, roles, message, timestamp)
-- [ ] **CONV-02**: User sees real success confirmation only after data is confirmed persisted
-- [ ] **CONV-03**: If form submission fails, user sees error message with retry option
-- [ ] **CONV-04**: Duplicate email submissions are flagged but not rejected
-- [ ] **CONV-05**: Single-field email capture visible within first 2 viewport heights of hero
+- [x] **CONV-01**: Volunteer form data persists to Netlify Forms on submission (name, email, location, expertise, bandwidth, roles, message, timestamp)
+- [x] **CONV-02**: User sees real success confirmation only after data is confirmed persisted
+- [x] **CONV-03**: If form submission fails, user sees error message with retry option
+- [x] **CONV-04**: Duplicate email submissions are flagged but not rejected
+- [x] **CONV-05**: Single-field email capture visible within first 2 viewport heights of hero
 - [ ] **CONV-06**: Email capture submits to MailerLite and triggers welcome sequence
 - [ ] **CONV-07**: Plausible analytics tracks page views, scroll depth, traffic sources, geographic distribution
 - [ ] **CONV-08**: Form funnel tracked: viewed form, started filling, submitted
@@ -104,11 +104,11 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | ARCH-06 | Phase 5 | Pending |
 | ARCH-07 | Phase 2 | Complete |
 | ARCH-08 | Phase 2 | Complete |
-| CONV-01 | Phase 3 | Pending |
-| CONV-02 | Phase 3 | Pending |
-| CONV-03 | Phase 3 | Pending |
-| CONV-04 | Phase 3 | Pending |
-| CONV-05 | Phase 3 | Pending |
+| CONV-01 | Phase 3 | Complete |
+| CONV-02 | Phase 3 | Complete |
+| CONV-03 | Phase 3 | Complete |
+| CONV-04 | Phase 3 | Complete |
+| CONV-05 | Phase 3 | Complete |
 | CONV-06 | Phase 3 | Pending |
 | CONV-07 | Phase 4 | Pending |
 | CONV-08 | Phase 4 | Pending |
