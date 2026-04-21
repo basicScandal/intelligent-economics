@@ -31,7 +31,7 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 
 - [ ] MIND framework HTML whitepaper accessible to general public and policymakers
 - [ ] Multi-scale interactive MIND dashboard (firm → city → country → global)
-- [ ] Real data integration via World Bank API, public APIs, and user-input hybrid
+- ✓ Real data integration via World Bank API (16 indicators, 217 countries) — v1.1 Phase 7
 - [ ] Hierarchical aggregation visualization showing MIND score composition upward
 
 ## Current Milestone: v1.1 MIND Intelligence Layer
@@ -57,6 +57,7 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 
 ## Context
 
+- **v1.1 Phase 7 complete** — Shared MIND score library (`src/lib/mind-score.ts`), World Bank data pipeline, 217-country JSON baseline committed
 - **Shipped v1.0** — 37 source files, 6,281 LOC (TypeScript + Astro + CSS), 66 commits
 - **Tech stack:** Astro 5.18.x, Tailwind v4 (CSS-first), Three.js, GSAP, TypeScript strict, Netlify
 - **Site architecture:** 14+ Astro components, 6 content collection entries, 8 TypeScript modules, 1 Netlify Function
@@ -107,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 after v1.1 milestone start*
+*Last updated: 2026-04-21 after Phase 7 completion*
