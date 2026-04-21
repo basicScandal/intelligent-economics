@@ -2,8 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { calcScore, getBindingConstraint } from '../src/lib/mind-score';
 
 describe('calcScore', () => {
-  it('returns 52 for Zone Zero default values {m:70,i:60,n:50,d:40}', () => {
-    expect(calcScore({ m: 70, i: 60, n: 50, d: 40 })).toBe(52);
+  it('returns 54 for Zone Zero default values {m:70,i:60,n:50,d:40}', () => {
+    // Verified: Math.round(Math.pow((70/100)*(60/100)*(50/100)*(40/100), 0.25) * 100) = 54
+    expect(calcScore({ m: 70, i: 60, n: 50, d: 40 })).toBe(54);
   });
 
   it('returns 100 for perfect scores {m:100,i:100,n:100,d:100}', () => {
