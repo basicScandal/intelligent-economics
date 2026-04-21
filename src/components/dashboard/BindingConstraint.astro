@@ -1,0 +1,38 @@
+---
+import type { DimensionKey } from '../../lib/mind-score';
+
+interface Props {
+  dimension: string;
+  text: string;
+  score: number;
+  dimKey: DimensionKey;
+}
+
+const { dimension, text, score, dimKey } = Astro.props;
+
+const DIM_COLORS: Record<DimensionKey, string> = {
+  m: '#00ff88',
+  i: '#00c8ff',
+  n: '#7b4bff',
+  d: '#ffb400',
+};
+
+const borderColor = DIM_COLORS[dimKey] || '#8888aa';
+---
+
+<div id="binding-constraint" class="hidden rounded-lg bg-surface p-5">
+  <p class="text-xs uppercase tracking-wider text-text-muted mb-2 font-medium">
+    Binding Constraint
+  </p>
+  <div id="bc-border" class="pl-4" style={`border-left: 4px solid ${borderColor}`}>
+    <h3 class="text-lg font-semibold text-text mb-1">
+      <span id="bc-dimension-name">{dimension}</span>
+      <span id="bc-score" class="text-text-muted font-normal text-base ml-1">
+        {score > 0 ? `(${Math.round(score)})` : ''}
+      </span>
+    </h3>
+    <p id="bc-text" class="text-sm text-text-muted leading-relaxed">
+      {text}
+    </p>
+  </div>
+</div>
