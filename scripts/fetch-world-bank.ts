@@ -287,6 +287,9 @@ async function main(): Promise<void> {
   console.log(`Found ${countries.length} countries (filtered from ${allCountryRecords.length} total)\n`);
 
   // Step 2: Fetch each indicator serially
+  // Strategy: try mrnev=1 (most recent non-empty value) first.
+  // If mrnev returns HTTP 400 (unsupported for some indicators), fall back
+  // to mrv=5 (last 5 years) and pick the most recent non-null per country.
   const indicatorCodes = Object.keys(INDICATORS);
   const rawData = new Map<string, WBRecord[]>();
   let worldBankLastUpdated = '';
@@ -295,10 +298,26 @@ async function main(): Promise<void> {
     const code = indicatorCodes[idx];
     console.log(`Fetching [${idx + 1}/${indicatorCodes.length}] ${code}...`);
 
-    const url = `${WB_BASE}/country/all/indicator/${code}?format=json&mrnev=1&per_page=300`;
+    const mrnev_url = `${WB_BASE}/country/all/indicator/${code}?format=json&mrnev=1&per_page=300`;
+    const fallback_url = `${WB_BASE}/country/all/indicator/${code}?format=json&mrv=5&per_page=1500`;
 
     try {
-      const data = (await fetchWithRetry(url)) as unknown[];
+      let data: unknown[];
+      let usedFallback = false;
+
+      // Try mrnev=1 first
+      try {
+        data = (await fetchJSON(mrnev_url)) as unknown[];
+        if (!Array.isArray(data) || data.length < 2 || !Array.isArray(data[1])) {
+          throw new Error('Invalid response structure');
+        }
+      } catch {
+        // mrnev not supported for this indicator -- fall back to mrv=5
+        console.log(`  mrnev unsupported, falling back to mrv=5...`);
+        await delay(DELAY_MS);
+        data = (await fetchWithRetry(fallback_url)) as unknown[];
+        usedFallback = true;
+      }
 
       if (!Array.isArray(data) || data.length < 2 || !Array.isArray(data[1])) {
         console.warn(`  WARNING: No data returned for ${code}, skipping`);
@@ -312,14 +331,32 @@ async function main(): Promise<void> {
       }
 
       // Filter to valid countries only
-      const records = (data[1] as WBRecord[]).filter(
+      let records = (data[1] as WBRecord[]).filter(
         (r) => validISO3.has(r.countryiso3code),
       );
+
+      // If using fallback (mrv=5), pick the most recent non-null value per country
+      if (usedFallback) {
+        const byCountry = new Map<string, WBRecord>();
+        // Records come sorted by date descending, so first non-null wins
+        for (const r of records) {
+          if (!byCountry.has(r.countryiso3code) && r.value !== null) {
+            byCountry.set(r.countryiso3code, r);
+          }
+        }
+        // Also include countries with no data (null) if not already seen
+        for (const r of records) {
+          if (!byCountry.has(r.countryiso3code)) {
+            byCountry.set(r.countryiso3code, r);
+          }
+        }
+        records = Array.from(byCountry.values());
+      }
 
       rawData.set(code, records);
       const nonNull = records.filter((r) => r.value !== null).length;
       console.log(
-        `  Got ${records.length} records (${nonNull} with data)`,
+        `  Got ${records.length} records (${nonNull} with data)${usedFallback ? ' [mrv=5 fallback]' : ''}`,
       );
     } catch (err) {
       console.warn(
