@@ -15,7 +15,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function initMorphEngine(sceneEl: HTMLElement): void {
   const device = getDeviceCapability();
-  if (device.prefersReducedMotion) return;
+
+  const MORPH_COUNTS = { full: 3200, reduced: 1200, minimal: 0 } as const;
+  const N = MORPH_COUNTS[device.tier];
+  if (N === 0) return; // minimal tier — CSS fallback
 
   const morphCanvas = document.getElementById('morph-canvas') as HTMLCanvasElement | null;
   const morphSceneEl = sceneEl;
@@ -29,8 +32,8 @@ export function initMorphEngine(sceneEl: HTMLElement): void {
   const W = pane.clientWidth || window.innerWidth / 2;
   const H = pane.clientHeight || window.innerHeight;
 
-  const mR = new THREE.WebGLRenderer({ canvas: morphCanvas, antialias: true, alpha: true });
-  mR.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  const mR = new THREE.WebGLRenderer({ canvas: morphCanvas, antialias: device.tier === 'full', alpha: true });
+  mR.setPixelRatio(device.pixelRatioLimit);
   mR.setSize(W, H);
   mR.setClearColor(0x000000, 0);
 
@@ -43,7 +46,6 @@ export function initMorphEngine(sceneEl: HTMLElement): void {
     const x = Math.sin(s * 9301 + 49297) * 233280;
     return x - Math.floor(x);
   };
-  const N = device.isMobile ? 1200 : 3200;
 
   /* -- Per-particle arrays -- */
   const livePos = new Float32Array(N * 3);

@@ -33,7 +33,10 @@ function calcScore(vals: Record<'m' | 'i' | 'n' | 'd', number>): number {
 
 export function initZoneZero(container: HTMLElement): void {
   const device = getDeviceCapability();
-  if (device.prefersReducedMotion) return;
+
+  const ZZ_COUNTS = { full: 1800, reduced: 800, minimal: 0 } as const;
+  const zzParticleCount = ZZ_COUNTS[device.tier];
+  if (zzParticleCount === 0) return; // minimal tier — CSS fallback
 
   const canvas = document.getElementById('zz-canvas') as HTMLCanvasElement | null;
   if (!canvas) return;
@@ -91,8 +94,8 @@ export function initZoneZero(container: HTMLElement): void {
   const W = (): number => wrap.clientWidth;
   const H = (): number => wrap.clientHeight;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: device.tier === 'full', alpha: true });
+  renderer.setPixelRatio(device.pixelRatioLimit);
   renderer.setSize(W(), H());
   renderer.setClearColor(0x020204, 1);
 
@@ -101,7 +104,7 @@ export function initZoneZero(container: HTMLElement): void {
   camera.position.z = 110;
 
   // -- Particle system --
-  const N = device.isMobile ? 800 : 1800;
+  const N = zzParticleCount;
   const positions = new Float32Array(N * 3);
   const colors_arr = new Float32Array(N * 3);
   const targets = new Float32Array(N * 3); // orbit targets
