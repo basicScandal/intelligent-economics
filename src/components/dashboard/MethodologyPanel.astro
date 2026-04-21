@@ -1,0 +1,63 @@
+---
+import type { DimensionKey } from '../../lib/mind-score';
+import type { MethodologyIndicator } from '../../lib/dashboard-data';
+
+interface Props {
+  indicators: Record<DimensionKey, MethodologyIndicator[]>;
+}
+
+const { indicators } = Astro.props;
+
+const DIM_COLORS: Record<DimensionKey, string> = {
+  m: '#00ff88',
+  i: '#00c8ff',
+  n: '#7b4bff',
+  d: '#ffb400',
+};
+
+const DIM_NAMES: Record<DimensionKey, string> = {
+  m: 'Material',
+  i: 'Intelligence',
+  n: 'Network',
+  d: 'Diversity',
+};
+
+const dimensions: DimensionKey[] = ['m', 'i', 'n', 'd'];
+---
+
+<div class="rounded-lg bg-surface p-6">
+  <h2 class="text-xl font-semibold font-display text-text mb-2">Methodology</h2>
+  <p class="text-sm text-text-muted mb-6">
+    Which World Bank indicators feed each MIND dimension
+  </p>
+
+  <div class="space-y-3">
+    {dimensions.map((dim) => {
+      const color = DIM_COLORS[dim];
+      const name = DIM_NAMES[dim];
+      const items = indicators[dim] || [];
+      return (
+        <details class="group rounded-md bg-surface-2 border border-white/5" style={`border-left: 4px solid ${color}`}>
+          <summary class="flex items-center gap-3 px-4 py-3 cursor-pointer select-none text-text hover:bg-white/5 transition-colors">
+            <span class="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0" style={`background-color: ${color}`} />
+            <span class="font-medium">{name}</span>
+            <span class="text-text-muted text-sm">({items.length} indicators)</span>
+            <svg class="ml-auto w-4 h-4 text-text-muted transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </summary>
+          <ul class="px-4 pb-4 pt-1 space-y-2">
+            {items.map((ind) => (
+              <li class="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3 text-sm">
+                <code class="text-xs font-mono text-text-muted bg-bg px-1.5 py-0.5 rounded whitespace-nowrap">
+                  {ind.code}
+                </code>
+                <span class="text-text">{ind.name}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      );
+    })}
+  </div>
+</div>

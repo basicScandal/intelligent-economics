@@ -1,0 +1,83 @@
+---
+import type { RankingEntry } from '../../lib/dashboard-data';
+import type { DimensionKey } from '../../lib/mind-score';
+
+interface Props {
+  rankings: RankingEntry[];
+}
+
+const { rankings } = Astro.props;
+
+const DIM_COLORS: Record<DimensionKey, string> = {
+  m: '#00ff88',
+  i: '#00c8ff',
+  n: '#7b4bff',
+  d: '#ffb400',
+};
+
+const DIM_NAMES: Record<DimensionKey, string> = {
+  m: 'Material',
+  i: 'Intelligence',
+  n: 'Network',
+  d: 'Diversity',
+};
+
+function formatScore(val: number | null): string {
+  if (val === null) return '--';
+  return String(Math.round(val));
+}
+---
+
+<div id="ranking-table" class="overflow-x-auto rounded-lg border border-white/10">
+  <table class="w-full text-sm border-collapse" aria-label="Top countries by MIND score">
+    <caption class="px-4 py-3 text-left text-lg font-semibold font-display text-text">
+      Top {rankings.length} Countries by MIND Score
+    </caption>
+    <thead>
+      <tr class="border-b border-white/10 bg-surface-2 text-text-muted text-xs uppercase tracking-wider">
+        <th class="px-3 py-2 text-left font-medium">#</th>
+        <th class="px-3 py-2 text-left font-medium">Country</th>
+        <th class="px-3 py-2 text-right font-medium">MIND</th>
+        <th class="px-3 py-2 text-right font-medium" style="color: #00ff88">M</th>
+        <th class="px-3 py-2 text-right font-medium" style="color: #00c8ff">I</th>
+        <th class="px-3 py-2 text-right font-medium" style="color: #7b4bff">N</th>
+        <th class="px-3 py-2 text-right font-medium" style="color: #ffb400">D</th>
+        <th class="px-3 py-2 text-left font-medium">Binding Constraint</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rankings.map((country, idx) => {
+        const bcKey = country.bc as DimensionKey;
+        const bcColor = DIM_COLORS[bcKey] || '#8888aa';
+        const bcName = DIM_NAMES[bcKey] || country.bc;
+        return (
+          <tr class:list={[
+            "border-b border-white/5 transition-colors hover:bg-white/5",
+            idx % 2 === 0 ? "bg-surface" : "bg-surface-2"
+          ]}>
+            <td class="px-3 py-2 text-text-muted tabular-nums">{country.rank}</td>
+            <td class="px-3 py-2 text-text font-medium">{country.name}</td>
+            <td class="px-3 py-2 text-right font-bold text-white tabular-nums">
+              {formatScore(country.mind)}
+            </td>
+            <td class="px-3 py-2 text-right tabular-nums" style="color: #00ff88">
+              {formatScore(country.m)}
+            </td>
+            <td class="px-3 py-2 text-right tabular-nums" style="color: #00c8ff">
+              {formatScore(country.i)}
+            </td>
+            <td class="px-3 py-2 text-right tabular-nums" style="color: #7b4bff">
+              {formatScore(country.n)}
+            </td>
+            <td class="px-3 py-2 text-right tabular-nums" style="color: #ffb400">
+              {formatScore(country.d)}
+            </td>
+            <td class="px-3 py-2" style={`color: ${bcColor}`}>
+              {bcName}
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
