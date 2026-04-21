@@ -29,6 +29,7 @@ const { title, description = 'Build the Next World with Intelligent Economics' }
       window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
     </script>
     <script defer data-domain="intelligenteconomics.ai" src="https://plausible.io/js/script.js"></script>
+    <slot name="head" />
   </head>
   <body class="min-h-screen bg-bg text-text font-body">
     <slot />

@@ -27,9 +27,23 @@ const {
   abstract,
   headings,
 } = Astro.props;
+
+const ogImage = new URL('/og-whitepaper.png', Astro.site).toString();
+const canonicalURL = new URL('/whitepaper', Astro.site).toString();
 ---
 
 <BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+  </Fragment>
   <Nav />
   <div class="whitepaper-wrapper">
     <aside class="whitepaper-sidebar">
@@ -58,4 +72,28 @@ const {
     </main>
   </div>
   <Footer />
+  <script>
+    function initScrollSpy() {
+      const setCurrent = (entries: IntersectionObserverEntry[]) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          const link = document.querySelector(`#toc a[href="#${id}"]`);
+          if (!link) continue;
+          if (entry.isIntersecting) {
+            document.querySelectorAll('#toc a').forEach(a => a.classList.remove('active'));
+            link.classList.add('active');
+          }
+        }
+      };
+
+      const observer = new IntersectionObserver(setCurrent, {
+        rootMargin: '0px 0px -66%',
+        threshold: 1,
+      });
+
+      document.querySelectorAll('article :is(h2, h3)').forEach(h => observer.observe(h));
+    }
+
+    initScrollSpy();
+  </script>
 </BaseLayout>
