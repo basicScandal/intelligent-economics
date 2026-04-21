@@ -96,12 +96,11 @@ Plans:
   3. Visiting the site with `prefers-reduced-motion: reduce` shows zero particle animation (CSS fallback only)
   4. Scrolling past a Three.js section pauses its render loop (verified via DevTools frame counter)
   5. CSS and JS assets have content-hashed filenames and return proper cache headers
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
-- [ ] 05-03: TBD
+- [ ] 05-01-PLAN.md — Device tier detection enhancement and tier-adaptive particle counts for all Three.js systems
+- [ ] 05-02-PLAN.md — IntersectionObserver render loop pausing, reduced-motion CSS fallbacks, and cache headers
 
 ### Phase 6: Growth Engine
 **Goal**: New signups receive a structured welcome experience that moves them from email subscriber to active community member
@@ -133,5 +132,5 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 | 2. Content Migration | 0/4 | Planning complete | - |
 | 3. Conversion Pipeline | 0/3 | Planning complete | - |
 | 4. Analytics and Tracking | 1/1 | Complete   | 2026-04-21 |
-| 5. Performance Optimization | 0/3 | Not started | - |
+| 5. Performance Optimization | 0/2 | Planning complete | - |
 | 6. Growth Engine | 0/3 | Not started | - |
