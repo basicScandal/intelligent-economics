@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: Global Growth Foundation
-status: shipped
-stopped_at: Milestone v1.0 complete
-last_updated: "2026-04-21"
-last_activity: 2026-04-21
+milestone: v1.1
+milestone_name: MIND Intelligence Layer
+status: executing
+stopped_at: Completed 09-03-PLAN.md
+last_updated: "2026-04-21T23:12:07Z"
+last_activity: 2026-04-21 -- Phase 09 Plan 03 complete (human-verify pending)
 progress:
   total_phases: 6
-  completed_phases: 6
-  total_plans: 14
-  completed_plans: 14
-  percent: 100
+  completed_phases: 3
+  total_plans: 7
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -21,42 +21,60 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-21)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** v1.0 shipped. Next: `/gsd:new-milestone` for v1.1 planning.
+**Current focus:** Phase 09 — country-dashboard-core
 
 ## Current Position
 
-Phase: All complete
-Plan: All complete
-Status: v1.0 shipped — ready for next milestone
-Last activity: 2026-04-21
+Phase: 09 (country-dashboard-core) — COMPLETE (human-verify pending)
+Plan: 3 of 3
+Status: All plans automated, Task 3 checkpoint requires human verification
+Last activity: 2026-04-21 -- Phase 09 Plan 03 complete
 
-Progress: [##########] 100%
+Progress: [########░░] 86%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 14
-- Total phases: 6
-- Timeline: 6 days (2026-04-16 to 2026-04-21)
-- Total commits: 77
+- Total plans completed: 14 (v1.0)
+- v1.1 plans completed: 5
+- Average duration: ~10min
+- Total execution time: ~50min
 
 **By Phase:**
 
-| Phase | Plans | Duration | Files |
-|-------|-------|----------|-------|
-| Phase 01 | 2 | P01: 3min, P02: 5min | 27 files |
-| Phase 02 | 4 | P01: 17min, P02: 5min, P03: 7min, P04: 3min | 58 files |
-| Phase 03 | 3 | P01: 2min, P02: 1min, P03: 1min | 7 files |
-| Phase 04 | 1 | P01: 3min | 5 files |
-| Phase 05 | 2 | P01: 2min, P02: 2min | 9 files |
-| Phase 06 | 2 | P01: 2min, P02: 3min | 10 files |
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
+
+*Updated after each plan completion*
+| Phase 07 P02 | 37min | 2 tasks | 3 files |
+| Phase 08 P01 | 4min | 2 tasks | 8 files |
+| Phase 08 P02 | 6min | 2 tasks | 5 files |
+| Phase 09 P01 | ~5min | 3 tasks | 9 files |
+| Phase 09 P02 | 3min | 2 tasks | 4 files |
+| Phase 09 P03 | 5min | 2 tasks (+ 1 checkpoint) | 14 files |
 
 ## Accumulated Context
 
 ### Decisions
 
-All decisions archived in PROJECT.md Key Decisions table and milestones/v1.0-ROADMAP.md.
+All v1.0 decisions archived in PROJECT.md Key Decisions table.
+
+Recent decisions affecting current work:
+
+- v1.1 roadmap: ECharts 6 over Chart.js for dashboard (feature depth: treemap, sunburst, drill-down)
+- v1.1 roadmap: Build-time World Bank fetch with committed JSON baseline (no runtime API calls)
+- v1.1 roadmap: MDX content collection for whitepaper (enables inline interactive components)
+- [Phase 07]: mrnev/mrv fallback for World Bank API: try mrnev=1 first, fall back to mrv=5 with most-recent-non-null selection
+- [Phase 07]: TX.VAL.TECH.MF.ZS (high-tech exports) as proxy for trade diversification in Diversity dimension
+- [Phase 08]: MDX remarkPlugins and rehypePlugins inside mdx() integration config; whitepaper uses scoped light-mode CSS custom properties
+- [Phase 08]: Country data uses exact values from mind-scores.json; BaseLayout extended with head slot for child layout meta injection
+- [Phase 09-02]: Native HTML details/summary for methodology accordion — zero JS, accessible by default
+- [Phase 09-02]: Two-tier data injection: slim payload as data-attribute, full indicators as script type=application/json
+- [Phase 09-02]: DOM ID contract pattern: static components define IDs that client scripts target for hydration
+- [Phase 09-03]: Two-path lazy loading: IntersectionObserver for ECharts, requestIdleCallback for search — no DashboardIsland.astro wrapper
+- [Phase 09-03]: Pub/sub state store pattern: createDashboardState() coordinates search and chart modules without reactive framework
 
 ### Pending Todos
 
@@ -64,10 +82,12 @@ None.
 
 ### Blockers/Concerns
 
-Cleared for next milestone. Operational setup items tracked in milestones/v1.0-MILESTONE-AUDIT.md tech debt section.
+- Normalization bounds (theoretical vs empirical) must be resolved in Phase 7
+- Aggregation formula weighting must be defined in Phase 8 whitepaper before Phase 11 implementation
+- ECharts data injection pattern validated: data-scores attribute for slim payload, script type=application/json for indicators
 
 ## Session Continuity
 
-Last session: 2026-04-21
-Stopped at: Milestone v1.0 complete
+Last session: 2026-04-21T23:12:07Z
+Stopped at: Completed 09-03-PLAN.md
 Resume file: None
