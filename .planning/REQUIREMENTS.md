@@ -16,9 +16,9 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Whitepaper
 
-- [ ] **PAPER-01**: Structured MDX whitepaper page on /whitepaper route with title, abstract, sections, conclusion
-- [ ] **PAPER-02**: Sticky TOC sidebar with scroll-spy highlighting via IntersectionObserver and getHeadings()
-- [ ] **PAPER-03**: Math equation rendering via KaTeX (build-time, zero client JS) for MIND formula
+- [x] **PAPER-01**: Structured MDX whitepaper page on /whitepaper route with title, abstract, sections, conclusion
+- [x] **PAPER-02**: Sticky TOC sidebar with scroll-spy highlighting via IntersectionObserver and getHeadings()
+- [x] **PAPER-03**: Math equation rendering via KaTeX (build-time, zero client JS) for MIND formula
 - [ ] **PAPER-04**: Citation and footnote formatting with remark-gfm for academic references
 - [ ] **PAPER-05**: Print-friendly CSS (@media print) for PDF-quality output
 - [ ] **PAPER-06**: Social sharing meta tags (og:title, og:description, og:image) for whitepaper
@@ -93,9 +93,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-02 | Phase 7 | Complete |
 | DATA-03 | Phase 7 | Complete |
 | DATA-04 | Phase 9 | Pending |
-| PAPER-01 | Phase 8 | Pending |
-| PAPER-02 | Phase 8 | Pending |
-| PAPER-03 | Phase 8 | Pending |
+| PAPER-01 | Phase 8 | Complete |
+| PAPER-02 | Phase 8 | Complete |
+| PAPER-03 | Phase 8 | Complete |
 | PAPER-04 | Phase 8 | Pending |
 | PAPER-05 | Phase 8 | Pending |
 | PAPER-06 | Phase 8 | Pending |

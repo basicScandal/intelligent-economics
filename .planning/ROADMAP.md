@@ -62,7 +62,7 @@ Plans:
   5. Sharing the /whitepaper URL on social media displays a rich preview with title, description, and image
 **Plans:** 2 plans
 Plans:
-- [ ] 08-01-PLAN.md — MDX infrastructure: deps, Astro config, content collection, WhitepaperLayout, TOC component, page route, whitepaper CSS
+- [x] 08-01-PLAN.md — MDX infrastructure: deps, Astro config, content collection, WhitepaperLayout, TOC component, page route, whitepaper CSS
 - [ ] 08-02-PLAN.md — Full whitepaper prose (3000-4000 words), scroll-spy, print CSS, OG image, social meta tags
 
 ### Phase 9: Country Dashboard Core
