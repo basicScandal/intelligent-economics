@@ -26,4 +26,16 @@ const experiments = defineCollection({
   }),
 });
 
-export const collections = { stories, experiments };
+const whitepaper = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/whitepaper' }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    abstract: z.string(),
+    authors: z.array(z.string()),
+    date: z.string(),
+    version: z.string(),
+  }),
+});
+
+export const collections = { stories, experiments, whitepaper };
