@@ -16,7 +16,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **ARCH-05**: Device capability detection classifies visitors into full/reduced/minimal tiers
 - [ ] **ARCH-06**: Three.js particle count adapts to device tier (full: 4000, reduced: 1500, minimal: CSS fallback)
 - [x] **ARCH-07**: Content collections manage case studies, team members, and partner organizations
-- [ ] **ARCH-08**: Dark/light theme toggle preserved from existing site
+- [x] **ARCH-08**: Dark/light theme toggle preserved from existing site
 
 ### Conversion
 
@@ -52,14 +52,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Content Preservation
 
-- [ ] **CPRE-01**: All 14+ existing content sections preserved in Astro components
+- [x] **CPRE-01**: All 14+ existing content sections preserved in Astro components
 - [ ] **CPRE-02**: Three.js particle hero with scroll-driven morph engine preserved
 - [x] **CPRE-03**: Interactive Zone Zero simulator with 4 MIND dimension sliders preserved
 - [x] **CPRE-04**: 6 historical case study panels preserved
 - [ ] **CPRE-05**: GSAP ScrollTrigger animations with clip-path diagonal wipes preserved
-- [ ] **CPRE-06**: Volunteer signup form with role selection cards preserved
+- [x] **CPRE-06**: Volunteer signup form with role selection cards preserved
 - [ ] **CPRE-07**: Countdown timer (1000-day window ending 2029-01-09) preserved
-- [ ] **CPRE-08**: Privacy policy page preserved and linked from form and footer
+- [x] **CPRE-08**: Privacy policy page preserved and linked from form and footer
 
 ## v2 Requirements
 
@@ -103,7 +103,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | ARCH-05 | Phase 5 | Pending |
 | ARCH-06 | Phase 5 | Pending |
 | ARCH-07 | Phase 2 | Complete |
-| ARCH-08 | Phase 2 | Pending |
+| ARCH-08 | Phase 2 | Complete |
 | CONV-01 | Phase 3 | Pending |
 | CONV-02 | Phase 3 | Pending |
 | CONV-03 | Phase 3 | Pending |
@@ -127,14 +127,14 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | PERF-04 | Phase 5 | Pending |
 | PERF-05 | Phase 5 | Pending |
 | PERF-06 | Phase 5 | Pending |
-| CPRE-01 | Phase 2 | Pending |
+| CPRE-01 | Phase 2 | Complete |
 | CPRE-02 | Phase 2 | Pending |
 | CPRE-03 | Phase 2 | Complete |
 | CPRE-04 | Phase 2 | Complete |
 | CPRE-05 | Phase 2 | Pending |
-| CPRE-06 | Phase 2 | Pending |
+| CPRE-06 | Phase 2 | Complete |
 | CPRE-07 | Phase 2 | Pending |
-| CPRE-08 | Phase 2 | Pending |
+| CPRE-08 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 39 total
