@@ -1,0 +1,181 @@
+---
+// Team - Founder card, organizational status, and contact info (GROW-05, GROW-06, GROW-07)
+---
+
+<section class="team section" id="team">
+  <div class="container container--default">
+    <div class="team__intro reveal">
+      <div class="section-label">The Team</div>
+      <h2 class="section-title">Who's Building This</h2>
+      <p class="section-body" style="margin-inline: auto;">
+        Every movement starts with someone willing to say "this has to exist." We're in the founding stage — building the intellectual foundation, assembling the first cohort, and designing the systems that will scale.
+      </p>
+    </div>
+
+    <div class="team__card reveal reveal-delay-1">
+      <div class="team__avatar" aria-hidden="true">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="rgba(0,255,136,0.1)"/>
+          <circle cx="40" cy="40" r="38" stroke="rgba(0,255,136,0.3)" stroke-width="1"/>
+          <text x="40" y="46" text-anchor="middle" font-family="var(--font-display), system-ui, sans-serif" font-size="24" font-weight="700" fill="#00ff88">RR</text>
+        </svg>
+      </div>
+      <div class="team__info">
+        <h3 class="team__name">Rob Ragan</h3>
+        <p class="team__role">Founder</p>
+        <p class="team__bio">
+          Security researcher turned economic systems thinker. After two decades breaking systems at Bishop Fox, now focused on designing ones that don't need breaking — starting with how we measure prosperity.
+        </p>
+        <a href="mailto:rragan@bishopfox.com" class="team__contact">rragan@bishopfox.com</a>
+      </div>
+    </div>
+
+    <div class="team__status reveal reveal-delay-2">
+      <span class="team__status-dot" aria-hidden="true"></span>
+      Currently forming as a nonprofit organization
+    </div>
+  </div>
+</section>
+
+<style>
+  .team__intro {
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    margin-bottom: var(--space-12);
+  }
+
+  .team__intro .section-label {
+    justify-content: center;
+  }
+
+  .team__intro .section-label::before {
+    display: none;
+  }
+
+  .team__intro .section-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--color-primary);
+  }
+
+  .team__card {
+    max-width: 480px;
+    margin-inline: auto;
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    background: rgba(10, 10, 16, 0.55);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  .team__avatar {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .team__avatar svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .team__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .team__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .team__role {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-4);
+  }
+
+  .team__bio {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-4);
+  }
+
+  .team__contact {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 200ms ease;
+  }
+
+  .team__contact:hover {
+    opacity: 0.8;
+  }
+
+  .team__status {
+    max-width: 480px;
+    margin-inline: auto;
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: rgba(0, 255, 136, 0.04);
+    border: 1px solid rgba(0, 255, 136, 0.15);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .team__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    box-shadow: 0 0 8px var(--color-primary-glow);
+    flex-shrink: 0;
+    animation: team-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes team-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @media (max-width: 600px) {
+    .team__card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .team__contact {
+      justify-content: center;
+    }
+
+    .team__status {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+</style>
