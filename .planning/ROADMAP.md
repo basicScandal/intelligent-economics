@@ -31,12 +31,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. PRs generate preview deploy URLs that are visitable
   4. Tailwind v4 utility classes render correctly with the bioluminescent OKLCH palette
   5. SPF, DKIM, and DMARC DNS records are configured on the domain (verified via MXToolbox or equivalent)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — Astro 5.18.x scaffold with Tailwind v4 OKLCH design tokens and placeholder pages
+- [ ] 01-02-PLAN.md — Netlify CI/CD pipeline, GitHub Pages cleanup, and email DNS documentation
 
 ### Phase 2: Content Migration
 **Goal**: Every section of the existing site lives in maintainable Astro components with all visual fidelity preserved — the site looks and feels identical to the original
@@ -131,7 +130,7 @@ Note: Phase 4 depends on Phase 3. Phase 5 depends on Phase 2 (can run in paralle
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Deploy | 0/3 | Not started | - |
+| 1. Foundation and Deploy | 0/2 | Planning complete | - |
 | 2. Content Migration | 0/4 | Not started | - |
 | 3. Conversion Pipeline | 0/3 | Not started | - |
 | 4. Analytics and Tracking | 0/1 | Not started | - |
