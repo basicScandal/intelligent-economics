@@ -371,6 +371,9 @@ export function initMorphEngine(sceneEl: HTMLElement): void {
   let mFrame = 0;
   let mMX = 0;
   let mMY = 0;
+  let mVisible = true;
+  let mAnimRunning = false;
+
   document.addEventListener(
     'mousemove',
     (e: MouseEvent) => {
@@ -380,8 +383,23 @@ export function initMorphEngine(sceneEl: HTMLElement): void {
     { passive: true },
   );
 
+  // Pause render loop when morph section is off-screen (PERF-05)
+  const mObserver = new IntersectionObserver(
+    (entries) => {
+      mVisible = entries[0].isIntersecting;
+      if (mVisible && !mAnimRunning) startMLoop();
+    },
+    { threshold: 0 },
+  );
+  mObserver.observe(morphSceneEl);
+
   function mLoop(): void {
+    if (!mVisible) {
+      mAnimRunning = false;
+      return;
+    }
     requestAnimationFrame(mLoop);
+    mAnimRunning = true;
     mFrame++;
     if (!busy) {
       const pos = mGeo.attributes.position.array as Float32Array;
@@ -399,7 +417,15 @@ export function initMorphEngine(sceneEl: HTMLElement): void {
     mPts.rotation.x += -mMY * 0.003 - mPts.rotation.x * 0.003;
     mR.render(mScene, mCam);
   }
-  mLoop();
+
+  function startMLoop(): void {
+    if (!mAnimRunning) {
+      mAnimRunning = true;
+      mLoop();
+    }
+  }
+
+  startMLoop();
 
   /* -- Resize -- */
   window.addEventListener(

@@ -307,9 +307,27 @@ export function initZoneZero(container: HTMLElement): void {
   let t = 0;
   const dimKeys: ('m' | 'i' | 'n' | 'd')[] = ['m', 'i', 'n', 'd'];
   const scatterAccum = new Float32Array(N * 3); // accumulated scatter offset
+  let zzVisible = true;
+  let zzAnimRunning = false;
+
+  // Pause render loop when zone-zero section is off-screen (PERF-05)
+  const zzSection = container.closest('section') || container;
+  const zzRenderObserver = new IntersectionObserver(
+    (entries) => {
+      zzVisible = entries[0].isIntersecting;
+      if (zzVisible && !zzAnimRunning) startZZLoop();
+    },
+    { threshold: 0 },
+  );
+  zzRenderObserver.observe(zzSection);
 
   function animate(): void {
+    if (!zzVisible) {
+      zzAnimRunning = false;
+      return;
+    }
     requestAnimationFrame(animate);
+    zzAnimRunning = true;
     t += 0.012;
 
     const pos = geo.attributes.position.array as Float32Array;
@@ -370,20 +388,28 @@ export function initZoneZero(container: HTMLElement): void {
 
     renderer.render(scene, camera);
   }
-  animate();
 
-  // CONV-09: Track when simulator scrolls into viewport
-  const zzSection = document.getElementById('zone-zero');
-  if (zzSection) {
-    const zzObserver = new IntersectionObserver((entries) => {
+  function startZZLoop(): void {
+    if (!zzAnimRunning) {
+      zzAnimRunning = true;
+      animate();
+    }
+  }
+
+  startZZLoop();
+
+  // CONV-09: Track when simulator scrolls into viewport (separate from render-pause observer)
+  const analyticsSection = document.getElementById('zone-zero');
+  if (analyticsSection) {
+    const analyticsObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           trackEvent('Simulator Opened');
-          zzObserver.disconnect(); // Fire only once
+          analyticsObserver.disconnect(); // Fire only once
         }
       });
     }, { threshold: 0.2 });
-    zzObserver.observe(zzSection);
+    analyticsObserver.observe(analyticsSection);
   }
 
   // Suppress unused variable warning for mindScore / isCollapsed

@@ -96,10 +96,28 @@ export function initHeroParticles(canvas: HTMLCanvasElement): void {
   );
 
   let frame = 0;
-  let animId: number;
+  let animId: number | null = null;
+  let animRunning = false;
+  let isVisible = true;
+
+  // Pause render loop when hero section is off-screen (PERF-05)
+  const heroObserver = new IntersectionObserver(
+    (entries) => {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible && !animRunning) startLoop();
+    },
+    { threshold: 0 },
+  );
+  const heroSection = canvas.closest('section') || canvas.parentElement;
+  if (heroSection) heroObserver.observe(heroSection);
 
   function animate(): void {
+    if (!isVisible) {
+      animRunning = false;
+      return;
+    }
     animId = requestAnimationFrame(animate);
+    animRunning = true;
     frame++;
     const pos = geometry.attributes.position.array as Float32Array;
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -122,8 +140,15 @@ export function initHeroParticles(canvas: HTMLCanvasElement): void {
     renderer.render(scene, camera);
   }
 
-  animate();
+  function startLoop(): void {
+    if (!animRunning) {
+      animRunning = true;
+      animate();
+    }
+  }
 
-  // Store animId for potential future cleanup
-  void animId!;
+  startLoop();
+
+  // Keep animId accessible for potential cleanup
+  void animId;
 }
