@@ -139,9 +139,11 @@
         <p style="color: var(--color-text-muted); font-size: var(--text-base); line-height: 1.7;">
           The nucleation begins with people exactly like you. We'll be in touch when there's a specific role that matches your skills. In the meantime, explore the framework — and share this with one person who should be here too.
         </p>
-        <div style="margin-top: var(--space-8);">
+        <div style="margin-top: var(--space-8); display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center;">
           <a href="#pillars" class="btn btn--ghost" tabindex="-1" aria-hidden="true">Explore the Framework</a>
+          <a href="https://discord.gg/PLACEHOLDER" class="btn btn--primary" target="_blank" rel="noopener noreferrer">Join Our Discord</a>
         </div>
+        <p class="success-discord-note">Connect with other volunteers and find your working group</p>
       </div>
     </div>
   </div>
@@ -172,6 +174,12 @@
   }
   .form-error__retry:hover {
     background: rgba(255, 68, 85, 0.1);
+  }
+  .success-discord-note {
+    margin-top: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    text-align: center;
   }
 </style>
 
