@@ -78,7 +78,7 @@ Plans:
 **Plans:** 3 plans
 Plans:
 - [x] 09-01-PLAN.md — ECharts install + TDD data/chart utility layer (echarts-setup, charts, search, dashboard-data + 32 tests)
-- [ ] 09-02-PLAN.md — Static Astro dashboard page with ranking table, methodology panel, binding constraint components
+- [x] 09-02-PLAN.md — Static Astro dashboard page with ranking table, methodology panel, binding constraint components
 - [ ] 09-03-PLAN.md — Interactive island: ECharts charts, search dropdown, state management, responsive behavior + human verify
 
 ### Phase 10: Dashboard Advanced
@@ -131,7 +131,7 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 6. Growth Engine | v1.0 | 2/2 | Complete | 2026-04-21 |
 | 7. Shared Foundation + Data Pipeline | v1.1 | 2/2 | Complete | 2026-04-21 |
 | 8. Whitepaper | v1.1 | 0/2 | Planned | - |
-| 9. Country Dashboard Core | v1.1 | 0/3 | Planned | - |
+| 9. Country Dashboard Core | v1.1 | 2/3 | In Progress | - |
 | 10. Dashboard Advanced | v1.1 | 0/0 | Not started | - |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 0/0 | Not started | - |
 | 12. Aggregation Visualization + Polish | v1.1 | 0/0 | Not started | - |
