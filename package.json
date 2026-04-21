@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "vitest run --reporter=verbose"
+    "test": "vitest run --reporter=verbose",
+    "fetch-data": "tsx scripts/fetch-world-bank.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.0",
