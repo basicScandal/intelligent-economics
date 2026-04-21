@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: "Checkpoint: 01-02 Task 3 (human-verify Netlify deploy)"
-last_updated: "2026-04-21T06:43:57.499Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-04-21T07:22:57.261Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 6
+  completed_plans: 3
   percent: 0
 ---
 
@@ -21,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-21)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** Phase 01 — foundation-and-deploy
+**Current focus:** Phase 02 — content-migration
 
 ## Current Position
 
-Phase: 2
-Plan: Not started
+Phase: 02 (content-migration) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
 Last activity: 2026-04-21
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 3min | 2 tasks | 11 files |
+| Phase 02 P02 | 5min | 2 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,7 @@ Recent decisions affecting current work:
 - [Phase 01]: Manual Astro scaffold to preserve existing repo files
 - [Phase 01]: Hex palette in :root for pixel-identical fidelity; @theme references via var()
 - [Phase 01]: No @astrojs/netlify adapter for Phase 1 -- static output auto-deploys
+- [Phase 02]: Astro 5 glob() loader for content collections (not legacy type:content API)
 
 ### Pending Todos
 
@@ -79,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-21T06:34:08.031Z
-Stopped at: Checkpoint: 01-02 Task 3 (human-verify Netlify deploy)
+Last session: 2026-04-21T07:22:57.259Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

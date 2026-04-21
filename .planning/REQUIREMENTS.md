@@ -15,7 +15,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **ARCH-04**: Site auto-deploys to Netlify from main branch with preview deploys on PRs
 - [ ] **ARCH-05**: Device capability detection classifies visitors into full/reduced/minimal tiers
 - [ ] **ARCH-06**: Three.js particle count adapts to device tier (full: 4000, reduced: 1500, minimal: CSS fallback)
-- [ ] **ARCH-07**: Content collections manage case studies, team members, and partner organizations
+- [x] **ARCH-07**: Content collections manage case studies, team members, and partner organizations
 - [ ] **ARCH-08**: Dark/light theme toggle preserved from existing site
 
 ### Conversion
@@ -54,8 +54,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **CPRE-01**: All 14+ existing content sections preserved in Astro components
 - [ ] **CPRE-02**: Three.js particle hero with scroll-driven morph engine preserved
-- [ ] **CPRE-03**: Interactive Zone Zero simulator with 4 MIND dimension sliders preserved
-- [ ] **CPRE-04**: 6 historical case study panels preserved
+- [x] **CPRE-03**: Interactive Zone Zero simulator with 4 MIND dimension sliders preserved
+- [x] **CPRE-04**: 6 historical case study panels preserved
 - [ ] **CPRE-05**: GSAP ScrollTrigger animations with clip-path diagonal wipes preserved
 - [ ] **CPRE-06**: Volunteer signup form with role selection cards preserved
 - [ ] **CPRE-07**: Countdown timer (1000-day window ending 2029-01-09) preserved
@@ -102,7 +102,7 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | ARCH-04 | Phase 1 | Pending |
 | ARCH-05 | Phase 5 | Pending |
 | ARCH-06 | Phase 5 | Pending |
-| ARCH-07 | Phase 2 | Pending |
+| ARCH-07 | Phase 2 | Complete |
 | ARCH-08 | Phase 2 | Pending |
 | CONV-01 | Phase 3 | Pending |
 | CONV-02 | Phase 3 | Pending |
@@ -129,8 +129,8 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | PERF-06 | Phase 5 | Pending |
 | CPRE-01 | Phase 2 | Pending |
 | CPRE-02 | Phase 2 | Pending |
-| CPRE-03 | Phase 2 | Pending |
-| CPRE-04 | Phase 2 | Pending |
+| CPRE-03 | Phase 2 | Complete |
+| CPRE-04 | Phase 2 | Complete |
 | CPRE-05 | Phase 2 | Pending |
 | CPRE-06 | Phase 2 | Pending |
 | CPRE-07 | Phase 2 | Pending |
