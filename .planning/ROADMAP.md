@@ -99,7 +99,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Device tier detection enhancement and tier-adaptive particle counts for all Three.js systems
+- [x] 05-01-PLAN.md — Device tier detection enhancement and tier-adaptive particle counts for all Three.js systems
 - [ ] 05-02-PLAN.md — IntersectionObserver render loop pausing, reduced-motion CSS fallbacks, and cache headers
 
 ### Phase 6: Growth Engine

@@ -13,8 +13,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **ARCH-02**: CSS uses Tailwind v4 with design tokens matching existing bioluminescent palette
 - [x] **ARCH-03**: JavaScript/TypeScript modules are bundled per-component with tree-shaking
 - [ ] **ARCH-04**: Site auto-deploys to Netlify from main branch with preview deploys on PRs
-- [ ] **ARCH-05**: Device capability detection classifies visitors into full/reduced/minimal tiers
-- [ ] **ARCH-06**: Three.js particle count adapts to device tier (full: 4000, reduced: 1500, minimal: CSS fallback)
+- [x] **ARCH-05**: Device capability detection classifies visitors into full/reduced/minimal tiers
+- [x] **ARCH-06**: Three.js particle count adapts to device tier (full: 4000, reduced: 1500, minimal: CSS fallback)
 - [x] **ARCH-07**: Content collections manage case studies, team members, and partner organizations
 - [x] **ARCH-08**: Dark/light theme toggle preserved from existing site
 
@@ -44,9 +44,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Performance
 
 - [ ] **PERF-01**: Lighthouse performance score >= 90 on desktop, >= 75 on mobile
-- [ ] **PERF-02**: Three.js particles reduced on mobile: hero 4000->1500, morph 3200->1200, Zone Zero 1800->800
+- [x] **PERF-02**: Three.js particles reduced on mobile: hero 4000->1500, morph 3200->1200, Zone Zero 1800->800
 - [ ] **PERF-03**: `prefers-reduced-motion: reduce` disables all particle animation entirely
-- [ ] **PERF-04**: Frame rate stays above 24fps on mid-range mobile devices (Pixel 7a / iPhone 12 equivalent)
+- [x] **PERF-04**: Frame rate stays above 24fps on mid-range mobile devices (Pixel 7a / iPhone 12 equivalent)
 - [ ] **PERF-05**: IntersectionObserver pauses off-screen WebGL render loops
 - [ ] **PERF-06**: CSS and JS externalized and cacheable with content hashing
 
@@ -100,8 +100,8 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | ARCH-02 | Phase 1 | Complete |
 | ARCH-03 | Phase 1 | Complete |
 | ARCH-04 | Phase 1 | Pending |
-| ARCH-05 | Phase 5 | Pending |
-| ARCH-06 | Phase 5 | Pending |
+| ARCH-05 | Phase 5 | Complete |
+| ARCH-06 | Phase 5 | Complete |
 | ARCH-07 | Phase 2 | Complete |
 | ARCH-08 | Phase 2 | Complete |
 | CONV-01 | Phase 3 | Complete |
@@ -122,9 +122,9 @@ Deferred to future milestone. Tracked but not in current roadmap.
 | GROW-06 | Phase 6 | Pending |
 | GROW-07 | Phase 6 | Pending |
 | PERF-01 | Phase 5 | Pending |
-| PERF-02 | Phase 5 | Pending |
+| PERF-02 | Phase 5 | Complete |
 | PERF-03 | Phase 5 | Pending |
-| PERF-04 | Phase 5 | Pending |
+| PERF-04 | Phase 5 | Complete |
 | PERF-05 | Phase 5 | Pending |
 | PERF-06 | Phase 5 | Pending |
 | CPRE-01 | Phase 2 | Complete |
