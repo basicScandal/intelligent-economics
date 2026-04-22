@@ -13,7 +13,7 @@ import type { DimensionKey } from '../../lib/mind-score';
 export const DIM_COLORS: Record<DimensionKey, string> = {
   m: '#00ff88',
   i: '#00c8ff',
-  n: '#7b4bff',
+  n: '#8b5fff',
   d: '#ffb400',
 };
 

@@ -46,7 +46,7 @@ const cities = cityData.cities.map(city => ({
       <ScaleTabs />
 
       <!-- Country scale panel -->
-      <div id="scale-country" data-scale-panel="country">
+      <div id="scale-country" data-scale-panel="country" role="tabpanel" aria-labelledby="tab-country">
 
       <!-- Search bar placeholder (visible before JS, replaced on hydration by init.ts) -->
       <div id="search-container" class="mb-10">
@@ -60,6 +60,7 @@ const cities = cityData.cities.map(city => ({
         <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
           <!-- Radar chart container -->
           <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
+          <div id="radar-chart-sr" class="sr-only" role="status" aria-live="polite"></div>
 
           <!-- Binding constraint callout (static component, hidden until selection) -->
           <BindingConstraint dimension="" text="" score={0} dimKey="m" />
@@ -80,7 +81,9 @@ const cities = cityData.cities.map(city => ({
         <div class="rounded-xl bg-surface border border-border p-6">
           <h2 class="text-xl font-semibold font-display text-text mb-6">Country Comparison</h2>
           <div id="comparison-radar" class="w-full h-80 lg:h-96 mb-6" style="min-height: 320px" aria-hidden="true"></div>
+          <div id="comparison-radar-sr" class="sr-only" role="status" aria-live="polite"></div>
           <div id="bar-chart" class="w-full h-64 lg:h-80" style="min-height: 256px" aria-hidden="true"></div>
+          <div id="bar-chart-sr" class="sr-only" role="status" aria-live="polite"></div>
           <p id="bar-attribution" class="text-xs text-text-faint mt-4">{attribution}</p>
         </div>
       </section>
@@ -104,7 +107,7 @@ const cities = cityData.cities.map(city => ({
       </div><!-- /scale-country -->
 
       <!-- City scale panel -->
-      <div id="scale-city" data-scale-panel="city" class="hidden">
+      <div id="scale-city" data-scale-panel="city" role="tabpanel" aria-labelledby="tab-city" class="hidden">
         <h2 class="text-2xl font-display font-semibold text-text mb-6 text-center">City MIND Profiles</h2>
         <p class="text-text-muted text-center mb-8 max-w-xl mx-auto">
           Curated city-level MIND analysis demonstrating the framework at local scale.
@@ -134,6 +137,7 @@ const cities = cityData.cities.map(city => ({
               <button id="city-detail-close" class="text-text-muted hover:text-white text-sm" aria-label="Close city detail">&times; Close</button>
             </div>
             <div id="city-radar-chart" class="w-full h-72" style="min-height: 288px" aria-hidden="true"></div>
+            <div id="city-radar-sr" class="sr-only" role="status" aria-live="polite"></div>
             <div id="city-binding-constraint" class="mt-4 pl-4 border-l-2 border-white/20">
               <p class="text-sm text-text-muted">Binding constraint: <strong id="city-bc-name" class="text-white"></strong> <span id="city-bc-score" class="text-text-faint"></span></p>
               <p id="city-bc-text" class="text-sm text-text-muted mt-1"></p>
@@ -144,7 +148,7 @@ const cities = cityData.cities.map(city => ({
       </div><!-- /scale-city -->
 
       <!-- Firm scale panel -->
-      <div id="scale-firm" data-scale-panel="firm" class="hidden">
+      <div id="scale-firm" data-scale-panel="firm" role="tabpanel" aria-labelledby="tab-firm" class="hidden">
         <FirmAssessment />
       </div><!-- /scale-firm -->
 

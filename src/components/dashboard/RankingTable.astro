@@ -11,7 +11,7 @@ const { rankings } = Astro.props;
 const DIM_COLORS: Record<DimensionKey, string> = {
   m: '#00ff88',
   i: '#00c8ff',
-  n: '#7b4bff',
+  n: '#8b5fff',
   d: '#ffb400',
 };
 
@@ -40,7 +40,7 @@ function formatScore(val: number | null): string {
         <th class="px-4 py-3 text-center font-medium w-16">MIND</th>
         <th class="px-4 py-3 text-center font-medium w-14" style="color: #00ff88">M</th>
         <th class="px-4 py-3 text-center font-medium w-14" style="color: #00c8ff">I</th>
-        <th class="px-4 py-3 text-center font-medium w-14" style="color: #7b4bff">N</th>
+        <th class="px-4 py-3 text-center font-medium w-14" style="color: #8b5fff">N</th>
         <th class="px-4 py-3 text-center font-medium w-14" style="color: #ffb400">D</th>
         <th class="py-3 text-left font-medium w-44 pl-6 border-l border-white/10">Binding Constraint</th>
       </tr>
@@ -66,7 +66,7 @@ function formatScore(val: number | null): string {
             <td class="px-4 py-2.5 text-center tabular-nums" style="color: #00c8ff">
               {formatScore(country.i)}
             </td>
-            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #7b4bff">
+            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #8b5fff">
               {formatScore(country.n)}
             </td>
             <td class="px-4 py-2.5 text-center tabular-nums" style="color: #ffb400">

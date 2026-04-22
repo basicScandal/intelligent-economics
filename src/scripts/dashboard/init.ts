@@ -15,6 +15,19 @@ import { decodeDashboardURL, pushDashboardURL } from './url-state';
 import type { SlimCountry } from './search';
 import type { DimensionKey } from '../../lib/mind-score';
 
+// ── sr-only helpers for screen reader text alternatives ──
+
+function updateSrOnly(elementId: string, text: string): void {
+  const el = document.getElementById(elementId);
+  if (el) el.textContent = text;
+}
+
+function formatCountryDescription(name: string, m: number, i: number, n: number, d: number, bcKey: string): string {
+  const score = Math.round((m * i * n * d) ** 0.25);
+  const bcNames: Record<string, string> = { m: 'Material', i: 'Intelligence', n: 'Network', d: 'Diversity' };
+  return `${name} MIND score: ${score}. Material: ${Math.round(m)}, Intelligence: ${Math.round(i)}, Network: ${Math.round(n)}, Diversity: ${Math.round(d)}. Binding constraint: ${bcNames[bcKey] || bcKey}.`;
+}
+
 // ── 1. Read data eagerly (just JSON parse, no heavy modules) ──
 
 const dataEl = document.getElementById('dashboard-data');
@@ -128,6 +141,9 @@ const chartObserver = new IntersectionObserver(
               if (cityBcBorder) cityBcBorder.style.borderLeftColor = DIM_COLORS[bcKey];
               if (cityDetailName) cityDetailName.textContent = `${name} MIND Profile`;
 
+              // Update sr-only text for city radar
+              updateSrOnly('city-radar-sr', `${name} MIND score: Material ${m}, Intelligence ${i}, Network ${n}, Diversity ${d}. Binding constraint: ${bc.dimension}.`);
+
               cityDetail.classList.remove('hidden');
               cityDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
@@ -174,6 +190,12 @@ const chartObserver = new IntersectionObserver(
                     `MIND dimension radar chart for ${state.primary.name}`,
                   );
               }
+
+              // Update sr-only text for primary radar
+              updateSrOnly('radar-chart-sr', formatCountryDescription(
+                state.primary.name, state.primary.m ?? 0, state.primary.i ?? 0,
+                state.primary.n ?? 0, state.primary.d ?? 0, state.primary.bc as string
+              ));
 
               // Update binding constraint via DOM IDs
               const bcDimKey = state.primary.bc as DimensionKey;
@@ -234,6 +256,12 @@ const chartObserver = new IntersectionObserver(
                     `MIND comparison radar for ${validCountries.map((c) => c.name).join(', ')}`,
                   );
                 document.getElementById('comparison-radar')?.classList.remove('hidden');
+
+                // Update sr-only text for comparison radar
+                const compText = validCountries.map(c =>
+                  formatCountryDescription(c.name, c.m ?? 0, c.i ?? 0, c.n ?? 0, c.d ?? 0, c.bc as string || '')
+                ).join(' ');
+                updateSrOnly('comparison-radar-sr', `Comparison of ${validCountries.length} countries. ${compText}`);
               } else {
                 document.getElementById('comparison-radar')?.classList.add('hidden');
               }
@@ -257,6 +285,9 @@ const chartObserver = new IntersectionObserver(
                     'aria-label',
                     `MIND dimension comparison for ${validCountries.map((c) => c.name).join(', ')}`,
                   );
+
+                // Update sr-only text for bar chart
+                updateSrOnly('bar-chart-sr', `Bar chart comparing MIND dimensions for ${validCountries.map(c => c.name).join(', ')}.`);
               }
 
               // Render comparison chips
@@ -559,28 +590,64 @@ if (scaleTabs) {
   const tabs = scaleTabs.querySelectorAll<HTMLButtonElement>('[role="tab"]');
   const panels = document.querySelectorAll<HTMLElement>('[data-scale-panel]');
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const scale = tab.dataset.scale as Scale;
-      if (!scale) return;
+  function activateTab(tab: HTMLButtonElement) {
+    const scale = tab.dataset.scale as Scale;
+    if (!scale) return;
 
-      // Update tab active states
-      tabs.forEach((t) => {
-        t.setAttribute('aria-selected', 'false');
-        t.classList.remove('bg-white/10', 'text-white');
-        t.classList.add('text-[#8888aa]');
-      });
-      tab.setAttribute('aria-selected', 'true');
-      tab.classList.add('bg-white/10', 'text-white');
-      tab.classList.remove('text-[#8888aa]');
-
-      // Show/hide panels
-      panels.forEach((p) => {
-        p.classList.toggle('hidden', p.dataset.scalePanel !== scale);
-      });
-
-      store.setScale(scale);
+    // Update tab active states
+    tabs.forEach((t) => {
+      t.setAttribute('aria-selected', 'false');
+      t.setAttribute('tabindex', '-1');
+      t.classList.remove('bg-white/10', 'text-white');
+      t.classList.add('text-[#8888aa]');
     });
+    tab.setAttribute('aria-selected', 'true');
+    tab.setAttribute('tabindex', '0');
+    tab.classList.add('bg-white/10', 'text-white');
+    tab.classList.remove('text-[#8888aa]');
+    tab.focus();
+
+    // Show/hide panels
+    panels.forEach((p) => {
+      p.classList.toggle('hidden', p.dataset.scalePanel !== scale);
+    });
+
+    store.setScale(scale);
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => activateTab(tab));
+  });
+
+  // Keyboard arrow navigation for tabs (WAI-ARIA tabs pattern)
+  scaleTabs.addEventListener('keydown', (e) => {
+    const tabArray = Array.from(tabs);
+    const currentIndex = tabArray.indexOf(e.target as HTMLButtonElement);
+    if (currentIndex < 0) return;
+
+    let newIndex = currentIndex;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % tabArray.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + tabArray.length) % tabArray.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      newIndex = tabArray.length - 1;
+    }
+
+    if (newIndex !== currentIndex) {
+      activateTab(tabArray[newIndex]);
+    }
+  });
+
+  // Set initial tabindex: only active tab is focusable
+  tabs.forEach((tab) => {
+    tab.setAttribute('tabindex', tab.getAttribute('aria-selected') === 'true' ? '0' : '-1');
   });
 }
 
