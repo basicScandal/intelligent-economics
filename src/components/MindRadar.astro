@@ -1,0 +1,157 @@
+---
+/**
+ * MindRadar — build-time SVG radar chart for inline whitepaper embedding.
+ *
+ * Renders a static 4-axis radar polygon from real MIND dimension data.
+ * Zero client-side JavaScript — purely static SVG inline in HTML.
+ *
+ * Usage in MDX: <MindRadar country="DNK" />
+ */
+
+import scores from '../data/mind-scores.json';
+
+interface Props {
+  country: string; // ISO3 code e.g. "DNK"
+  size?: number;   // px, default 150
+}
+
+const { country, size = 150 } = Astro.props;
+
+// Dimension colors matching dashboard palette (charts.ts)
+const DIM_COLORS: Record<string, string> = {
+  m: '#00ff88',
+  i: '#00c8ff',
+  n: '#7b4bff',
+  d: '#ffb400',
+};
+
+const DIM_LABELS: Record<string, string> = {
+  m: 'M',
+  i: 'I',
+  n: 'N',
+  d: 'D',
+};
+
+// Look up country data
+const countryData = (scores as any).countries?.[country];
+const countryName = countryData?.name ?? country;
+
+// Extract dimension scores (0-100)
+const dims = countryData
+  ? {
+      m: countryData.dimensions?.m?.score ?? 0,
+      i: countryData.dimensions?.i?.score ?? 0,
+      n: countryData.dimensions?.n?.score ?? 0,
+      d: countryData.dimensions?.d?.score ?? 0,
+    }
+  : null;
+
+// SVG geometry
+const cx = size / 2;
+const cy = size / 2;
+const padding = 15;
+const maxR = size / 2 - padding;
+
+// 4 axes: top (M), right (I), bottom (N), left (D)
+// Angles in radians: 0 (up), PI/2 (right), PI (down), 3PI/2 (left)
+const axes: { key: string; angle: number }[] = [
+  { key: 'm', angle: 0 },
+  { key: 'i', angle: Math.PI / 2 },
+  { key: 'n', angle: Math.PI },
+  { key: 'd', angle: (3 * Math.PI) / 2 },
+];
+
+function polarToXY(angleDeg: number, radius: number): { x: number; y: number } {
+  return {
+    x: cx + radius * Math.sin(angleDeg),
+    y: cy - radius * Math.cos(angleDeg),
+  };
+}
+
+// Concentric guide circles at 33%, 66%, 100%
+const guideRadii = [0.33, 0.66, 1.0].map((pct) => pct * maxR);
+
+// Axis endpoint coordinates
+const axisEndpoints = axes.map((a) => polarToXY(a.angle, maxR));
+
+// Label positions (slightly beyond the edge)
+const labelOffset = maxR + 11;
+const labelPositions = axes.map((a) => ({
+  ...polarToXY(a.angle, labelOffset),
+  key: a.key,
+}));
+
+// Data polygon points (only if we have dimension data)
+let polygonPoints = '';
+let dataPoints: { x: number; y: number; key: string }[] = [];
+
+if (dims) {
+  const dimValues: Record<string, number> = dims;
+  dataPoints = axes.map((a) => {
+    const score = dimValues[a.key] ?? 0;
+    const r = (score / 100) * maxR;
+    const pt = polarToXY(a.angle, r);
+    return { ...pt, key: a.key };
+  });
+  polygonPoints = dataPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+}
+---
+
+{dims ? (
+  <span class="mind-radar-wrap" style="display:inline-block;vertical-align:middle;">
+    <svg
+      viewBox={`0 0 ${size} ${size}`}
+      width={size}
+      height={size}
+      class="mind-radar-inline"
+      role="img"
+      aria-label={`MIND radar chart for ${countryName}`}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Dark background */}
+      <rect x="0" y="0" width={size} height={size} rx="8" fill="rgba(10, 10, 18, 0.6)" />
+
+      {/* Concentric guide circles */}
+      {guideRadii.map((r) => (
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" />
+      ))}
+
+      {/* Axis lines */}
+      {axisEndpoints.map((ep) => (
+        <line x1={cx} y1={cy} x2={ep.x} y2={ep.y} stroke="rgba(255,255,255,0.15)" stroke-width="0.75" />
+      ))}
+
+      {/* Data polygon */}
+      <polygon
+        points={polygonPoints}
+        fill="rgba(0, 255, 136, 0.25)"
+        stroke="#00ff88"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+      />
+
+      {/* Data point circles */}
+      {dataPoints.map((p) => (
+        <circle cx={p.x} cy={p.y} r="3" fill={DIM_COLORS[p.key]} />
+      ))}
+
+      {/* Axis labels */}
+      {labelPositions.map((lp) => (
+        <text
+          x={lp.x}
+          y={lp.y}
+          fill={DIM_COLORS[lp.key]}
+          font-size="10"
+          font-weight="600"
+          font-family="Satoshi, Inter, system-ui, sans-serif"
+          text-anchor="middle"
+          dominant-baseline="central"
+        >
+          {DIM_LABELS[lp.key]}
+        </text>
+      ))}
+    </svg>
+  </span>
+) : (
+  <span class="mind-radar-missing">[No data for {country}]</span>
+)}
