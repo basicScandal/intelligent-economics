@@ -28,21 +28,21 @@ function formatScore(val: number | null): string {
 }
 ---
 
-<div id="ranking-table" class="overflow-x-auto rounded-lg border border-white/10">
-  <table class="w-full text-sm border-collapse" aria-label="Top countries by MIND score">
-    <caption class="px-4 py-3 text-left text-lg font-semibold font-display text-text">
+<div id="ranking-table" class="overflow-x-auto rounded-xl bg-surface border border-border">
+  <table class="w-full text-sm" aria-label="Top countries by MIND score" style="min-width: 720px">
+    <caption class="px-5 py-4 text-left text-xl font-semibold font-display text-text border-b border-border">
       Top {rankings.length} Countries by MIND Score
     </caption>
     <thead>
-      <tr class="border-b border-white/10 bg-surface-2 text-text-muted text-xs uppercase tracking-wider">
-        <th class="px-3 py-2 text-left font-medium">#</th>
-        <th class="px-3 py-2 text-left font-medium">Country</th>
-        <th class="px-3 py-2 text-right font-medium">MIND</th>
-        <th class="px-3 py-2 text-right font-medium" style="color: #00ff88">M</th>
-        <th class="px-3 py-2 text-right font-medium" style="color: #00c8ff">I</th>
-        <th class="px-3 py-2 text-right font-medium" style="color: #7b4bff">N</th>
-        <th class="px-3 py-2 text-right font-medium" style="color: #ffb400">D</th>
-        <th class="px-3 py-2 text-left font-medium">Binding Constraint</th>
+      <tr class="border-b border-border bg-surface-2 text-text-muted text-xs uppercase tracking-wider">
+        <th class="px-4 py-3 text-left font-medium w-12">#</th>
+        <th class="px-4 py-3 text-left font-medium">Country</th>
+        <th class="px-4 py-3 text-center font-medium w-16">MIND</th>
+        <th class="px-4 py-3 text-center font-medium w-14" style="color: #00ff88">M</th>
+        <th class="px-4 py-3 text-center font-medium w-14" style="color: #00c8ff">I</th>
+        <th class="px-4 py-3 text-center font-medium w-14" style="color: #7b4bff">N</th>
+        <th class="px-4 py-3 text-center font-medium w-14" style="color: #ffb400">D</th>
+        <th class="py-3 text-left font-medium w-44 pl-6 border-l border-white/10">Binding Constraint</th>
       </tr>
     </thead>
     <tbody>
@@ -53,26 +53,26 @@ function formatScore(val: number | null): string {
         return (
           <tr class:list={[
             "border-b border-white/5 transition-colors hover:bg-white/5",
-            idx % 2 === 0 ? "bg-surface" : "bg-surface-2"
+            idx % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
           ]}>
-            <td class="px-3 py-2 text-text-muted tabular-nums">{country.rank}</td>
-            <td class="px-3 py-2 text-text font-medium">{country.name}</td>
-            <td class="px-3 py-2 text-right font-bold text-white tabular-nums">
+            <td class="px-4 py-2.5 text-text-faint tabular-nums">{country.rank}</td>
+            <td class="px-4 py-2.5 text-text font-medium">{country.name}</td>
+            <td class="px-4 py-2.5 text-center font-bold text-white tabular-nums">
               {formatScore(country.mind)}
             </td>
-            <td class="px-3 py-2 text-right tabular-nums" style="color: #00ff88">
+            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #00ff88">
               {formatScore(country.m)}
             </td>
-            <td class="px-3 py-2 text-right tabular-nums" style="color: #00c8ff">
+            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #00c8ff">
               {formatScore(country.i)}
             </td>
-            <td class="px-3 py-2 text-right tabular-nums" style="color: #7b4bff">
+            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #7b4bff">
               {formatScore(country.n)}
             </td>
-            <td class="px-3 py-2 text-right tabular-nums" style="color: #ffb400">
+            <td class="px-4 py-2.5 text-center tabular-nums" style="color: #ffb400">
               {formatScore(country.d)}
             </td>
-            <td class="px-3 py-2" style={`color: ${bcColor}`}>
+            <td class="py-2.5 pl-6 border-l border-white/5" style={`color: ${bcColor}`}>
               {bcName}
             </td>
           </tr>

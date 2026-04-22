@@ -30,47 +30,50 @@ const dataPayload = JSON.stringify(slim);
       </header>
 
       <!-- Search bar placeholder (visible before JS, replaced on hydration by init.ts) -->
-      <div id="search-container" class="mb-8">
+      <div id="search-container" class="mb-10">
         <input type="search" placeholder="Search 217 countries..." disabled
-               class="w-full px-4 py-3 bg-[#0a0a12] border border-white/10 rounded-lg text-white/50 placeholder-[#8888aa] text-lg cursor-not-allowed" />
+               class="w-full px-5 py-3.5 bg-surface-2 border border-white/10 rounded-xl text-white/50 placeholder-text-faint text-lg cursor-not-allowed focus:outline-none" />
         <noscript><p class="text-sm text-text-muted mt-2">Enable JavaScript for interactive search.</p></noscript>
       </div>
 
       <!-- Country detail section (hidden until selection, Plan 03 activates) -->
-      <section id="country-detail" class="hidden mb-8 space-y-6">
-        <!-- Radar chart container -->
-        <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
+      <section id="country-detail" class="hidden mb-10">
+        <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
+          <!-- Radar chart container -->
+          <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
 
-        <!-- Binding constraint callout (static component, hidden until selection) -->
-        <BindingConstraint dimension="" text="" score={0} dimKey="m" />
+          <!-- Binding constraint callout (static component, hidden until selection) -->
+          <BindingConstraint dimension="" text="" score={0} dimKey="m" />
 
-        <!-- Zone Zero deep link (hidden until primary country selected, wired by init.ts) -->
-        <a id="zone-zero-link" href="/" class="hidden inline-flex items-center gap-2 px-4 py-2 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-lg text-[#00ff88] hover:bg-[#00ff88]/20 transition-colors text-sm font-medium mt-4">
-          <span id="zone-zero-link-text">See in Zone Zero simulator</span>
-          <span aria-hidden="true">&#8594;</span>
-        </a>
+          <!-- Zone Zero deep link (hidden until primary country selected, wired by init.ts) -->
+          <a id="zone-zero-link" href="/" class="hidden inline-flex items-center gap-2 px-4 py-2.5 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-lg text-[#00ff88] hover:bg-[#00ff88]/20 transition-colors text-sm font-medium">
+            <span id="zone-zero-link-text">See in Zone Zero simulator</span>
+            <span aria-hidden="true">&#8594;</span>
+          </a>
 
-        <!-- Data attribution for radar -->
-        <p id="radar-attribution" class="text-xs text-text-muted">{attribution}</p>
-      </section>
-
-      <!-- Methodology panel (always visible, no JS needed) -->
-      <section class="mb-8">
-        <MethodologyPanel indicators={methodology} />
+          <!-- Data attribution for radar -->
+          <p id="radar-attribution" class="text-xs text-text-faint">{attribution}</p>
+        </div>
       </section>
 
       <!-- Comparison section (hidden until multiple countries selected) -->
-      <section id="comparison-section" class="hidden mb-8">
-        <h2 class="text-xl font-semibold font-display text-text mb-4">Country Comparison</h2>
-        <div id="comparison-radar" class="w-full h-80 lg:h-96 mb-6" style="min-height: 320px" aria-hidden="true"></div>
-        <div id="bar-chart" class="w-full h-64 lg:h-80" style="min-height: 256px" aria-hidden="true"></div>
-        <p id="bar-attribution" class="text-xs text-text-muted mt-2">{attribution}</p>
+      <section id="comparison-section" class="hidden mb-10">
+        <div class="rounded-xl bg-surface border border-border p-6">
+          <h2 class="text-xl font-semibold font-display text-text mb-6">Country Comparison</h2>
+          <div id="comparison-radar" class="w-full h-80 lg:h-96 mb-6" style="min-height: 320px" aria-hidden="true"></div>
+          <div id="bar-chart" class="w-full h-64 lg:h-80" style="min-height: 256px" aria-hidden="true"></div>
+          <p id="bar-attribution" class="text-xs text-text-faint mt-4">{attribution}</p>
+        </div>
       </section>
 
       <!-- Default ranking table (visible before JS, progressive enhancement) -->
-      <section id="ranking-section" class="mb-8">
-        <h2 class="text-xl font-semibold font-display text-text mb-4">Top Countries by MIND Score</h2>
+      <section id="ranking-section" class="mb-10">
         <RankingTable rankings={rankings} />
+      </section>
+
+      <!-- Methodology panel (reference section, below main content) -->
+      <section class="mb-10">
+        <MethodologyPanel indicators={methodology} />
       </section>
 
     </div>

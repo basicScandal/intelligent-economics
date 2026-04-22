@@ -292,7 +292,7 @@ const loadSearch = () => {
     input.type = 'search';
     input.placeholder = `Search ${countries.length} countries...`;
     input.className =
-      'w-full px-4 py-3 bg-[#0a0a12] border border-white/10 rounded-lg text-white placeholder-[#8888aa] focus:border-[#00ff88] focus:outline-none text-lg';
+      'w-full px-5 py-3.5 bg-[#0a0a12] border border-white/15 rounded-xl text-white placeholder-[#6b6b88] focus:border-white/30 focus:outline-none text-lg transition-colors';
     input.setAttribute('role', 'combobox');
     input.setAttribute('aria-expanded', 'false');
     input.setAttribute('aria-owns', 'search-dropdown');
