@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "0db1ec29e97d",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/09-country-dashboard-core/09-VERIFICATION.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0d/b1ec29e97d/0/metadata.json",
+      "transcript": "/0d/b1ec29e97d/0/full.jsonl",
+      "content_hash": "/0d/b1ec29e97d/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1610,
+    "cache_creation_tokens": 554256,
+    "cache_read_tokens": 19605162,
+    "output_tokens": 56552,
+    "api_call_count": 145
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "0db1ec29e97d",
+  "session_id": "7f0727d5-c93f-4f64-a695-97910aceb12a",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-22T08:40:45.42325Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/09-country-dashboard-core/09-VERIFICATION.md"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "eac5a2ade68b",
+  "token_usage": {
+    "input_tokens": 1610,
+    "cache_creation_tokens": 554256,
+    "cache_read_tokens": 19605162,
+    "output_tokens": 56552,
+    "api_call_count": 145
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-22T08:40:45.402327Z",
+    "agent_lines": 183,
+    "agent_removed": 0,
+    "human_added": 7,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 190,
+    "total_lines_changed": 197,
+    "agent_percentage": 92.89340101522842,
+    "metric_version": 2
+  }
+}
