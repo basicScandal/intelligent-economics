@@ -1,0 +1,81 @@
+{
+  "cities": [
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "country": "SGP",
+      "flag": "\ud83c\uddf8\ud83c\uddec",
+      "context": "Global technology and finance hub with world-class infrastructure",
+      "m": 92,
+      "i": 85,
+      "n": 78,
+      "d": 45
+    },
+    {
+      "id": "copenhagen",
+      "name": "Copenhagen",
+      "country": "DNK",
+      "flag": "\ud83c\udde9\ud83c\uddf0",
+      "context": "European sustainability pioneer with strong social infrastructure",
+      "m": 90,
+      "i": 82,
+      "n": 55,
+      "d": 72
+    },
+    {
+      "id": "austin",
+      "name": "Austin",
+      "country": "USA",
+      "flag": "\ud83c\uddfa\ud83c\uddf8",
+      "context": "Fast-growing innovation ecosystem attracting global talent",
+      "m": 82,
+      "i": 78,
+      "n": 62,
+      "d": 58
+    },
+    {
+      "id": "medellin",
+      "name": "Medell\u00edn",
+      "country": "COL",
+      "flag": "\ud83c\udde8\ud83c\uddf4",
+      "context": "Dramatic urban transformation from conflict to innovation hub",
+      "m": 55,
+      "i": 52,
+      "n": 48,
+      "d": 50
+    },
+    {
+      "id": "kigali",
+      "name": "Kigali",
+      "country": "RWA",
+      "flag": "\ud83c\uddf7\ud83c\uddfc",
+      "context": "Leapfrog development with strong governance and gender inclusion",
+      "m": 38,
+      "i": 42,
+      "n": 35,
+      "d": 65
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai",
+      "country": "ARE",
+      "flag": "\ud83c\udde6\ud83c\uddea",
+      "context": "Wealth-driven global hub with extreme connectivity but limited diversity",
+      "m": 95,
+      "i": 68,
+      "n": 88,
+      "d": 28
+    },
+    {
+      "id": "shenzhen",
+      "name": "Shenzhen",
+      "country": "CHN",
+      "flag": "\ud83c\udde8\ud83c\uddf3",
+      "context": "Manufacturing powerhouse transformed into China's innovation capital",
+      "m": 80,
+      "i": 82,
+      "n": 72,
+      "d": 38
+    }
+  ]
+}
