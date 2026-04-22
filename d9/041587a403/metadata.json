@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "d9041587a403",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".claude/worktrees/agent-a109acca",
+    ".claude/worktrees/agent-a27dfae9",
+    ".claude/worktrees/agent-a480db1f",
+    ".claude/worktrees/agent-aede510d",
+    ".claude/worktrees/agent-afae926e",
+    ".planning/STATE.md",
+    "src/components/dashboard/MethodologyPanel.astro",
+    "src/components/dashboard/RankingTable.astro",
+    "src/pages/dashboard.astro",
+    "src/scripts/dashboard/init.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d9/041587a403/0/metadata.json",
+      "transcript": "/d9/041587a403/0/full.jsonl",
+      "content_hash": "/d9/041587a403/0/content_hash.txt",
+      "prompt": "/d9/041587a403/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1760,
+    "cache_creation_tokens": 1400618,
+    "cache_read_tokens": 48439964,
+    "output_tokens": 97448,
+    "api_call_count": 267
+  }
+}
