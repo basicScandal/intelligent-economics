@@ -35,9 +35,9 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Dashboard Advanced
 
-- [ ] **DASH-08**: Side-by-side comparison of 2-4 countries with overlaid radar charts
-- [ ] **DASH-09**: Zone Zero integration — "See this country in simulator" pre-loads real MIND scores via URL params
-- [ ] **DASH-10**: Bookmarkable dashboard URLs with country/view state encoding
+- [x] **DASH-08**: Side-by-side comparison of 2-4 countries with overlaid radar charts
+- [x] **DASH-09**: Zone Zero integration — "See this country in simulator" pre-loads real MIND scores via URL params
+- [x] **DASH-10**: Bookmarkable dashboard URLs with country/view state encoding
 
 ### Multi-Scale
 
@@ -106,9 +106,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-05 | Phase 9 | Complete |
 | DASH-06 | Phase 9 | Complete |
 | DASH-07 | Phase 9 | Complete |
-| DASH-08 | Phase 10 | Pending |
-| DASH-09 | Phase 10 | Pending |
-| DASH-10 | Phase 10 | Pending |
+| DASH-08 | Phase 10 | Complete |
+| DASH-09 | Phase 10 | Complete |
+| DASH-10 | Phase 10 | Complete |
 | SCALE-01 | Phase 11 | Pending |
 | SCALE-02 | Phase 11 | Pending |
 | SCALE-03 | Phase 11 | Pending |
