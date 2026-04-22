@@ -583,3 +583,68 @@ if (scaleTabs) {
     });
   });
 }
+
+// ── 6. Firm self-assessment slider wiring (eager — lightweight imports only) ──
+
+const firmSliders = {
+  m: document.getElementById('firm-m') as HTMLInputElement | null,
+  i: document.getElementById('firm-i') as HTMLInputElement | null,
+  n: document.getElementById('firm-n') as HTMLInputElement | null,
+  d: document.getElementById('firm-d') as HTMLInputElement | null,
+};
+const firmScoreEl = document.getElementById('firm-score');
+const firmValEls = {
+  m: document.getElementById('firm-m-val'),
+  i: document.getElementById('firm-i-val'),
+  n: document.getElementById('firm-n-val'),
+  d: document.getElementById('firm-d-val'),
+};
+const firmBcName = document.getElementById('firm-bc-name');
+const firmBcScore = document.getElementById('firm-bc-score');
+const firmBcText = document.getElementById('firm-bc-text');
+const firmBcEl = document.getElementById('firm-bc');
+
+// Only wire if firm sliders exist (they're in a hidden panel, so check)
+if (firmSliders.m && firmSliders.i && firmSliders.n && firmSliders.d) {
+  // Import calcScore eagerly — it's tiny (no heavy deps)
+  Promise.all([
+    import('../../lib/mind-score'),
+    import('./charts'),
+  ]).then(([{ calcScore, getBindingConstraint }, { getBindingConstraintCallout, DIM_COLORS }]) => {
+    function updateFirmScore() {
+      const vals = {
+        m: Number(firmSliders.m!.value),
+        i: Number(firmSliders.i!.value),
+        n: Number(firmSliders.n!.value),
+        d: Number(firmSliders.d!.value),
+      };
+
+      // Update value displays
+      if (firmValEls.m) firmValEls.m.textContent = String(vals.m);
+      if (firmValEls.i) firmValEls.i.textContent = String(vals.i);
+      if (firmValEls.n) firmValEls.n.textContent = String(vals.n);
+      if (firmValEls.d) firmValEls.d.textContent = String(vals.d);
+
+      // Compute MIND score
+      const score = calcScore(vals);
+      if (firmScoreEl) firmScoreEl.textContent = String(score);
+
+      // Binding constraint
+      const bcKey = getBindingConstraint(vals);
+      const bcScore = vals[bcKey];
+      const bc = getBindingConstraintCallout(bcKey, bcScore);
+      if (firmBcName) firmBcName.textContent = bc.dimension;
+      if (firmBcScore) firmBcScore.textContent = `(${bcScore})`;
+      if (firmBcText) firmBcText.textContent = bc.text;
+      if (firmBcEl) firmBcEl.style.borderLeftColor = DIM_COLORS[bcKey];
+    }
+
+    // Attach input listeners
+    (['m', 'i', 'n', 'd'] as const).forEach((dim) => {
+      firmSliders[dim]!.addEventListener('input', updateFirmScore);
+    });
+
+    // Initial calculation (sliders start at 50)
+    updateFirmScore();
+  });
+}

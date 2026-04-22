@@ -5,6 +5,7 @@ import MethodologyPanel from '../components/dashboard/MethodologyPanel.astro';
 import BindingConstraint from '../components/dashboard/BindingConstraint.astro';
 import ScaleTabs from '../components/dashboard/ScaleTabs.astro';
 import CityCard from '../components/dashboard/CityCard.astro';
+import FirmAssessment from '../components/dashboard/FirmAssessment.astro';
 import { getSlimPayload, getRankingData, getMethodologyData } from '../lib/dashboard-data';
 import { getAttribution } from '../scripts/dashboard/charts';
 import { calcScore, getBindingConstraint } from '../lib/mind-score';
@@ -142,9 +143,9 @@ const cities = cityData.cities.map(city => ({
         </section>
       </div><!-- /scale-city -->
 
-      <!-- Firm scale panel (placeholder for Plan 03) -->
+      <!-- Firm scale panel -->
       <div id="scale-firm" data-scale-panel="firm" class="hidden">
-        <!-- Firm self-assessment content added by Plan 03 -->
+        <FirmAssessment />
       </div><!-- /scale-firm -->
 
     </div>
