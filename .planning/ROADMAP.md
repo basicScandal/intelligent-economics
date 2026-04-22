@@ -117,7 +117,10 @@ Plans:
   2. The site navigation includes links to Whitepaper and Dashboard accessible from every page
   3. All charts have screen reader alternatives (aria-labels, text descriptions) passing WCAG 2.1 AA audit
   4. The dashboard page scores Lighthouse >= 90 desktop and >= 75 mobile
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 12-01-PLAN.md — Aggregation pyramid SVG component on homepage + Whitepaper/Dashboard nav links
+- [ ] 12-02-PLAN.md — Dashboard accessibility audit (sr-only text alternatives) + Lighthouse performance verification + human verify
 **UI hint**: yes
 
 ## Progress
@@ -139,4 +142,4 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 9. Country Dashboard Core | v1.1 | 3/3 | Complete | 2026-04-21 |
 | 10. Dashboard Advanced | v1.1 | 2/2 | Complete    | 2026-04-22 |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 3/3 | Complete    | 2026-04-22 |
-| 12. Aggregation Visualization + Polish | v1.1 | 0/0 | Not started | - |
+| 12. Aggregation Visualization + Polish | v1.1 | 0/2 | Planned | - |
