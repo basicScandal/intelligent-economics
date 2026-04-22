@@ -41,9 +41,9 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Multi-Scale
 
-- [ ] **SCALE-01**: 5-10 curated city profiles with manually assembled MIND indicator data
+- [x] **SCALE-01**: 5-10 curated city profiles with manually assembled MIND indicator data
 - [ ] **SCALE-02**: Firm self-assessment tool with user-input sliders (Zone Zero pattern reuse)
-- [ ] **SCALE-03**: Scale navigation UI (firm -> city -> country -> global) with breadcrumb or tabs
+- [x] **SCALE-03**: Scale navigation UI (firm -> city -> country -> global) with breadcrumb or tabs
 
 ### Cross-Linking & Polish
 
@@ -109,9 +109,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-08 | Phase 10 | Complete |
 | DASH-09 | Phase 10 | Complete |
 | DASH-10 | Phase 10 | Complete |
-| SCALE-01 | Phase 11 | Pending |
+| SCALE-01 | Phase 11 | Complete |
 | SCALE-02 | Phase 11 | Pending |
-| SCALE-03 | Phase 11 | Pending |
+| SCALE-03 | Phase 11 | Complete |
 | LINK-01 | Phase 11 | Pending |
 | LINK-02 | Phase 11 | Pending |
 | AGG-01 | Phase 12 | Pending |
