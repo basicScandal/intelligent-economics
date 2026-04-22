@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import WhitepaperLayout from '../layouts/WhitepaperLayout.astro';
+import MindRadar from '../components/MindRadar.astro';
 
 const entries = await getCollection('whitepaper');
 const entry = entries[0];
@@ -17,5 +18,5 @@ const { Content, headings } = await render(entry);
   abstract={entry.data.abstract}
   headings={headings}
 >
-  <Content />
+  <Content components={{ MindRadar }} />
 </WhitepaperLayout>
