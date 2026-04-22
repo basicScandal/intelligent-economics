@@ -47,8 +47,8 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Cross-Linking & Polish
 
-- [ ] **LINK-01**: MDX inline mini-chart components embedded in whitepaper prose
-- [ ] **LINK-02**: Bidirectional navigation between whitepaper and dashboard
+- [x] **LINK-01**: MDX inline mini-chart components embedded in whitepaper prose
+- [x] **LINK-02**: Bidirectional navigation between whitepaper and dashboard
 - [ ] **AGG-01**: Hierarchical aggregation visualization showing MIND score composition across scales
 - [ ] **NAV-01**: Site navigation updated with Whitepaper and Dashboard links
 - [ ] **A11Y-01**: Accessibility audit — screen reader alternatives for all charts, aria-labels
@@ -112,8 +112,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SCALE-01 | Phase 11 | Pending |
 | SCALE-02 | Phase 11 | Pending |
 | SCALE-03 | Phase 11 | Pending |
-| LINK-01 | Phase 11 | Pending |
-| LINK-02 | Phase 11 | Pending |
+| LINK-01 | Phase 11 | Complete |
+| LINK-02 | Phase 11 | Complete |
 | AGG-01 | Phase 12 | Pending |
 | NAV-01 | Phase 12 | Pending |
 | A11Y-01 | Phase 12 | Pending |
