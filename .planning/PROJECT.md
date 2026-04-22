@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A modern movement platform for the MIND framework (Material x Intelligence x Network x Diversity = Prosperity) — a post-GDP measure of economic health. Built on Astro with Tailwind v4, deployed on Netlify. The site converts intellectual explorers into active volunteers through an interactive experience (Three.js particles, Zone Zero simulator, GSAP animations) backed by a working conversion pipeline (Netlify Forms, MailerLite email sequences, Discord community).
+A modern movement platform for the MIND framework (Material x Intelligence x Network x Diversity = Prosperity) — a post-GDP measure of economic health. Built on Astro with Tailwind v4, deployed on Netlify. The site converts intellectual explorers into active volunteers through an interactive experience (Three.js particles, Zone Zero simulator, GSAP animations) backed by a working conversion pipeline (Netlify Forms, MailerLite email sequences, Discord community). Now includes a data-backed whitepaper, interactive multi-scale MIND dashboard with real World Bank data, and a firm-level self-assessment tool.
 
 ## Core Value
 
@@ -26,44 +26,47 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 - ✓ Mobile performance optimization (3-tier adaptive particles) — v1.0
 - ✓ Reduced-motion CSS fallbacks and render loop pausing — v1.0
 - ✓ Content-hashed immutable cache headers — v1.0
+- ✓ MIND framework HTML whitepaper with KaTeX math, scroll-spy TOC, print CSS — v1.1
+- ✓ Real data integration via World Bank API (16 indicators, 217 countries) — v1.1
+- ✓ Country-level MIND dashboard with ECharts radar/bar charts, search, comparison — v1.1
+- ✓ Multi-scale dashboard: country + curated city profiles + firm self-assessment — v1.1
+- ✓ Whitepaper ↔ dashboard bidirectional cross-linking with inline SVG charts — v1.1
+- ✓ Hierarchical aggregation visualization (firm → city → country pyramid) — v1.1
+- ✓ Site navigation with Whitepaper and Dashboard links — v1.1
+- ✓ WCAG 2.1 AA accessibility audit on all charts — v1.1
+- ✓ Lighthouse performance targets met (desktop 92, mobile 86) — v1.1
 
 ### Active
 
-- ✓ MIND framework HTML whitepaper accessible to general public and policymakers — v1.1 Phase 8
-- ✓ Country-level MIND dashboard with interactive charts — v1.1 Phase 9 (multi-scale pending Phase 11)
-- ✓ Real data integration via World Bank API (16 indicators, 217 countries) — v1.1 Phase 7
-- [ ] Hierarchical aggregation visualization showing MIND score composition upward
+(No active requirements — define in next milestone)
 
-## Current Milestone: v1.1 MIND Intelligence Layer
+## Shipped Milestones
 
-**Goal:** Give the MIND framework intellectual credibility with a public whitepaper and real-world proof via an interactive multi-scale dashboard.
-
-**Target features:**
-- HTML whitepaper — publishable MIND framework paper on the site
-- Multi-scale MIND dashboard — interactive data visualization at 4 levels: firm → city → country → global
-- Real data integration — World Bank API for countries, public APIs for cities/firms, user-input hybrid where unavailable
-- Hierarchical aggregation — visual showing how MIND scores compose upward
+- **v1.0 MVP** — Movement platform with conversion pipeline (shipped 2026-04-21)
+- **v1.1 MIND Intelligence Layer** — Whitepaper + multi-scale dashboard + real data (shipped 2026-04-22)
 
 ### Out of Scope
 
-- MIND Score whitepaper / academic paper — moved to Active (v1.1)
-- Real MIND dashboard with World Bank data — moved to Active (v1.1)
 - "MIND Score for My City" tool — future (P3)
 - Multi-language support — future (P3)
 - Volunteer matching & project boards — future (P3)
 - MIND Score API — future (P3)
 - OAuth/magic link login — not needed for current flow
-- User accounts / authentication — not needed for v1
+- User accounts / authentication — not needed
+- Time-series animation (Gapminder-style) — v1.2 candidate
+- Choropleth world map — v1.2 candidate
+- Custom indicator selection — v1.2 candidate
+- Automated city/firm data from Census ACS / SEC EDGAR — v1.2 candidate
 
 ## Context
 
-- **v1.1 Phase 7 complete** — Shared MIND score library (`src/lib/mind-score.ts`), World Bank data pipeline, 217-country JSON baseline committed
-- **Shipped v1.0** — 37 source files, 6,281 LOC (TypeScript + Astro + CSS), 66 commits
-- **Tech stack:** Astro 5.18.x, Tailwind v4 (CSS-first), Three.js, GSAP, TypeScript strict, Netlify
-- **Site architecture:** 14+ Astro components, 6 content collection entries, 8 TypeScript modules, 1 Netlify Function
+- **Shipped v1.1** — 9,553 LOC across 50+ source files (TypeScript + Astro + CSS + MDX), ~115 commits total
+- **Tech stack:** Astro 5.18.x, Tailwind v4, Three.js, GSAP, ECharts 6, TypeScript strict, Netlify
+- **Data layer:** `src/lib/mind-score.ts` shared library, `src/data/mind-scores.json` (217 countries, 16 World Bank indicators), `src/data/city-profiles.json` (7 curated cities)
+- **Pages:** index (home), /whitepaper (3,800-word academic paper with KaTeX), /dashboard (multi-scale MIND explorer), /privacy
+- **Dashboard features:** country search, radar/bar charts, comparison overlay, bookmarkable URLs, Zone Zero deep link, city profiles, firm self-assessment
 - **Form pipeline:** VolunteerForm + EmailCapture → Netlify Forms → submission-created function → MailerLite
-- **Performance:** 3-tier device detection (full/reduced/minimal), IntersectionObserver render pausing, CSS gradient fallbacks
-- **Analytics:** Plausible with 6 custom events (Form Viewed/Started/Submitted, Simulator Opened/Interacted/Shared)
+- **Performance:** Lighthouse desktop 92, mobile 86. ECharts lazy-loaded via IntersectionObserver. 82 vitest tests passing
 - **Beyond GDP movement** at UN inflection point — MIND framework is academically novel (multiplicative zero-floor, Intelligence dimension)
 - **Operational setup needed:** MailerLite account + API key, Plausible account ($9/mo), Discord server creation, replace PLACEHOLDER invite links
 
@@ -83,12 +86,15 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 | Astro over Next.js/SvelteKit | Static site with islands — no server, Netlify-native, zero JS default | ✓ Good |
 | Netlify over GitHub Pages | Native forms, CI/CD, preview deploys | ✓ Good |
 | Plausible over PostHog | Lightweight, privacy-first, GDPR-compliant | ✓ Good |
-| P0+P1 scope for v1 | Fix funnel + growth engine before platform features | ✓ Good |
 | Discord over Slack | Free, public communities, role-based channels | -- Pending |
-| No Netlify adapter for static | Adapter only needed for SSR; static output auto-detected | ✓ Good |
-| Vanilla script tags over framework islands | No React/Svelte needed; Astro native script bundling works | ✓ Good |
 | MailerLite for email | Free tier (1K subscribers), automation, API v2 | -- Pending |
 | Tailwind v4 CSS-first config | No JS config file needed, @theme directive, OKLCH native | ✓ Good |
+| ECharts 6 over Chart.js | Feature depth: radar, treemap, SVG renderer, tree-shaking | ✓ Good |
+| Build-time World Bank fetch | No runtime API calls, committed JSON baseline, offline builds | ✓ Good |
+| MDX for whitepaper | Content collection with remark/rehype plugins, KaTeX math | ✓ Good |
+| Empirical normalization (1st/99th percentile) | Avoids micro-state skew, reflects real data range | ✓ Good |
+| Geometric mean MIND formula | Multiplicative — zero-floor property IS the MIND thesis | ✓ Good |
+| SVG renderer for ECharts | Better a11y, lower mobile memory, faster for small data sets | ✓ Good |
 
 ## Evolution
 
@@ -108,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 after Phase 8 completion*
+*Last updated: 2026-04-22 after v1.1 milestone completion*

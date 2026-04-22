@@ -1,5 +1,27 @@
 # Milestones
 
+## v1.1 MIND Intelligence Layer (Shipped: 2026-04-22)
+
+**Phases completed:** 6 phases, 14 plans, 27 tasks
+
+**Key accomplishments:**
+
+- Extracted MIND score calculation into shared library with calcScore, getBindingConstraint, and percentile-capped normalize, backed by 22 vitest tests (TDD)
+- World Bank fetch pipeline retrieving 16 indicators for 217 countries with mrnev/mrv fallback, producing committed JSON baseline with normalized 0-100 MIND dimension scores
+- MDX pipeline with KaTeX math rendering, content collection schema, WhitepaperLayout with sticky TOC sidebar, and /whitepaper route serving stub academic paper
+- Full 3800-word MIND framework whitepaper with real country profiles, scroll-spy TOC, print-friendly CSS, and social sharing meta tags
+- ECharts 6.0 with tree-shaken radar/bar charts, country search filter, and data transforms — 58 tests passing via TDD
+- Static /dashboard page with top-20 ranking table, 4-dimension methodology accordion, and binding constraint callout — all server-rendered HTML with zero JavaScript
+- Dashboard island with pub/sub state store, two-path lazy loading (IntersectionObserver for ECharts, requestIdleCallback for search), interactive country search with combobox a11y, radar/bar chart rendering, and comparison chips
+- TDD-built comparison radar chart function with 4-color overlay palette and round-trip URL state encode/decode utilities for bookmarkable dashboards
+- Comparison radar with overlaid polygons, Zone Zero deep link with real MIND scores, and bookmarkable URL state sync wired into the live dashboard
+- Build-time SVG radar charts embedded in whitepaper Country Analysis with bidirectional dashboard cross-links
+- Interactive firm-level MIND self-assessment with 4 dimension sliders, live geometric-mean scoring via shared calcScore(), and binding constraint identification
+- SVG pyramid visualization showing MIND scores across Firm/City/Country scales with clickable dashboard navigation, plus Whitepaper and Dashboard links in site-wide Nav
+- Screen reader text alternatives for all dashboard charts, WAI-ARIA tab keyboard navigation, and WCAG AA color contrast fix
+
+---
+
 ## v1.0 Global Growth Foundation (Shipped: 2026-04-21)
 
 **Phases completed:** 6 phases, 14 plans, 27 tasks
