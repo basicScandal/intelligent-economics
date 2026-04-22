@@ -29,7 +29,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [ ] **Phase 8: Whitepaper** - Publishable HTML whitepaper on /whitepaper route with academic formatting and aggregation methodology
 - [ ] **Phase 9: Country Dashboard Core** - Interactive country-level MIND dashboard on /dashboard with radar/bar charts for 217 countries
 - [x] **Phase 10: Dashboard Advanced** - Country comparison, Zone Zero integration, and bookmarkable URLs (completed 2026-04-22)
-- [ ] **Phase 11: Multi-Scale + Cross-Linking** - City profiles, firm self-assessment, scale navigation, and whitepaper-dashboard integration
+- [x] **Phase 11: Multi-Scale + Cross-Linking** - City profiles, firm self-assessment, scale navigation, and whitepaper-dashboard integration (completed 2026-04-22)
 - [ ] **Phase 12: Aggregation Visualization + Polish** - Hierarchical MIND score composition tree, nav updates, accessibility audit, performance verification
 
 **Note:** Phases 8 and 9 can run in parallel after Phase 7 -- they share no dependencies beyond the shared score library.
@@ -102,11 +102,11 @@ Plans:
   1. The dashboard offers a scale navigation UI (firm / city / country) and displays 5-10 curated city profiles with MIND dimension data
   2. Users can complete a firm-level MIND self-assessment using slider inputs and see their firm's MIND score and binding constraint
   3. The whitepaper contains inline mini-charts showing real country data within the prose, and links from the whitepaper open the corresponding dashboard view (and vice versa)
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 Plans:
-- [ ] 11-01-PLAN.md — Whitepaper inline SVG mini-charts (MindRadar component) and whitepaper-to-dashboard cross-links
+- [x] 11-01-PLAN.md — Whitepaper inline SVG mini-charts (MindRadar component) and whitepaper-to-dashboard cross-links
 - [x] 11-02-PLAN.md — Dashboard scale tabs (Country/City/Firm), curated city profiles with card grid and detail radar, dashboard-to-whitepaper links
-- [ ] 11-03-PLAN.md — Firm self-assessment tool with dimension sliders, live MIND score, and binding constraint callout
+- [x] 11-03-PLAN.md — Firm self-assessment tool with dimension sliders, live MIND score, and binding constraint callout
 
 ### Phase 12: Aggregation Visualization + Polish
 **Goal**: The site demonstrates how MIND scores compose across scales, navigation includes the new sections, all charts are accessible, and performance targets are met
@@ -138,5 +138,5 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 8. Whitepaper | v1.1 | 0/2 | Planned | - |
 | 9. Country Dashboard Core | v1.1 | 3/3 | Complete | 2026-04-21 |
 | 10. Dashboard Advanced | v1.1 | 2/2 | Complete    | 2026-04-22 |
-| 11. Multi-Scale + Cross-Linking | v1.1 | 1/3 | In Progress | - |
+| 11. Multi-Scale + Cross-Linking | v1.1 | 3/3 | Complete   | 2026-04-22 |
 | 12. Aggregation Visualization + Polish | v1.1 | 0/0 | Not started | - |
