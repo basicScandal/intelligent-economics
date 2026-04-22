@@ -47,6 +47,9 @@ export interface ChartCountry {
 const DIM_KEYS: DimensionKey[] = ['m', 'i', 'n', 'd'];
 const DIM_LABELS = DIM_KEYS.map((k) => DIM_NAMES[k]);
 
+/** Fixed palette for multi-country comparison overlays. */
+export const COMPARISON_COLORS: string[] = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A8E6CF'];
+
 // -- Chart option generators --
 
 /** Generate ECharts radar chart option for a single country. */
@@ -77,6 +80,42 @@ export function makeRadarOption(country: ChartCountry): Record<string, unknown> 
             lineStyle: { width: 2 },
           },
         ],
+      },
+    ],
+  };
+}
+
+/** Generate ECharts comparison radar chart option for N overlapping countries. */
+export function makeComparisonRadarOption(countries: ChartCountry[]): Record<string, unknown> {
+  return {
+    aria: { enabled: true },
+    ...siteTheme,
+    legend: {
+      data: countries.map((c) => c.name),
+      textStyle: { color: 'rgba(255,255,255,0.85)' },
+    },
+    radar: {
+      shape: 'polygon',
+      splitNumber: 5,
+      indicator: DIM_KEYS.map((k) => ({
+        name: DIM_NAMES[k],
+        max: 100,
+        color: DIM_COLORS[k],
+      })),
+      axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.15)' } },
+      splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+      splitArea: { show: false },
+    },
+    series: [
+      {
+        type: 'radar',
+        data: countries.map((c, idx) => ({
+          value: [c.m, c.i, c.n, c.d],
+          name: c.name,
+          areaStyle: { opacity: 0.25, color: COMPARISON_COLORS[idx % COMPARISON_COLORS.length] },
+          lineStyle: { width: 2, color: COMPARISON_COLORS[idx % COMPARISON_COLORS.length] },
+          itemStyle: { color: COMPARISON_COLORS[idx % COMPARISON_COLORS.length] },
+        })),
       },
     ],
   };

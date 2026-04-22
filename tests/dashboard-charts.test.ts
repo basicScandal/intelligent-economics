@@ -3,6 +3,8 @@ import {
   makeRadarOption,
   makeBarOption,
   getMobileBarOption,
+  makeComparisonRadarOption,
+  COMPARISON_COLORS,
   getBindingConstraintCallout,
   getAttribution,
   DIM_COLORS,
@@ -106,6 +108,84 @@ describe('getMobileBarOption', () => {
   it('yAxis data is dimension names', () => {
     const opt = getMobileBarOption([USA]) as any;
     expect(opt.yAxis.data).toEqual(['Material', 'Intelligence', 'Network', 'Diversity']);
+  });
+});
+
+const NOR = { name: 'Norway', m: 91.22, i: 72.34, n: 36.81, d: 52.18 };
+
+describe('makeComparisonRadarOption', () => {
+  it('returns config with 1 series entry for 1 country, using COMPARISON_COLORS[0]', () => {
+    const opt = makeComparisonRadarOption([USA]) as any;
+    expect(opt.series[0].data).toHaveLength(1);
+    expect(opt.series[0].data[0].lineStyle.color).toBe(COMPARISON_COLORS[0]);
+    expect(opt.series[0].data[0].areaStyle.color).toBe(COMPARISON_COLORS[0]);
+    expect(opt.series[0].data[0].itemStyle.color).toBe(COMPARISON_COLORS[0]);
+  });
+
+  it('returns config with 2 series entries for 2 countries, each with distinct colors', () => {
+    const opt = makeComparisonRadarOption([USA, SGP]) as any;
+    expect(opt.series[0].data).toHaveLength(2);
+    expect(opt.series[0].data[0].lineStyle.color).toBe(COMPARISON_COLORS[0]);
+    expect(opt.series[0].data[1].lineStyle.color).toBe(COMPARISON_COLORS[1]);
+  });
+
+  it('returns config with 4 series entries for 4 countries, all 4 COMPARISON_COLORS used', () => {
+    const opt = makeComparisonRadarOption([USA, SGP, ISL, NOR]) as any;
+    expect(opt.series[0].data).toHaveLength(4);
+    for (let idx = 0; idx < 4; idx++) {
+      expect(opt.series[0].data[idx].lineStyle.color).toBe(COMPARISON_COLORS[idx]);
+    }
+  });
+
+  it('each series entry has areaStyle.opacity = 0.25', () => {
+    const opt = makeComparisonRadarOption([USA, SGP]) as any;
+    for (const entry of opt.series[0].data) {
+      expect(entry.areaStyle.opacity).toBe(0.25);
+    }
+  });
+
+  it('each series entry has lineStyle.width = 2', () => {
+    const opt = makeComparisonRadarOption([USA, SGP]) as any;
+    for (const entry of opt.series[0].data) {
+      expect(entry.lineStyle.width).toBe(2);
+    }
+  });
+
+  it('legend is present with country names', () => {
+    const opt = makeComparisonRadarOption([USA, SGP]) as any;
+    expect(opt.legend.data).toEqual(['United States', 'Singapore']);
+    expect(opt.legend.textStyle.color).toBe('rgba(255,255,255,0.85)');
+  });
+
+  it('radar.indicator has 4 items with max=100, same as makeRadarOption', () => {
+    const opt = makeComparisonRadarOption([USA]) as any;
+    expect(opt.radar.indicator).toHaveLength(4);
+    for (const ind of opt.radar.indicator) {
+      expect(ind.max).toBe(100);
+    }
+  });
+
+  it('aria.enabled is true', () => {
+    const opt = makeComparisonRadarOption([USA]) as any;
+    expect(opt.aria.enabled).toBe(true);
+  });
+
+  it('series data values match [m, i, n, d] for each country', () => {
+    const opt = makeComparisonRadarOption([USA, SGP]) as any;
+    expect(opt.series[0].data[0].value).toEqual([86.04, 64.43, 29.13, 40.43]);
+    expect(opt.series[0].data[0].name).toBe('United States');
+    expect(opt.series[0].data[1].value).toEqual([81.49, 76.97, 39.95, 42.42]);
+    expect(opt.series[0].data[1].name).toBe('Singapore');
+  });
+});
+
+describe('COMPARISON_COLORS', () => {
+  it('has 4 hex color strings', () => {
+    expect(COMPARISON_COLORS).toHaveLength(4);
+    expect(COMPARISON_COLORS[0]).toBe('#FF6B6B');
+    expect(COMPARISON_COLORS[1]).toBe('#4ECDC4');
+    expect(COMPARISON_COLORS[2]).toBe('#FFE66D');
+    expect(COMPARISON_COLORS[3]).toBe('#A8E6CF');
   });
 });
 
