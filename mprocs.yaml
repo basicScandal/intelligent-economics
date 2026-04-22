@@ -1,0 +1,22 @@
+procs:
+  dev:
+    cmd: ["npm", "run", "dev"]
+    env:
+      FORCE_COLOR: "1"
+
+  check:
+    cmd: ["npx", "astro", "check", "--watch"]
+    env:
+      FORCE_COLOR: "1"
+
+  build:
+    cmd: ["npm", "run", "build"]
+    autostart: false
+    env:
+      FORCE_COLOR: "1"
+
+  preview:
+    cmd: ["npm", "run", "preview"]
+    autostart: false
+    env:
+      FORCE_COLOR: "1"
