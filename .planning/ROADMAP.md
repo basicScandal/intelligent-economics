@@ -30,7 +30,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [ ] **Phase 9: Country Dashboard Core** - Interactive country-level MIND dashboard on /dashboard with radar/bar charts for 217 countries
 - [x] **Phase 10: Dashboard Advanced** - Country comparison, Zone Zero integration, and bookmarkable URLs (completed 2026-04-22)
 - [x] **Phase 11: Multi-Scale + Cross-Linking** - City profiles, firm self-assessment, scale navigation, and whitepaper-dashboard integration (completed 2026-04-22)
-- [ ] **Phase 12: Aggregation Visualization + Polish** - Hierarchical MIND score composition tree, nav updates, accessibility audit, performance verification
+- [x] **Phase 12: Aggregation Visualization + Polish** - Hierarchical MIND score composition tree, nav updates, accessibility audit, performance verification (completed 2026-04-22)
 
 **Note:** Phases 8 and 9 can run in parallel after Phase 7 -- they share no dependencies beyond the shared score library.
 
@@ -117,10 +117,10 @@ Plans:
   2. The site navigation includes links to Whitepaper and Dashboard accessible from every page
   3. All charts have screen reader alternatives (aria-labels, text descriptions) passing WCAG 2.1 AA audit
   4. The dashboard page scores Lighthouse >= 90 desktop and >= 75 mobile
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 Plans:
 - [x] 12-01-PLAN.md — Aggregation pyramid SVG component on homepage + Whitepaper/Dashboard nav links (completed 2026-04-22)
-- [ ] 12-02-PLAN.md — Dashboard accessibility audit (sr-only text alternatives) + Lighthouse performance verification + human verify
+- [x] 12-02-PLAN.md — Dashboard accessibility audit (sr-only text alternatives) + Lighthouse performance verification + human verify
 **UI hint**: yes
 
 ## Progress
@@ -142,4 +142,4 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 9. Country Dashboard Core | v1.1 | 3/3 | Complete | 2026-04-21 |
 | 10. Dashboard Advanced | v1.1 | 2/2 | Complete    | 2026-04-22 |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 3/3 | Complete    | 2026-04-22 |
-| 12. Aggregation Visualization + Polish | v1.1 | 1/2 | In Progress | - |
+| 12. Aggregation Visualization + Polish | v1.1 | 2/2 | Complete   | 2026-04-22 |

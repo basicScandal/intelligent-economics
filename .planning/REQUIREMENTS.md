@@ -51,8 +51,8 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 - [ ] **LINK-02**: Bidirectional navigation between whitepaper and dashboard
 - [ ] **AGG-01**: Hierarchical aggregation visualization showing MIND score composition across scales
 - [ ] **NAV-01**: Site navigation updated with Whitepaper and Dashboard links
-- [ ] **A11Y-01**: Accessibility audit — screen reader alternatives for all charts, aria-labels
-- [ ] **PERF-01**: Lighthouse verification — dashboard page mobile >= 75, desktop >= 90
+- [x] **A11Y-01**: Accessibility audit — screen reader alternatives for all charts, aria-labels
+- [x] **PERF-01**: Lighthouse verification — dashboard page mobile >= 75, desktop >= 90
 
 ## v1.2 Requirements
 
@@ -116,8 +116,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LINK-02 | Phase 11 | Pending |
 | AGG-01 | Phase 12 | Pending |
 | NAV-01 | Phase 12 | Pending |
-| A11Y-01 | Phase 12 | Pending |
-| PERF-01 | Phase 12 | Pending |
+| A11Y-01 | Phase 12 | Complete |
+| PERF-01 | Phase 12 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 29 total
