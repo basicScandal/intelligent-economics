@@ -3,9 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import RankingTable from '../components/dashboard/RankingTable.astro';
 import MethodologyPanel from '../components/dashboard/MethodologyPanel.astro';
 import BindingConstraint from '../components/dashboard/BindingConstraint.astro';
+import ScaleTabs from '../components/dashboard/ScaleTabs.astro';
+import CityCard from '../components/dashboard/CityCard.astro';
 import { getSlimPayload, getRankingData, getMethodologyData } from '../lib/dashboard-data';
 import { getAttribution } from '../scripts/dashboard/charts';
+import { calcScore, getBindingConstraint } from '../lib/mind-score';
 import scores from '../data/mind-scores.json';
+import cityData from '../data/city-profiles.json';
 
 // Build-time data processing
 const slim = getSlimPayload(scores.countries as any);
@@ -13,6 +17,13 @@ const rankings = getRankingData(slim, 20);
 const methodology = getMethodologyData(scores.indicators as any);
 const attribution = getAttribution(scores.metadata);
 const dataPayload = JSON.stringify(slim);
+
+// Build-time city data processing
+const cities = cityData.cities.map(city => ({
+  ...city,
+  mind: calcScore({ m: city.m, i: city.i, n: city.n, d: city.d }),
+  bc: getBindingConstraint({ m: city.m, i: city.i, n: city.n, d: city.d }),
+}));
 ---
 
 <BaseLayout title="MIND Dashboard" description="Explore MIND scores for 217 countries backed by real World Bank data">
@@ -22,12 +33,19 @@ const dataPayload = JSON.stringify(slim);
       <!-- Page header -->
       <header class="mb-8 text-center">
         <h1 class="font-display text-3xl sm:text-4xl font-bold text-text mb-3">
-          MIND Country Dashboard
+          MIND Dashboard
         </h1>
         <p class="text-text-muted text-lg max-w-2xl mx-auto">
-          Explore MIND framework scores for {slim.length} countries, backed by real World Bank data
+          Explore MIND framework scores across countries, cities, and firms.
+          <a href="/whitepaper" class="text-[#00ff88] hover:underline">Read the whitepaper &rarr;</a>
         </p>
       </header>
+
+      <!-- Scale navigation tabs -->
+      <ScaleTabs />
+
+      <!-- Country scale panel -->
+      <div id="scale-country" data-scale-panel="country">
 
       <!-- Search bar placeholder (visible before JS, replaced on hydration by init.ts) -->
       <div id="search-container" class="mb-10">
@@ -75,6 +93,59 @@ const dataPayload = JSON.stringify(slim);
       <section class="mb-10">
         <MethodologyPanel indicators={methodology} />
       </section>
+
+      <div class="text-center mt-4">
+        <a href="/whitepaper" class="text-[#00ff88] hover:underline text-sm">
+          Learn more about MIND methodology in the whitepaper &rarr;
+        </a>
+      </div>
+
+      </div><!-- /scale-country -->
+
+      <!-- City scale panel -->
+      <div id="scale-city" data-scale-panel="city" class="hidden">
+        <h2 class="text-2xl font-display font-semibold text-text mb-6 text-center">City MIND Profiles</h2>
+        <p class="text-text-muted text-center mb-8 max-w-xl mx-auto">
+          Curated city-level MIND analysis demonstrating the framework at local scale.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="city-grid">
+          {cities.map(city => (
+            <CityCard
+              id={city.id}
+              name={city.name}
+              flag={city.flag}
+              context={city.context}
+              m={city.m}
+              i={city.i}
+              n={city.n}
+              d={city.d}
+              mind={city.mind}
+              bc={city.bc}
+            />
+          ))}
+        </div>
+
+        <!-- City detail section (hidden until city card clicked, populated by init.ts) -->
+        <section id="city-detail" class="hidden mb-8">
+          <div class="rounded-xl bg-surface border border-border p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 id="city-detail-name" class="text-xl font-display font-semibold text-text"></h3>
+              <button id="city-detail-close" class="text-text-muted hover:text-white text-sm" aria-label="Close city detail">&times; Close</button>
+            </div>
+            <div id="city-radar-chart" class="w-full h-72" style="min-height: 288px" aria-hidden="true"></div>
+            <div id="city-binding-constraint" class="mt-4 pl-4 border-l-2 border-white/20">
+              <p class="text-sm text-text-muted">Binding constraint: <strong id="city-bc-name" class="text-white"></strong> <span id="city-bc-score" class="text-text-faint"></span></p>
+              <p id="city-bc-text" class="text-sm text-text-muted mt-1"></p>
+            </div>
+            <p class="text-xs text-text-faint mt-4">City data is manually curated for demonstration purposes.</p>
+          </div>
+        </section>
+      </div><!-- /scale-city -->
+
+      <!-- Firm scale panel (placeholder for Plan 03) -->
+      <div id="scale-firm" data-scale-panel="firm" class="hidden">
+        <!-- Firm self-assessment content added by Plan 03 -->
+      </div><!-- /scale-firm -->
 
     </div>
   </main>

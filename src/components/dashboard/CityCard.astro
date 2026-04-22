@@ -1,0 +1,81 @@
+---
+import type { DimensionKey } from '../../lib/mind-score';
+
+interface Props {
+  id: string;
+  name: string;
+  flag: string;
+  context: string;
+  m: number;
+  i: number;
+  n: number;
+  d: number;
+  mind: number;
+  bc: string;
+}
+
+const { id, name, flag, context, m, i, n, d, mind, bc } = Astro.props;
+
+const DIM_COLORS: Record<DimensionKey, string> = {
+  m: '#00ff88',
+  i: '#00c8ff',
+  n: '#7b4bff',
+  d: '#ffb400',
+};
+
+const DIM_NAMES: Record<DimensionKey, string> = {
+  m: 'Material',
+  i: 'Intelligence',
+  n: 'Network',
+  d: 'Diversity',
+};
+
+const dimensions: { key: DimensionKey; label: string; score: number; color: string }[] = [
+  { key: 'm', label: 'M', score: m, color: DIM_COLORS.m },
+  { key: 'i', label: 'I', score: i, color: DIM_COLORS.i },
+  { key: 'n', label: 'N', score: n, color: DIM_COLORS.n },
+  { key: 'd', label: 'D', score: d, color: DIM_COLORS.d },
+];
+
+const bcName = DIM_NAMES[bc as DimensionKey] || bc;
+---
+
+<div
+  data-city-id={id}
+  data-m={m}
+  data-i={i}
+  data-n={n}
+  data-d={d}
+  data-city-name={name}
+  role="button"
+  tabindex="0"
+  aria-label={`View ${name} MIND profile`}
+  class="rounded-xl bg-surface border border-border p-4 cursor-pointer hover:border-white/20 transition-colors"
+>
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="text-lg font-display font-semibold text-text">
+      <span aria-hidden="true">{flag}</span> {name}
+    </h3>
+    <span class="text-xl font-bold text-[#00ff88] tabular-nums">{mind}</span>
+  </div>
+
+  <div class="space-y-2 mb-3">
+    {dimensions.map(({ label, score, color }) => (
+      <div class="flex items-center gap-2 text-sm">
+        <span class="w-4 text-right font-medium" style={`color: ${color}`}>{label}</span>
+        <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+          <div
+            class="h-full rounded-full"
+            style={`width: ${score}%; background-color: ${color}; opacity: 0.6`}
+          />
+        </div>
+        <span class="w-6 text-right text-xs tabular-nums text-text-muted">{score}</span>
+      </div>
+    ))}
+  </div>
+
+  <p class="text-xs text-text-faint mb-2">{context}</p>
+  <p class="text-xs text-text-muted">
+    Binding constraint: <strong class="text-white">{bcName}</strong>
+  </p>
+</div>

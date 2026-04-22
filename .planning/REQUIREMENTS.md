@@ -41,14 +41,14 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ### Multi-Scale
 
-- [ ] **SCALE-01**: 5-10 curated city profiles with manually assembled MIND indicator data
+- [x] **SCALE-01**: 5-10 curated city profiles with manually assembled MIND indicator data
 - [ ] **SCALE-02**: Firm self-assessment tool with user-input sliders (Zone Zero pattern reuse)
-- [ ] **SCALE-03**: Scale navigation UI (firm -> city -> country -> global) with breadcrumb or tabs
+- [x] **SCALE-03**: Scale navigation UI (firm -> city -> country -> global) with breadcrumb or tabs
 
 ### Cross-Linking & Polish
 
-- [x] **LINK-01**: MDX inline mini-chart components embedded in whitepaper prose
-- [x] **LINK-02**: Bidirectional navigation between whitepaper and dashboard
+- [ ] **LINK-01**: MDX inline mini-chart components embedded in whitepaper prose
+- [ ] **LINK-02**: Bidirectional navigation between whitepaper and dashboard
 - [ ] **AGG-01**: Hierarchical aggregation visualization showing MIND score composition across scales
 - [ ] **NAV-01**: Site navigation updated with Whitepaper and Dashboard links
 - [ ] **A11Y-01**: Accessibility audit — screen reader alternatives for all charts, aria-labels
@@ -109,11 +109,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-08 | Phase 10 | Complete |
 | DASH-09 | Phase 10 | Complete |
 | DASH-10 | Phase 10 | Complete |
-| SCALE-01 | Phase 11 | Pending |
+| SCALE-01 | Phase 11 | Complete |
 | SCALE-02 | Phase 11 | Pending |
-| SCALE-03 | Phase 11 | Pending |
-| LINK-01 | Phase 11 | Complete |
-| LINK-02 | Phase 11 | Complete |
+| SCALE-03 | Phase 11 | Complete |
+| LINK-01 | Phase 11 | Pending |
+| LINK-02 | Phase 11 | Pending |
 | AGG-01 | Phase 12 | Pending |
 | NAV-01 | Phase 12 | Pending |
 | A11Y-01 | Phase 12 | Pending |

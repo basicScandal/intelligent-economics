@@ -10,7 +10,7 @@
  */
 
 // Eagerly import state (tiny, no heavy deps)
-import { createDashboardState } from './state';
+import { createDashboardState, type Scale } from './state';
 import { decodeDashboardURL, pushDashboardURL } from './url-state';
 import type { SlimCountry } from './search';
 import type { DimensionKey } from '../../lib/mind-score';
@@ -76,10 +76,81 @@ const chartObserver = new IntersectionObserver(
             radarChart?.resize();
             barChart?.resize();
             comparisonRadarChart?.resize();
+            cityRadarChart?.resize();
           });
           if (radarEl) ro.observe(radarEl);
           if (barEl) ro.observe(barEl);
           if (compRadarEl) ro.observe(compRadarEl);
+
+          // ── City detail radar ──
+          let cityRadarChart: any = null;
+          const cityRadarEl = document.getElementById('city-radar-chart');
+          if (cityRadarEl) {
+            cityRadarChart = echarts.init(cityRadarEl, siteTheme, { renderer: 'svg' });
+            ro.observe(cityRadarEl);
+          }
+
+          // City card click handlers
+          const cityGrid = document.getElementById('city-grid');
+          const cityDetail = document.getElementById('city-detail');
+          const cityDetailName = document.getElementById('city-detail-name');
+          const cityDetailClose = document.getElementById('city-detail-close');
+          const cityBcName = document.getElementById('city-bc-name');
+          const cityBcScore = document.getElementById('city-bc-score');
+          const cityBcText = document.getElementById('city-bc-text');
+          const cityBcBorder = document.getElementById('city-binding-constraint');
+
+          if (cityGrid && cityDetail) {
+            cityGrid.addEventListener('click', (e) => {
+              const card = (e.target as HTMLElement).closest<HTMLElement>('[data-city-id]');
+              if (!card) return;
+
+              const m = Number(card.dataset.m);
+              const i = Number(card.dataset.i);
+              const n = Number(card.dataset.n);
+              const d = Number(card.dataset.d);
+              const name = card.dataset.cityName || '';
+
+              if (cityRadarChart) {
+                cityRadarChart.setOption(makeRadarOption({ name, m, i, n, d }));
+                cityRadarChart.getDom().setAttribute('aria-label', `MIND radar chart for ${name}`);
+              }
+
+              // Binding constraint callout
+              const bcKey = (['m', 'i', 'n', 'd'] as const).reduce((a, b) =>
+                ({ m, i, n, d }[a] <= { m, i, n, d }[b] ? a : b,
+              ));
+              const bcScoreVal = { m, i, n, d }[bcKey];
+              const bc = getBindingConstraintCallout(bcKey, Math.round(bcScoreVal));
+              if (cityBcName) cityBcName.textContent = bc.dimension;
+              if (cityBcScore) cityBcScore.textContent = `(${Math.round(bcScoreVal)})`;
+              if (cityBcText) cityBcText.textContent = bc.text;
+              if (cityBcBorder) cityBcBorder.style.borderLeftColor = DIM_COLORS[bcKey];
+              if (cityDetailName) cityDetailName.textContent = `${name} MIND Profile`;
+
+              cityDetail.classList.remove('hidden');
+              cityDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+              // Resize chart after showing (was hidden, needs resize)
+              setTimeout(() => cityRadarChart?.resize(), 100);
+            });
+
+            // Close button
+            cityDetailClose?.addEventListener('click', () => {
+              cityDetail.classList.add('hidden');
+            });
+
+            // Keyboard support for city cards
+            cityGrid.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                const card = (e.target as HTMLElement).closest<HTMLElement>('[data-city-id]');
+                if (card) {
+                  e.preventDefault();
+                  card.click();
+                }
+              }
+            });
+          }
 
           // Subscribe to state changes for chart rendering
           store.subscribe((state) => {
@@ -479,4 +550,36 @@ if ('requestIdleCallback' in window) {
   requestIdleCallback(loadSearch);
 } else {
   setTimeout(loadSearch, 200); // fallback for Safari
+}
+
+// ── 5. Scale tab switching (eager — DOM only, no heavy deps) ──
+
+const scaleTabs = document.getElementById('scale-tabs');
+if (scaleTabs) {
+  const tabs = scaleTabs.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  const panels = document.querySelectorAll<HTMLElement>('[data-scale-panel]');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const scale = tab.dataset.scale as Scale;
+      if (!scale) return;
+
+      // Update tab active states
+      tabs.forEach((t) => {
+        t.setAttribute('aria-selected', 'false');
+        t.classList.remove('bg-white/10', 'text-white');
+        t.classList.add('text-[#8888aa]');
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.classList.add('bg-white/10', 'text-white');
+      tab.classList.remove('text-[#8888aa]');
+
+      // Show/hide panels
+      panels.forEach((p) => {
+        p.classList.toggle('hidden', p.dataset.scalePanel !== scale);
+      });
+
+      store.setScale(scale);
+    });
+  });
 }

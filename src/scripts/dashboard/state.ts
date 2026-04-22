@@ -10,6 +10,9 @@
 
 import type { SlimCountry } from './search';
 
+/** Dashboard scale level for multi-scale MIND analysis. */
+export type Scale = 'country' | 'city' | 'firm';
+
 export interface DashboardState {
   /** Selected country for radar chart + detail view. */
   primary: SlimCountry | null;
@@ -17,6 +20,8 @@ export interface DashboardState {
   comparison: SlimCountry[];
   /** Tracks viewport < 768px for mobile layout. */
   isMobile: boolean;
+  /** Active scale tab: country, city, or firm. */
+  activeScale: Scale;
 }
 
 type Listener = (state: DashboardState) => void;
@@ -27,6 +32,7 @@ export interface DashboardStore {
   addToComparison: (country: SlimCountry) => void;
   removeFromComparison: (code: string) => void;
   setMobile: (isMobile: boolean) => void;
+  setScale: (scale: Scale) => void;
   subscribe: (fn: Listener) => void;
   notify: () => void;
 }
@@ -41,6 +47,7 @@ export function createDashboardState(): DashboardStore {
     primary: null,
     comparison: [],
     isMobile: false,
+    activeScale: 'country',
   };
 
   const listeners: Listener[] = [];
@@ -109,6 +116,15 @@ export function createDashboardState(): DashboardStore {
     setMobile(isMobile: boolean) {
       if (state.isMobile === isMobile) return;
       state.isMobile = isMobile;
+      notify();
+    },
+
+    /**
+     * Sets the active scale tab (country, city, or firm).
+     */
+    setScale(scale: Scale) {
+      if (state.activeScale === scale) return;
+      state.activeScale = scale;
       notify();
     },
 
