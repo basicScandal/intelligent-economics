@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "62f1b970ca46",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/11-multi-scale-cross-linking/11-VERIFICATION.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/62/f1b970ca46/0/metadata.json",
+      "transcript": "/62/f1b970ca46/0/full.jsonl",
+      "content_hash": "/62/f1b970ca46/0/content_hash.txt",
+      "prompt": "/62/f1b970ca46/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1735,
+    "cache_creation_tokens": 829693,
+    "cache_read_tokens": 43107852,
+    "output_tokens": 89928,
+    "api_call_count": 246
+  }
+}

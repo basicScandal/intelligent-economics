@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "62f1b970ca46",
+  "session_id": "7f0727d5-c93f-4f64-a695-97910aceb12a",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-22T10:47:54.913369Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/11-multi-scale-cross-linking/11-VERIFICATION.md"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "41922c784ce5",
+  "token_usage": {
+    "input_tokens": 1735,
+    "cache_creation_tokens": 829693,
+    "cache_read_tokens": 43107852,
+    "output_tokens": 89928,
+    "api_call_count": 246
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-22T10:47:54.870079Z",
+    "agent_lines": 166,
+    "agent_removed": 0,
+    "human_added": 4,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 170,
+    "total_lines_changed": 174,
+    "agent_percentage": 95.40229885057471,
+    "metric_version": 2
+  }
+}
