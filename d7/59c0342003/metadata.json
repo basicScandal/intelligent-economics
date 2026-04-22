@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "d759c0342003",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".planning/phases/12-aggregation-visualization-polish/12-VERIFICATION.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/d7/59c0342003/0/metadata.json",
+      "transcript": "/d7/59c0342003/0/full.jsonl",
+      "content_hash": "/d7/59c0342003/0/content_hash.txt",
+      "prompt": "/d7/59c0342003/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1779,
+    "cache_creation_tokens": 1408875,
+    "cache_read_tokens": 53400258,
+    "output_tokens": 100785,
+    "api_call_count": 284
+  }
+}
