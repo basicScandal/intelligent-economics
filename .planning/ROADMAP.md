@@ -119,7 +119,7 @@ Plans:
   4. The dashboard page scores Lighthouse >= 90 desktop and >= 75 mobile
 **Plans:** 2 plans
 Plans:
-- [ ] 12-01-PLAN.md — Aggregation pyramid SVG component on homepage + Whitepaper/Dashboard nav links
+- [x] 12-01-PLAN.md — Aggregation pyramid SVG component on homepage + Whitepaper/Dashboard nav links (completed 2026-04-22)
 - [ ] 12-02-PLAN.md — Dashboard accessibility audit (sr-only text alternatives) + Lighthouse performance verification + human verify
 **UI hint**: yes
 
@@ -142,4 +142,4 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 9. Country Dashboard Core | v1.1 | 3/3 | Complete | 2026-04-21 |
 | 10. Dashboard Advanced | v1.1 | 2/2 | Complete    | 2026-04-22 |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 3/3 | Complete    | 2026-04-22 |
-| 12. Aggregation Visualization + Polish | v1.1 | 0/2 | Planned | - |
+| 12. Aggregation Visualization + Polish | v1.1 | 1/2 | In Progress | - |

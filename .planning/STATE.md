@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: MIND Intelligence Layer
 status: executing
-stopped_at: Completed 11-03-PLAN.md
-last_updated: "2026-04-22T10:47:33.426Z"
+stopped_at: Completed 12-01-PLAN.md
+last_updated: "2026-04-22T15:12:25Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 6
   completed_phases: 5
-  total_plans: 12
-  completed_plans: 12
-  percent: 91
+  total_plans: 13
+  completed_plans: 13
+  percent: 95
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-21)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** Phase 11 — multi-scale-cross-linking
+**Current focus:** Phase 12 — aggregation-visualization-polish
 
 ## Current Position
 
 Phase: 12
-Plan: Not started
-Status: Ready to execute
+Plan: 01 complete, 02 remaining
+Status: Executing phase 12
 Last activity: 2026-04-22
 
-Progress: [#########░] 91%
+Progress: [#########░] 95%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [#########░] 91%
 | Phase 10 P02 | 2min | 1 tasks | 2 files |
 | Phase 11 P02 | 4min | 3 tasks | 6 files |
 | Phase 11 P03 | 3min | 2 tasks | 3 files |
+| Phase 12 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,7 @@ Recent decisions affecting current work:
 - [Phase 11-02]: City MIND scores computed at build time via calcScore/getBindingConstraint; tab switching is eager DOM-only, city radar defers to ECharts loading path
 - [Phase 11-02]: CityCard uses data attributes for runtime dimension reading (avoids importing JSON in client bundle)
 - [Phase 11]: Firm self-assessment uses stacked vertical sliders (no ECharts) with shared calcScore/getBindingConstraint, defaulting to 50 for all dimensions
+- [Phase 12-01]: Pure inline SVG for aggregation pyramid (no JS library), Nav links after Team before theme toggle
 
 ### Pending Todos
 
@@ -95,6 +97,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-22T10:43:30.277Z
-Stopped at: Completed 11-03-PLAN.md
+Last session: 2026-04-22T15:12:25Z
+Stopped at: Completed 12-01-PLAN.md
 Resume file: None
