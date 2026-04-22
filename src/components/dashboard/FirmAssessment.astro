@@ -1,0 +1,104 @@
+---
+/**
+ * Firm MIND Self-Assessment component.
+ *
+ * Static Astro component with 4 dimension sliders (M/I/N/D, 0-100),
+ * a live MIND score display, and a binding constraint callout.
+ * All interactivity wired by src/scripts/dashboard/init.ts (Section 7).
+ *
+ * Reuses the Zone Zero slider pattern and the shared calcScore() library.
+ */
+---
+
+<div class="max-w-2xl mx-auto">
+  <h2 class="text-2xl font-display font-semibold text-text mb-2 text-center">Firm MIND Self-Assessment</h2>
+  <p class="text-text-muted text-center mb-8 max-w-xl mx-auto">
+    Rate your organization across MIND's four dimensions. Move the sliders to see your firm's MIND score and identify your binding constraint.
+  </p>
+
+  <!-- Score display -->
+  <div class="text-center mb-8">
+    <div class="text-6xl font-display font-bold text-white" id="firm-score">50</div>
+    <div class="text-sm text-text-muted mt-1">MIND Score</div>
+  </div>
+
+  <!-- Slider section -->
+  <div class="space-y-6" id="firm-sliders">
+    <!-- Material slider -->
+    <div class="firm-slider-group">
+      <div class="flex justify-between items-center mb-2">
+        <label for="firm-m" class="text-sm font-medium" style="color: #00ff88;">Material</label>
+        <span id="firm-m-val" class="text-sm text-white font-mono">50</span>
+      </div>
+      <input type="range" id="firm-m" min="0" max="100" value="50"
+             class="w-full h-2 rounded-full appearance-none cursor-pointer"
+             style="accent-color: #00ff88;"
+             aria-label="Material dimension score" />
+      <p class="text-xs text-text-faint mt-1">Physical infrastructure, revenue, assets, and operational capacity</p>
+    </div>
+
+    <!-- Intelligence slider -->
+    <div class="firm-slider-group">
+      <div class="flex justify-between items-center mb-2">
+        <label for="firm-i" class="text-sm font-medium" style="color: #00c8ff;">Intelligence</label>
+        <span id="firm-i-val" class="text-sm text-white font-mono">50</span>
+      </div>
+      <input type="range" id="firm-i" min="0" max="100" value="50"
+             class="w-full h-2 rounded-full appearance-none cursor-pointer"
+             style="accent-color: #00c8ff;"
+             aria-label="Intelligence dimension score" />
+      <p class="text-xs text-text-faint mt-1">R&D investment, employee skills, knowledge management, and innovation</p>
+    </div>
+
+    <!-- Network slider -->
+    <div class="firm-slider-group">
+      <div class="flex justify-between items-center mb-2">
+        <label for="firm-n" class="text-sm font-medium" style="color: #7b4bff;">Network</label>
+        <span id="firm-n-val" class="text-sm text-white font-mono">50</span>
+      </div>
+      <input type="range" id="firm-n" min="0" max="100" value="50"
+             class="w-full h-2 rounded-full appearance-none cursor-pointer"
+             style="accent-color: #7b4bff;"
+             aria-label="Network dimension score" />
+      <p class="text-xs text-text-faint mt-1">Partnerships, market reach, supply chain diversity, and customer base</p>
+    </div>
+
+    <!-- Diversity slider -->
+    <div class="firm-slider-group">
+      <div class="flex justify-between items-center mb-2">
+        <label for="firm-d" class="text-sm font-medium" style="color: #ffb400;">Diversity</label>
+        <span id="firm-d-val" class="text-sm text-white font-mono">50</span>
+      </div>
+      <input type="range" id="firm-d" min="0" max="100" value="50"
+             class="w-full h-2 rounded-full appearance-none cursor-pointer"
+             style="accent-color: #ffb400;"
+             aria-label="Diversity dimension score" />
+      <p class="text-xs text-text-faint mt-1">Team diversity, product portfolio breadth, revenue source variety, and resilience</p>
+    </div>
+  </div>
+
+  <!-- Binding constraint callout -->
+  <div id="firm-bc" class="mt-8 pl-4 border-l-2 rounded-r-lg bg-white/5 py-3 pr-4" style="border-left-color: #00ff88;">
+    <p class="text-sm font-medium text-white">
+      Binding constraint: <strong id="firm-bc-name">Material</strong>
+      <span id="firm-bc-score" class="text-text-faint">(50)</span>
+    </p>
+    <p id="firm-bc-text" class="text-sm text-text-muted mt-1">
+      Material (50) is the binding constraint. Physical infrastructure is the substrate everything else runs on — raise it first.
+    </p>
+  </div>
+
+  <!-- Whitepaper CTA -->
+  <div class="mt-8 text-center">
+    <a href="/whitepaper#mathematical-foundation" class="text-[#00ff88] hover:underline text-sm">
+      Learn how the MIND formula works &rarr;
+    </a>
+  </div>
+
+  <!-- No-JS fallback -->
+  <noscript>
+    <p class="text-sm text-text-muted mt-4 text-center">
+      Enable JavaScript to use the interactive self-assessment tool.
+    </p>
+  </noscript>
+</div>
