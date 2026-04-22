@@ -91,7 +91,7 @@ Plans:
   3. The browser URL updates as users change countries or views, and pasting that URL restores the exact dashboard state
 **Plans:** 2 plans
 Plans:
-- [ ] 10-01-PLAN.md — Comparison radar chart function + URL state encode/decode utilities (TDD)
+- [x] 10-01-PLAN.md — Comparison radar chart function + URL state encode/decode utilities (TDD)
 - [ ] 10-02-PLAN.md — Wire comparison radar, Zone Zero link, and bookmarkable URLs into dashboard island + human verify
 
 ### Phase 11: Multi-Scale + Cross-Linking
@@ -134,6 +134,6 @@ Phases 8 and 9 can run in parallel after Phase 7. All other phases are sequentia
 | 7. Shared Foundation + Data Pipeline | v1.1 | 2/2 | Complete | 2026-04-21 |
 | 8. Whitepaper | v1.1 | 0/2 | Planned | - |
 | 9. Country Dashboard Core | v1.1 | 3/3 | Complete | 2026-04-21 |
-| 10. Dashboard Advanced | v1.1 | 0/2 | Planned | - |
+| 10. Dashboard Advanced | v1.1 | 1/2 | In Progress | - |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 0/0 | Not started | - |
 | 12. Aggregation Visualization + Polish | v1.1 | 0/0 | Not started | - |
