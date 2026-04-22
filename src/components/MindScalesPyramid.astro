@@ -1,0 +1,175 @@
+---
+/* MindScalesPyramid — SVG pyramid showing MIND score aggregation across 3 scales:
+   Firm (bottom) → City (middle) → Country (top).
+   Each level links to the corresponding dashboard scale tab. */
+---
+
+<section class="section" id="mind-scales" aria-label="MIND Across Scales">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Aggregation Framework</div>
+      <h2 class="section-title">MIND Across Scales</h2>
+      <p class="section-body">
+        The MIND framework measures prosperity at every level of organization. Individual firms compose into city-wide scores, cities aggregate into national measures. Explore how scores flow upward — and where the binding constraints hide.
+      </p>
+    </div>
+
+    <div class="mind-pyramid reveal reveal-delay-2">
+      <svg
+        class="mind-pyramid__svg"
+        viewBox="0 0 600 420"
+        role="img"
+        aria-label="MIND framework aggregation pyramid showing firm, city, and country scales with sample scores"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <!-- Connecting lines between levels (drawn first, behind nodes) -->
+        <line x1="300" y1="275" x2="300" y2="195" stroke="white" stroke-opacity="0.12" stroke-width="1.5" stroke-dasharray="6 4" />
+        <line x1="300" y1="165" x2="300" y2="85" stroke="white" stroke-opacity="0.12" stroke-width="1.5" stroke-dasharray="6 4" />
+
+        <!-- Upward arrow indicators -->
+        <polygon points="296,200 300,190 304,200" fill="white" fill-opacity="0.2" />
+        <polygon points="296,90 300,80 304,90" fill="white" fill-opacity="0.2" />
+
+        <!-- BOTTOM: Firm level (widest) -->
+        <a href="/dashboard?scale=firm" class="mind-pyramid__level mind-pyramid__level--firm">
+          <rect x="100" y="280" width="400" height="110" rx="12" ry="12"
+                fill="#ffb400" fill-opacity="0.08"
+                stroke="#ffb400" stroke-opacity="0.25" stroke-width="1.5" />
+          <!-- Icon: building -->
+          <g transform="translate(160, 315)">
+            <rect x="0" y="4" width="16" height="20" rx="2" fill="none" stroke="#ffb400" stroke-width="1.5" stroke-opacity="0.7" />
+            <rect x="3" y="8" width="3" height="3" rx="0.5" fill="#ffb400" fill-opacity="0.5" />
+            <rect x="9" y="8" width="3" height="3" rx="0.5" fill="#ffb400" fill-opacity="0.5" />
+            <rect x="3" y="14" width="3" height="3" rx="0.5" fill="#ffb400" fill-opacity="0.5" />
+            <rect x="9" y="14" width="3" height="3" rx="0.5" fill="#ffb400" fill-opacity="0.5" />
+            <rect x="6" y="19" width="4" height="5" rx="0.5" fill="#ffb400" fill-opacity="0.4" />
+          </g>
+          <!-- Scale name -->
+          <text x="195" y="332" fill="white" font-size="18" font-weight="700" font-family="var(--font-display, system-ui)">Firm</text>
+          <!-- Sample score -->
+          <text x="370" y="328" fill="#ffb400" font-size="32" font-weight="700" font-family="var(--font-display, system-ui)" text-anchor="middle">50</text>
+          <!-- Description -->
+          <text x="195" y="356" fill="white" fill-opacity="0.45" font-size="12" font-family="var(--font-body, system-ui)">Individual organization MIND assessment</text>
+          <!-- Hover arrow -->
+          <text x="470" y="340" fill="#ffb400" fill-opacity="0.5" font-size="16" font-family="var(--font-body, system-ui)">&#8594;</text>
+        </a>
+
+        <!-- MIDDLE: City level -->
+        <a href="/dashboard?scale=city" class="mind-pyramid__level mind-pyramid__level--city">
+          <rect x="150" y="170" width="300" height="100" rx="12" ry="12"
+                fill="#7b4bff" fill-opacity="0.08"
+                stroke="#7b4bff" stroke-opacity="0.25" stroke-width="1.5" />
+          <!-- Icon: cityscape -->
+          <g transform="translate(195, 200)">
+            <rect x="0" y="8" width="6" height="16" rx="1" fill="none" stroke="#7b4bff" stroke-width="1.2" stroke-opacity="0.7" />
+            <rect x="8" y="2" width="8" height="22" rx="1" fill="none" stroke="#7b4bff" stroke-width="1.2" stroke-opacity="0.7" />
+            <rect x="18" y="10" width="6" height="14" rx="1" fill="none" stroke="#7b4bff" stroke-width="1.2" stroke-opacity="0.7" />
+            <rect x="10" y="6" width="2" height="2" rx="0.3" fill="#7b4bff" fill-opacity="0.5" />
+            <rect x="13" y="6" width="2" height="2" rx="0.3" fill="#7b4bff" fill-opacity="0.5" />
+            <rect x="10" y="11" width="2" height="2" rx="0.3" fill="#7b4bff" fill-opacity="0.5" />
+            <rect x="13" y="11" width="2" height="2" rx="0.3" fill="#7b4bff" fill-opacity="0.5" />
+          </g>
+          <!-- Scale name -->
+          <text x="235" y="224" fill="white" font-size="18" font-weight="700" font-family="var(--font-display, system-ui)">City</text>
+          <!-- Sample score -->
+          <text x="390" y="220" fill="#7b4bff" font-size="32" font-weight="700" font-family="var(--font-display, system-ui)" text-anchor="middle">74</text>
+          <!-- Description -->
+          <text x="235" y="248" fill="white" fill-opacity="0.45" font-size="12" font-family="var(--font-body, system-ui)">Aggregated city score (Singapore)</text>
+          <!-- Hover arrow -->
+          <text x="420" y="230" fill="#7b4bff" fill-opacity="0.5" font-size="16" font-family="var(--font-body, system-ui)">&#8594;</text>
+        </a>
+
+        <!-- TOP: Country level (narrowest) -->
+        <a href="/dashboard?scale=country" class="mind-pyramid__level mind-pyramid__level--country">
+          <rect x="200" y="50" width="200" height="100" rx="12" ry="12"
+                fill="#00c8ff" fill-opacity="0.08"
+                stroke="#00c8ff" stroke-opacity="0.25" stroke-width="1.5" />
+          <!-- Icon: globe -->
+          <g transform="translate(240, 80)">
+            <circle cx="12" cy="12" r="11" fill="none" stroke="#00c8ff" stroke-width="1.2" stroke-opacity="0.7" />
+            <ellipse cx="12" cy="12" rx="5" ry="11" fill="none" stroke="#00c8ff" stroke-width="0.8" stroke-opacity="0.5" />
+            <line x1="1" y1="12" x2="23" y2="12" stroke="#00c8ff" stroke-width="0.8" stroke-opacity="0.4" />
+            <line x1="3" y1="6" x2="21" y2="6" stroke="#00c8ff" stroke-width="0.6" stroke-opacity="0.3" />
+            <line x1="3" y1="18" x2="21" y2="18" stroke="#00c8ff" stroke-width="0.6" stroke-opacity="0.3" />
+          </g>
+          <!-- Scale name -->
+          <text x="275" y="104" fill="white" font-size="18" font-weight="700" font-family="var(--font-display, system-ui)">Country</text>
+          <!-- Sample score -->
+          <text x="370" y="100" fill="#00c8ff" font-size="32" font-weight="700" font-family="var(--font-display, system-ui)" text-anchor="middle">56</text>
+          <!-- Description -->
+          <text x="230" y="128" fill="white" fill-opacity="0.45" font-size="12" font-family="var(--font-body, system-ui)">National aggregate (Denmark)</text>
+          <!-- Hover arrow -->
+          <text x="375" y="128" fill="#00c8ff" fill-opacity="0.5" font-size="16" font-family="var(--font-body, system-ui)">&#8594;</text>
+        </a>
+
+        <!-- Scale labels on left side -->
+        <text x="80" y="340" fill="white" fill-opacity="0.25" font-size="10" font-family="var(--font-body, system-ui)" text-anchor="end" transform="rotate(-90, 80, 340)" letter-spacing="0.12em">MICRO</text>
+        <text x="80" y="100" fill="white" fill-opacity="0.25" font-size="10" font-family="var(--font-body, system-ui)" text-anchor="end" transform="rotate(-90, 80, 100)" letter-spacing="0.12em">MACRO</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mind-pyramid {
+    max-width: 640px;
+    margin: var(--space-12) auto 0;
+  }
+
+  .mind-pyramid__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Level link styling */
+  .mind-pyramid__level {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .mind-pyramid__level rect {
+    transition: fill-opacity 0.2s ease, stroke-opacity 0.2s ease;
+  }
+
+  .mind-pyramid__level:hover rect,
+  .mind-pyramid__level:focus rect {
+    fill-opacity: 0.15;
+    stroke-opacity: 0.4;
+  }
+
+  .mind-pyramid__level:hover text:last-of-type,
+  .mind-pyramid__level:focus text:last-of-type {
+    fill-opacity: 0.9;
+  }
+
+  .mind-pyramid__level:focus {
+    outline: none;
+  }
+
+  .mind-pyramid__level:focus-visible rect {
+    stroke-opacity: 0.6;
+    stroke-width: 2.5;
+  }
+
+  /* Firm accent */
+  .mind-pyramid__level--firm:focus-visible rect {
+    stroke: #ffb400;
+  }
+
+  /* City accent */
+  .mind-pyramid__level--city:focus-visible rect {
+    stroke: #7b4bff;
+  }
+
+  /* Country accent */
+  .mind-pyramid__level--country:focus-visible rect {
+    stroke: #00c8ff;
+  }
+
+  @media (max-width: 640px) {
+    .mind-pyramid {
+      margin-top: var(--space-8);
+    }
+  }
+</style>
