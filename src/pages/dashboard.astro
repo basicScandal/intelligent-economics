@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
 import RankingTable from '../components/dashboard/RankingTable.astro';
 import MethodologyPanel from '../components/dashboard/MethodologyPanel.astro';
 import BindingConstraint from '../components/dashboard/BindingConstraint.astro';
@@ -28,6 +29,7 @@ const cities = cityData.cities.map(city => ({
 ---
 
 <BaseLayout title="MIND Dashboard" description="Explore MIND scores for 217 countries backed by real World Bank data">
+  <Nav />
   <main class="min-h-screen bg-bg pt-20 pb-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
 

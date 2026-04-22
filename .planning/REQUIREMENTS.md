@@ -112,10 +112,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SCALE-01 | Phase 11 | Complete |
 | SCALE-02 | Phase 11 | Complete |
 | SCALE-03 | Phase 11 | Complete |
-| LINK-01 | Phase 11 | Pending |
-| LINK-02 | Phase 11 | Pending |
-| AGG-01 | Phase 12 | Pending |
-| NAV-01 | Phase 12 | Pending |
+| LINK-01 | Phase 11 | Complete |
+| LINK-02 | Phase 11 | Complete |
+| AGG-01 | Phase 12 | Complete |
+| NAV-01 | Phase 12 | Complete |
 | A11Y-01 | Phase 12 | Complete |
 | PERF-01 | Phase 12 | Complete |
 
