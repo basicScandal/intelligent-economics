@@ -30,7 +30,7 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 ### Active
 
 - ✓ MIND framework HTML whitepaper accessible to general public and policymakers — v1.1 Phase 8
-- [ ] Multi-scale interactive MIND dashboard (firm → city → country → global)
+- ✓ Country-level MIND dashboard with interactive charts — v1.1 Phase 9 (multi-scale pending Phase 11)
 - ✓ Real data integration via World Bank API (16 indicators, 217 countries) — v1.1 Phase 7
 - [ ] Hierarchical aggregation visualization showing MIND score composition upward
 
