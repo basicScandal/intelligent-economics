@@ -11,6 +11,7 @@
 
 // Eagerly import state (tiny, no heavy deps)
 import { createDashboardState } from './state';
+import { decodeDashboardURL, pushDashboardURL } from './url-state';
 import type { SlimCountry } from './search';
 import type { DimensionKey } from '../../lib/mind-score';
 
@@ -48,6 +49,7 @@ const chartObserver = new IntersectionObserver(
             makeBarOption,
             getMobileBarOption,
             getBindingConstraintCallout,
+            makeComparisonRadarOption,
             siteTheme,
             DIM_COLORS,
           },
@@ -62,13 +64,22 @@ const chartObserver = new IntersectionObserver(
             barChart = echarts.init(barEl, siteTheme, { renderer: 'svg' });
           }
 
+          // Comparison radar chart
+          let comparisonRadarChart: any = null;
+          const compRadarEl = document.getElementById('comparison-radar');
+          if (compRadarEl) {
+            comparisonRadarChart = echarts.init(compRadarEl, siteTheme, { renderer: 'svg' });
+          }
+
           // ResizeObserver for chart containers
           const ro = new ResizeObserver(() => {
             radarChart?.resize();
             barChart?.resize();
+            comparisonRadarChart?.resize();
           });
           if (radarEl) ro.observe(radarEl);
           if (barEl) ro.observe(barEl);
+          if (compRadarEl) ro.observe(compRadarEl);
 
           // Subscribe to state changes for chart rendering
           store.subscribe((state) => {
@@ -109,14 +120,52 @@ const chartObserver = new IntersectionObserver(
               if (bcScoreEl) bcScoreEl.textContent = `(${Math.round(bcScore)})`;
               if (bcTextEl) bcTextEl.textContent = bc.text;
               if (bcBorderEl) bcBorderEl.style.borderLeftColor = DIM_COLORS[bcDimKey];
+
+              // Zone Zero deep link (per DASH-09)
+              const zzLink = document.getElementById('zone-zero-link') as HTMLAnchorElement | null;
+              const zzText = document.getElementById('zone-zero-link-text');
+              if (zzLink && state.primary.mind !== null) {
+                const m = Math.round(state.primary.m ?? 0);
+                const i = Math.round(state.primary.i ?? 0);
+                const n = Math.round(state.primary.n ?? 0);
+                const d = Math.round(state.primary.d ?? 0);
+                zzLink.href = `/?m=${m}&i=${i}&n=${n}&d=${d}#zone-zero`;
+                if (zzText) zzText.textContent = `See ${state.primary.name} in Zone Zero simulator`;
+                zzLink.classList.remove('hidden');
+              } else if (zzLink) {
+                zzLink.classList.add('hidden');
+              }
             } else {
               document.getElementById('country-detail')?.classList.add('hidden');
+              // Hide Zone Zero link when no primary selected
+              document.getElementById('zone-zero-link')?.classList.add('hidden');
             }
 
-            // ── Bar chart ──
+            // ── Bar chart + Comparison radar ──
             if (state.comparison.length > 0) {
               document.getElementById('comparison-section')?.classList.remove('hidden');
               const validCountries = state.comparison.filter((c) => c.mind !== null);
+
+              // Comparison radar — overlaid polygons (per DASH-08)
+              if (validCountries.length >= 2 && comparisonRadarChart) {
+                const radarCountries = validCountries.map((c) => ({
+                  name: c.name,
+                  m: c.m ?? 0,
+                  i: c.i ?? 0,
+                  n: c.n ?? 0,
+                  d: c.d ?? 0,
+                }));
+                comparisonRadarChart.setOption(makeComparisonRadarOption(radarCountries), true);
+                comparisonRadarChart
+                  .getDom()
+                  .setAttribute(
+                    'aria-label',
+                    `MIND comparison radar for ${validCountries.map((c) => c.name).join(', ')}`,
+                  );
+                document.getElementById('comparison-radar')?.classList.remove('hidden');
+              } else {
+                document.getElementById('comparison-radar')?.classList.add('hidden');
+              }
 
               if (validCountries.length > 0 && barChart) {
                 const chartCountries = validCountries.map((c) => ({
@@ -146,8 +195,35 @@ const chartObserver = new IntersectionObserver(
             }
           });
 
+          // URL state sync — update browser URL on state changes (per DASH-10)
+          store.subscribe((state) => {
+            const urlState = {
+              primary: state.primary?.code ?? null,
+              compare: state.comparison.map((c) => c.code),
+            };
+            pushDashboardURL(urlState);
+          });
+
           // If state already has a primary (search loaded first), render now
           store.notify();
+
+          // URL hydration — restore state from query params on page load (per DASH-10)
+          const urlState = decodeDashboardURL(window.location.search);
+          if (urlState.primary) {
+            const primaryCountry = countries.find((c) => c.code === urlState.primary);
+            if (primaryCountry) {
+              store.selectPrimary(primaryCountry);
+              // Update search input to show selected country name
+              const searchInput = document.getElementById('country-search-input') as HTMLInputElement | null;
+              if (searchInput) searchInput.value = primaryCountry.name;
+            }
+          }
+          if (urlState.compare.length > 0) {
+            for (const code of urlState.compare) {
+              const country = countries.find((c) => c.code === code);
+              if (country) store.addToComparison(country);
+            }
+          }
         },
       );
     }
