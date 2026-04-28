@@ -11,3 +11,7 @@ Looks at it with playwright and fix the formatting and views
 ---
 
 Fix that pre-existing test failure too
+
+---
+
+Commit these changes
