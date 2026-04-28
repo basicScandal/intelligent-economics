@@ -2,6 +2,8 @@
 /* Light-mode override for whitepaper content area */
 
 .whitepaper-content {
+  min-width: 0;
+  overflow-wrap: break-word;
   --wp-bg: #ffffff;
   --wp-text: #1a1a2e;
   --wp-text-muted: #555577;
@@ -259,13 +261,15 @@
   font-style: italic;
   color: var(--wp-text-muted);
   line-height: 1.7;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ─── TOC SIDEBAR — DESKTOP ──────────────────────────────────────── */
 .toc-desktop {
   position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
+  top: 6.5rem;
+  max-height: calc(100vh - 7.5rem);
   overflow-y: auto;
 }
 
@@ -371,13 +375,14 @@
   max-width: 1200px;
   margin: 0 auto;
   gap: 2rem;
-  padding: 2rem;
+  padding: 8rem 2rem 2rem;
 }
 
 @media (max-width: 1023px) {
   .whitepaper-wrapper {
     grid-template-columns: 1fr;
-    padding: 1rem;
+    padding: 6rem 1rem 1rem;
+    overflow-x: hidden;
   }
 }
 

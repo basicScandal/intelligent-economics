@@ -193,7 +193,7 @@ describe('constants', () => {
   it('DIM_COLORS has 4 hex values', () => {
     expect(DIM_COLORS.m).toBe('#00ff88');
     expect(DIM_COLORS.i).toBe('#00c8ff');
-    expect(DIM_COLORS.n).toBe('#7b4bff');
+    expect(DIM_COLORS.n).toBe('#8b5fff');
     expect(DIM_COLORS.d).toBe('#ffb400');
   });
 
