@@ -1433,3 +1433,7 @@ whats the local url?
 ---
 
 spin up some agents to make sure all links work and that everything is readable, and to make it easy to get back to the homepage
+
+---
+
+commit and push these changes
