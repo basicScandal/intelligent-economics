@@ -1,0 +1,21 @@
+MIND Index Dataset v1.0
+Generated from World Bank World Development Indicators (accessed April 2026)
+217 countries, 16 indicators, 4 dimensions
+
+Dimensions:
+  M (Material): GNI per capita PPP, Electricity access, Life expectancy, Safe water
+  I (Intelligence): Tertiary enrollment, R&D spending, Internet users, Education spending
+  N (Network): Trade % GDP, Mobile subscriptions, FDI inflows, Tourism arrivals
+  D (Diversity): Female labor participation, Women in parliament, Renewable energy, High-tech exports
+
+Formula: MIND = (M/100 * I/100 * N/100 * D/100)^0.25 * 100
+Normalization: Percentile-capped min-max (p1/p99)
+
+Each dimension score is the arithmetic mean of its 4 normalized indicator scores (0-100).
+The MIND score is the geometric mean of the 4 dimension scores.
+Zero-floor property: if any dimension = 0, MIND = 0.
+Binding constraint: the dimension with the lowest score.
+
+License: Open data. Use freely with attribution to Intelligent Economics.
+Full methodology: https://intelligenteconomics.ai/whitepaper
+Source code: https://github.com/basicScandal/intelligent-economics

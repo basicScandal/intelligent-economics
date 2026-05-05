@@ -31,6 +31,14 @@ GDP's shortcomings are not merely academic concerns — they produce real policy
 
 The United Nations recognized some of these limitations when it introduced the Human Development Index in 1990[^3]. The HDI combines life expectancy, education, and income into a single measure using a geometric mean — a significant improvement over GDP alone. But the HDI captures only three dimensions and omits connectivity and resilience entirely. In an increasingly networked global economy, where trade linkages, information flows, and demographic diversity shape national capacity as much as traditional inputs, a broader framework is needed.
 
+## Related Work
+
+The MIND framework builds on a substantial lineage of beyond-GDP measurement. The **Human Development Index** (HDI), introduced by the UNDP in 1990, was the first widely adopted composite index to go beyond income, combining life expectancy, education, and income using a geometric mean since its 2010 revision[^3]. The **Genuine Progress Indicator** (GPI) adjusts GDP for 26 factors including inequality, environmental degradation, and unpaid work, and has been adopted by several U.S. states. The **OECD Better Life Index** measures 11 dimensions across 40+ countries with interactive weighting. The **Social Progress Index** uses 3 dimensions and 12 components focused on social and environmental outcomes. Bhutan's **Gross National Happiness** has guided national policy since 1972 using 9 domains. Kate Raworth's **Doughnut Economics** framework, adopted by Amsterdam in 2020, defines a "safe and just space" between ecological ceilings and social foundations. The Dasgupta Review (2021) introduced comprehensive inclusive wealth accounting.
+
+MIND's contribution to this landscape is specific: the **multiplicative formula**. Where HDI, GPI, and the Social Progress Index use additive or geometric mean structures that allow strength in one area to partially compensate for weakness in another, MIND's zero-floor property makes compensation impossible. A nation scoring 95 in Material and 5 in Diversity receives a lower MIND score than one scoring 50 in both — because the multiplicative structure insists that extreme imbalance is structurally fragile regardless of aggregate strength. The **binding constraint** concept — identifying the lowest-scoring dimension as the highest-leverage policy target — draws on Hausmann, Rodrik, and Velasco's (2005) growth diagnostics framework, which uses a similar logic to identify binding constraints on economic growth.
+
+The governance concepts proposed alongside MIND (the Guardian Lattice, Oracle Councils) draw on existing precedents in deliberative democracy: Ireland's Citizens' Assembly (2016-present), France's Convention Citoyenne pour le Climat (2019-2020), and Taiwan's vTaiwan digital deliberation platform. MIND does not claim to have invented these mechanisms — it proposes combining them with algorithmic monitoring in a specific configuration.
+
 ## The MIND Framework
 
 MIND stands for **Material**, **Intelligence**, **Network**, and **Diversity** — four dimensions that together capture a more complete picture of national capacity than any single metric. Each dimension is composed of four indicators drawn from the World Bank's World Development Indicators database, selected to represent distinct and measurable facets of that dimension.
@@ -70,14 +78,14 @@ Network connectivity matters because no nation prospers in isolation. Countries 
 
 ### Diversity (D)
 
-The Diversity dimension measures structural resilience — the breadth of participation in economic and political life, and the diversity of economic inputs. The indicators are:
+The Diversity dimension measures structural resilience — the breadth of participation in economic life and the diversification of economic inputs. This is the most unconventional and most contested of MIND's four dimensions. The indicators are:
 
-- **Women in parliament** (`SG.GEN.PARL.ZS`) — gender inclusion in political decision-making
-- **Female labor force participation** (`SL.TLF.CACT.FE.ZS`) — whether the economy utilizes its full human capital
-- **Renewable energy share** (`EG.FEC.RNEW.ZS`) — energy source diversification and sustainability
+- **Female labor force participation** (`SL.TLF.CACT.FE.ZS`) — whether the economy utilizes its full human capital, regardless of gender
+- **Women in parliament** (`SG.GEN.PARL.ZS`) — gender inclusion in political decision-making, a proxy for the breadth of representation in governance
+- **Renewable energy share** (`EG.FEC.RNEW.ZS`) — energy source diversification and reduced dependence on a single fuel type
 - **High-technology exports as % of manufactured exports** (`TX.VAL.TECH.MF.ZS`) — economic complexity and trade diversification[^4]
 
-Diversity is the most unconventional of MIND's four dimensions, and deliberately so. Economies that depend on a single resource, exclude half their population from full participation, or rely entirely on fossil fuels are structurally fragile regardless of their current GDP. The Diversity dimension captures this fragility directly.
+**A note on this dimension's limitations:** Two of four indicators measure gender representation, meaning gender alone accounts for 50% of the Diversity score. This was a deliberate choice — gender exclusion is the most widespread and measurable form of structural under-participation globally — but it means the dimension does not capture ethnic, religious, or cognitive diversity. The renewable energy indicator conflates genuinely sustainable energy systems with biomass dependence: Chad's 70% "renewable" energy share reflects wood and dung burning, not wind farms. Future iterations of the framework should consider replacing or supplementing these indicators with measures of export concentration (Herfindahl index), institutional quality (rule of law indices), or economic complexity (the Harvard/MIT Economic Complexity Index). We flag this as the dimension most likely to change in v2.
 
 ## Mathematical Foundation
 
@@ -208,6 +216,8 @@ The binding constraint is Diversity at 20 — female labor force participation s
 
 The MIND framework is designed as a **diagnostic tool**, not a ranking system. While cross-country comparisons are possible and informative, the framework's primary value lies in what it tells individual nations about their own structural balance.
 
+**An important caveat:** The MIND framework has not yet been validated against outcome measures. The scores presented here describe structural positions as measured by the index — they do not yet demonstrate that higher MIND scores predict improved subjective well-being, reduced state fragility, or more sustainable growth. Establishing this predictive validity through retroactive analysis is the highest priority for the next phase of this research. Until that validation is complete, MIND should be understood as a diagnostic lens, not a proven causal model.
+
 Three insights emerge from applying MIND at scale across 217 countries.
 
 **First, the binding constraint is a policy compass.** In every country, one dimension scores lowest — and the multiplicative formula guarantees that improving that dimension yields the largest marginal improvement in overall prosperity. For wealthy nations like Qatar, the binding constraint points to diversity and inclusion. For developing nations like Chad, it points to basic material infrastructure. For middle-income nations like Morocco, it identifies the next frontier of investment. This is fundamentally different from GDP-based policy, which rewards growth in *any* sector equally.
@@ -215,6 +225,18 @@ Three insights emerge from applying MIND at scale across 217 countries.
 **Second, wealth does not guarantee balance.** The most striking finding in our 217-country analysis is how many high-GDP nations show severe dimensional imbalances. Resource-rich countries often score above 90 in Material while falling below 30 in Diversity or Network. The multiplicative formula makes these imbalances impossible to ignore — and GDP-based analysis makes them impossible to see.
 
 **Third, MIND reveals hidden strengths in unexpected places.** Chad's Diversity score exceeds Qatar's. Morocco's Intelligence investment outpaces many wealthier nations. These findings challenge the simplistic GDP-derived narrative that development is a linear progression from "poor" to "rich." MIND suggests that different nations have different structural profiles, and that development strategy should be tailored to the specific constraints and capabilities of each.
+
+### The Firm-Level View: Orchestration Economics
+
+The MIND framework operates at the level of nations and cities. But a parallel transformation is reshaping the firms that operate within those economies — and understanding it makes MIND's prescriptions more actionable.
+
+The marginal cost of cognitive labor is collapsing non-linearly. A task that costs \$100 in human cognitive work today will cost \$10 in 2027, \$1 in 2028, and pennies thereafter. This is not disruption — a steeper version of the same curve — but discontinuity: the curve breaks entirely, and the instruments built for the old regime stop functioning.
+
+As AI systems cross from tools to actors — receiving goals, taking autonomous action, and delivering outcomes — a new economic layer emerges between human intent and execution. Raphaëlle d'Ornano's <a href="https://orchestration-economics.com" target="_blank" rel="noopener">Orchestration Economics Manifesto</a> provides the most rigorous framework for this transition: the companies that control the **orchestration layer** capture the surplus of the entire transition. Three structural conditions determine whether an orchestration position is durable: proximity to where human intent originates, depth of irreplaceable operational context, and coordination patterns that improve with use[^8].
+
+This has direct implications for MIND. First, it means the cost of improving a city's Intelligence dimension is falling exponentially — the cost of AI-assisted data analysis, dashboard tooling, and policy modeling has fallen by orders of magnitude — though the core costs of education (teacher salaries, school infrastructure) and healthcare have not. The binding constraint shifts from budget to political will. Second, it means governance frameworks like the Guardian Lattice are not optional luxuries but urgent necessities: when orchestration advantages compound into natural monopolies, someone must ensure those monopolies serve systemic balance rather than extract from it.
+
+The synthesis is straightforward. Firms should compete for orchestration advantage. Societies should ensure that competition produces balanced prosperity. The orchestration race is the engine. The MIND framework is the steering. A dominant orchestrator that strengthens all four MIND dimensions is a "Prosperity Engine." One that maximizes its position while undermining Diversity or Network connectivity is an "Extractor." MIND gives policymakers the vocabulary — and the data — to tell the difference.
 
 ### Limitations
 
@@ -250,3 +272,5 @@ Prosperity is not a number — it is a balance. MIND is built to measure that ba
 [^6]: World Bank Group. (2023). *Morocco Country Economic Memorandum.* Highlights gender labor participation as a key growth constraint.
 
 [^7]: Source code and methodology available at the Intelligent Economics project repository. Data sourced from World Bank World Development Indicators API (accessed April 2026).
+
+[^8]: d'Ornano, R. (2026). *AGNT: The Orchestration Economics Manifesto — An Investment Framework for the Agentic Era.* Decoding Discontinuity / D'Ornano and Co Inc. The Three Laws (Proximity to Intent, Context Builds Moats, Workflow Intelligence Secures Control) and the orchestration layer architecture provide the firm-level complement to MIND's societal-level framework.

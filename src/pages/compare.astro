@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/whitepaper.css';
+---
+
+<BaseLayout
+  title="How MIND Compares"
+  description="MIND vs. HDI, GPI, OECD Better Life Index, Doughnut Economics, and other beyond-GDP frameworks — what each measures, what each misses, and why the multiplicative formula matters."
+>
+  <Nav />
+  <div class="whitepaper-wrapper" style="grid-template-columns: 1fr; max-width: 880px;">
+    <main class="whitepaper-content">
+      <article>
+        <header class="whitepaper-header">
+          <h1>How MIND Compares</h1>
+          <p class="whitepaper-subtitle">MIND is not the first framework to go beyond GDP. Here's how it relates to the ones that came before — what each does well, what each misses, and where MIND fits.</p>
+        </header>
+
+        <h2 id="the-landscape">The Beyond-GDP Landscape</h2>
+
+        <p>The critique of GDP is not new. Economists, policymakers, and international institutions have been building alternatives for decades. Anyone proposing a new framework owes an honest account of what already exists and what it adds. This page is that account.</p>
+
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Framework</th>
+                <th>Year</th>
+                <th>Dimensions</th>
+                <th>Formula</th>
+                <th>Countries</th>
+                <th>Adopted By</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>HDI</strong></td>
+                <td>1990</td>
+                <td>3 (health, education, income)</td>
+                <td>Geometric mean</td>
+                <td>191</td>
+                <td>United Nations (annual report)</td>
+              </tr>
+              <tr>
+                <td><strong>GPI</strong></td>
+                <td>1995</td>
+                <td>26 adjustments to GDP</td>
+                <td>Additive (GDP + / -)</td>
+                <td>~20</td>
+                <td>Maryland, Vermont, other U.S. states</td>
+              </tr>
+              <tr>
+                <td><strong>GNH</strong></td>
+                <td>1972</td>
+                <td>9 domains, 33 indicators</td>
+                <td>Sufficiency threshold</td>
+                <td>1 (Bhutan)</td>
+                <td>Kingdom of Bhutan (national policy)</td>
+              </tr>
+              <tr>
+                <td><strong>OECD BLI</strong></td>
+                <td>2011</td>
+                <td>11 dimensions</td>
+                <td>User-weighted additive</td>
+                <td>41</td>
+                <td>OECD (interactive tool)</td>
+              </tr>
+              <tr>
+                <td><strong>SPI</strong></td>
+                <td>2013</td>
+                <td>3 dimensions, 12 components</td>
+                <td>Additive average</td>
+                <td>170</td>
+                <td>Social Progress Imperative</td>
+              </tr>
+              <tr>
+                <td><strong>Doughnut</strong></td>
+                <td>2012</td>
+                <td>12 social + 9 ecological boundaries</td>
+                <td>Threshold-based (in/out)</td>
+                <td>~150</td>
+                <td>Amsterdam (2020), Brussels, others</td>
+              </tr>
+              <tr>
+                <td><strong>Dasgupta</strong></td>
+                <td>2021</td>
+                <td>Inclusive wealth (produced, human, natural capital)</td>
+                <td>Wealth accounting</td>
+                <td>~140</td>
+                <td>UK Treasury (commissioned review)</td>
+              </tr>
+              <tr class="compare-highlight">
+                <td><strong>MIND</strong></td>
+                <td>2026</td>
+                <td>4 (Material, Intelligence, Network, Diversity)</td>
+                <td>Multiplicative (geometric mean with zero-floor)</td>
+                <td>217</td>
+                <td>Pilot stage</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="what-mind-adds">What MIND Adds</h2>
+
+        <p>MIND's contribution is not more dimensions or more data. It is a <strong>structural property of the formula</strong> that no other widely-used framework shares.</p>
+
+        <h3 id="zero-floor">The Zero-Floor Property</h3>
+
+        <p>Every framework listed above uses either an additive formula (strength compensates for weakness) or a threshold model (you're either in or out of a boundary). MIND uses a multiplicative formula where <strong>any single dimension at zero collapses the entire score to zero</strong>.</p>
+
+        <p>This is not a mathematical trick. It encodes a specific empirical claim: that extreme imbalance is structurally fragile, regardless of aggregate strength. Qatar's GDP per capita is among the world's highest. Its MIND score is 41 — because a Material score of 96 cannot compensate for a Diversity score of 22 under multiplication the way it can under addition.</p>
+
+        <p>The HDI's geometric mean partially addresses this (it replaced its old arithmetic mean in 2010 for exactly this reason), but the HDI has only three dimensions and its geometric mean still allows significant compensation. MIND's four-dimensional geometric mean with 16 indicators creates stronger balance enforcement.</p>
+
+        <h3 id="binding-constraint">The Binding Constraint</h3>
+
+        <p>Because the formula is multiplicative, improving the lowest-scoring dimension always yields a larger marginal improvement than improving any other dimension by the same amount. This gives policymakers a <strong>clear, data-driven signal</strong> about where to focus: not "grow more" but "grow <em>here</em>."</p>
+
+        <p>This concept draws directly on <a href="https://scholar.harvard.edu/files/dani-rodrik/files/growth-diagnostics.pdf" target="_blank" rel="noopener">Hausmann, Rodrik, and Velasco's (2005) growth diagnostics framework</a>, adapted from firm-level growth constraints to national prosperity dimensions.</p>
+
+        <h2 id="framework-details">Framework-by-Framework Comparison</h2>
+
+        <h3 id="vs-hdi">MIND vs. HDI</h3>
+
+        <p><strong>What HDI does better:</strong> 35 years of data. Institutional adoption by the United Nations. Global recognition. Annual updates with rigorous methodology review. Published in 191 countries. HDI is the incumbent and deserves to be — it changed the conversation about development measurement permanently.</p>
+
+        <p><strong>What MIND adds:</strong> Two additional dimensions (Network and Diversity) that HDI omits entirely. In a globally connected economy where trade integration, digital infrastructure, and structural resilience shape national capacity as much as health and education, three dimensions are insufficient. HDI also cannot distinguish between a country that scores well on health, education, and income through broad-based development versus one that achieves the same aggregate through extraction and exclusion. MIND's multiplicative formula makes this distinction explicit.</p>
+
+        <p><strong>Honest gap:</strong> HDI has been validated against dozens of outcome measures over three decades. MIND has not been validated against any. Until it is, HDI remains the more evidence-backed tool.</p>
+
+        <h3 id="vs-gpi">MIND vs. Genuine Progress Indicator</h3>
+
+        <p><strong>What GPI does better:</strong> It directly adjusts GDP, making it legible to economists who think in GDP terms. It accounts for 26 specific factors including income inequality, environmental degradation, value of household labor, and cost of crime. Maryland and Vermont publish GPI alongside GDP, demonstrating real policy adoption.</p>
+
+        <p><strong>What MIND adds:</strong> GPI is additive — it adds and subtracts adjustments from GDP. A country can still score well on GPI by offsetting environmental degradation with household labor value. MIND's multiplicative structure does not allow this compensation. GPI also remains GDP-centric (it starts with GDP and modifies it), while MIND is built from independent dimensions that do not reference GDP at all.</p>
+
+        <h3 id="vs-doughnut">MIND vs. Doughnut Economics</h3>
+
+        <p><strong>What Doughnut does better:</strong> It has been actually adopted. Amsterdam formally adopted Doughnut Economics in 2020 as a policy framework. Brussels, Nanaimo (Canada), and several other cities followed. Kate Raworth's book reached millions of readers. The framework has real political momentum and real implementation experience. It also includes ecological boundaries (climate change, ocean acidification, biodiversity loss) that MIND does not directly measure.</p>
+
+        <p><strong>What MIND adds:</strong> Doughnut Economics is threshold-based — you're either inside the "safe and just space" or outside it. This makes it powerful for identifying overshoot (ecological ceiling breached) and shortfall (social foundation unmet), but it does not produce a single comparable score or identify the highest-leverage intervention point. MIND's binding constraint concept provides the diagnostic specificity that Doughnut's binary in/out framework lacks. A city using Doughnut knows it's failing on "social equity." A city using MIND knows its Diversity score is 28, Intelligence is 34, and the binding constraint is Diversity — invest there first.</p>
+
+        <p><strong>Honest gap:</strong> Doughnut has real adoption, real implementation lessons, and real ecological dimensions. MIND has none of these yet.</p>
+
+        <h3 id="vs-oecd">MIND vs. OECD Better Life Index</h3>
+
+        <p><strong>What OECD BLI does better:</strong> 11 dimensions (housing, income, jobs, community, education, environment, civic engagement, health, life satisfaction, safety, work-life balance) — far more comprehensive than MIND's 4. It allows users to set their own weights, making it a participatory tool. It covers 41 OECD countries with high-quality data.</p>
+
+        <p><strong>What MIND adds:</strong> Coverage (217 countries vs. 41) and the multiplicative formula. The OECD BLI uses user-weighted addition, which means a user who cares only about income can ignore environmental quality entirely. MIND does not allow this — all dimensions are structurally mandatory. The tradeoff is clear: OECD BLI is more comprehensive and participatory; MIND is simpler and more opinionated about balance.</p>
+
+        <h3 id="vs-spi">MIND vs. Social Progress Index</h3>
+
+        <p><strong>What SPI does better:</strong> It deliberately excludes economic inputs (no GDP, no income) to measure social and environmental outcomes independently of wealth. Its 12 components cover basic human needs, foundations of well-being, and opportunity. It has been adopted by the EU, Paraguay, and several impact investors as a screening metric.</p>
+
+        <p><strong>What MIND adds:</strong> MIND includes Material well-being (which SPI excludes by design) because material foundations are prerequisites for everything else — a country without clean water or electricity cannot meaningfully develop intelligence, network, or diversity capacity. The multiplicative formula also applies: SPI uses additive averaging across its three dimensions.</p>
+
+        <h2 id="when-to-use-what">When to Use What</h2>
+
+        <p>These frameworks are not competitors. They are tools for different questions:</p>
+
+        <ul>
+          <li><strong>HDI</strong> — When you need a quick, globally comparable development snapshot with decades of track record.</li>
+          <li><strong>GPI</strong> — When you need to show legislators that GDP growth isn't translating into genuine progress, in GDP-native language.</li>
+          <li><strong>Doughnut</strong> — When a city wants to adopt a holistic sustainability framework with ecological boundaries and has political will for systemic change.</li>
+          <li><strong>OECD BLI</strong> — When you want citizens to participate in defining what matters and have high-quality OECD-country data.</li>
+          <li><strong>SPI</strong> — When you want to measure social outcomes independent of economic inputs, especially for impact investment screening.</li>
+          <li><strong>MIND</strong> — When you need a diagnostic tool that identifies the single highest-leverage dimension for intervention, enforces balance through its mathematical structure, and covers 217 countries with open data. Especially when the question is not "are we growing?" but "are we balanced — and where are we most fragile?"</li>
+        </ul>
+
+        <h2 id="what-mind-doesnt-do">What MIND Does Not Do</h2>
+
+        <p>Honesty about limitations matters more than marketing:</p>
+
+        <ul>
+          <li>MIND does not measure <strong>ecological boundaries</strong> (climate, biodiversity, ocean health). Doughnut Economics does this better.</li>
+          <li>MIND does not measure <strong>subjective well-being</strong> (life satisfaction, happiness). The OECD BLI and World Happiness Report do this.</li>
+          <li>MIND does not measure <strong>institutional quality</strong> (rule of law, corruption, property rights). The World Governance Indicators do this.</li>
+          <li>MIND does not measure <strong>inequality within dimensions</strong>. A country's average Material score can mask extreme internal disparities. The GPI and Gini coefficient address this.</li>
+          <li>MIND has not been <strong>validated against outcomes</strong>. We do not yet know whether higher MIND scores predict greater resilience, well-being, or sustainable growth. This validation is the project's highest research priority.</li>
+        </ul>
+
+        <p>MIND is one tool in a landscape of tools. Its specific contribution — the multiplicative balance requirement and binding constraint diagnostic — is narrow but, we believe, genuinely useful. Everything else is best addressed by the frameworks that already do it well.</p>
+
+        <hr />
+
+        <p style="text-align: center; margin-top: 3rem;">
+          <a href="/whitepaper" style="display: inline-block; padding: 0.875rem 2rem; background: oklch(0.72 0.19 163); color: #0d0d1a; border-radius: 6px; font-weight: 600; text-decoration: none;">Read the Full Whitepaper</a>
+        </p>
+      </article>
+    </main>
+  </div>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .compare-table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0 2rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    min-width: 640px;
+  }
+  .compare-table th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid var(--wp-border);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--wp-text-muted);
+  }
+  .compare-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--wp-border);
+    vertical-align: top;
+  }
+  .compare-highlight {
+    background: var(--wp-accent-dim);
+  }
+  .compare-highlight td {
+    border-bottom-color: var(--wp-accent);
+  }
+</style>

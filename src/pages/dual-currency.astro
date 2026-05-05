@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/whitepaper.css';
+---
+
+<BaseLayout
+  title="Designing the Dual Currency"
+  description="Technical deep-dive on Foundation Coins and Culture Credits — mechanism design, demurrage calibration, exchange interface, historical precedents, and open questions."
+>
+  <Nav />
+  <div class="whitepaper-wrapper" style="grid-template-columns: 1fr; max-width: 820px;">
+    <main class="whitepaper-content">
+      <article>
+        <header class="whitepaper-header">
+          <h1>Designing the Dual Currency</h1>
+          <p class="whitepaper-subtitle">Foundation Coins and Culture Credits — what they are, how they'd work, what we don't know yet, and what has failed before</p>
+        </header>
+
+        <h2 id="the-problem">The Problem a Single Currency Can't Solve</h2>
+
+        <p>The modern economy contains two fundamentally different production regimes running on the same money:</p>
+
+        <p><strong>The Atomic Economy</strong> deals in scarce physical resources — land, energy, minerals, food, housing, hardware. These obey thermodynamics. You can't copy a barrel of oil. Supply is finite. Costs increase as resources deplete.</p>
+
+        <p><strong>The Bit Economy</strong> deals in abundant digital goods — code, ideas, education, music, research, collaboration. Copying cost is zero. Supply is theoretically infinite. The marginal cost of cognitive labor is collapsing at roughly 10x per year as AI capabilities expand.</p>
+
+        <p>When both economies share a single currency, the scarcity dynamics of atoms get applied to bits (artificially restricting what should be abundant) and the abundance dynamics of bits leak into atoms (inflating the price of housing, land, and physical resources). A software engineer's bit-economy income bids up atom-economy housing. A teacher's atom-economy salary can't compete. The currency can't serve both masters.</p>
+
+        <p>This isn't a new observation. <a href="https://en.wikipedia.org/wiki/Silvio_Gesell" target="_blank" rel="noopener">Silvio Gesell</a> identified the tension between money-as-store-of-value and money-as-medium-of-exchange in 1906. What's new is that AI has made the split between abundant and scarce economies so extreme that the old workarounds — taxation, redistribution, regulation — can no longer bridge the gap. The production cost of cognitive work is approaching zero. The production cost of a house is not. One currency cannot rationally price both.</p>
+
+        <h2 id="foundation-coins">Foundation Coins: Hard Money for Atoms</h2>
+
+        <p>Foundation Coins (FC) are the currency of the Atomic Economy — used for physical goods, real estate, energy, raw materials, and anything with genuine scarcity constraints.</p>
+
+        <h3 id="fc-what-tethered-means">What "Tethered to Computation" Actually Means</h3>
+
+        <p>The whitepaper describes Foundation Coins as "hard money, tethered to computation." This phrase is deliberately underspecified because the implementation is an open design question with multiple viable approaches. Here are the three most credible:</p>
+
+        <p><strong>Option A: Compute-collateralized issuance.</strong> New FC are minted only when backed by verified computation contributed to a public intelligence commons (scientific research, open-source AI training, climate modeling). This is conceptually similar to proof-of-useful-work, where the energy cost of minting anchors the currency's scarcity to real resource expenditure. The failure mode: defining "useful computation" requires a governance layer, reintroducing the political problems FC is trying to solve.</p>
+
+        <p><strong>Option B: Energy-indexed peg.</strong> FC's unit of account is pegged to a basket of energy costs — a kilowatt-hour weighted index across renewable and fossil sources. This makes FC a "real commodity stablecoin" whose value tracks the actual cost of running the physical economy. The failure mode: energy prices are volatile and geographically uneven, requiring a sophisticated oracle system to maintain the peg.</p>
+
+        <p><strong>Option C: Sovereign issuance with computational transparency.</strong> A pilot jurisdiction issues FC through existing municipal authority (legal tender within the zone), with the money supply algorithmically constrained by the jurisdiction's MIND Material score — as Material resources deplete or degrade, FC supply contracts, enforcing scarcity. The failure mode: this is essentially a local currency with extra steps, and local currencies have a <a href="#historical-precedents">mixed track record</a>.</p>
+
+        <p><strong>Our current position:</strong> Option C is the most implementable for a first pilot. Options A and B require infrastructure that doesn't exist yet. The honest answer is that Foundation Coin design requires a monetary design team (cryptographers, monetary economists, legal experts) — which is why this is listed as a <a href="/#paths">parallel track</a> in our 90-day plan, not a solved problem.</p>
+
+        <h3 id="fc-properties">Core Properties</h3>
+
+        <ul>
+          <li><strong>Scarce by design.</strong> FC supply is constrained — either by computational cost of minting, energy peg, or algorithmic supply cap tied to physical resource measurements.</li>
+          <li><strong>Store of value.</strong> FC does not decay. It behaves like conventional hard money. You can save it.</li>
+          <li><strong>Scope-limited.</strong> FC is valid for atom-economy transactions: housing, energy, food, physical goods, infrastructure. It cannot be used for bit-economy services (those use Culture Credits).</li>
+          <li><strong>Convertible.</strong> FC can be exchanged for sovereign currency at a rate determined by the <a href="#exchange-interface">exchange mechanism</a>.</li>
+        </ul>
+
+        <h2 id="culture-credits">Culture Credits: Flow Money for Bits</h2>
+
+        <p>Culture Credits (CC) are the currency of the Bit Economy — used for collaboration, knowledge sharing, peer recognition, education, cultural production, mentorship, community service, and any value creation with near-zero marginal cost.</p>
+
+        <h3 id="demurrage">Demurrage: The Anti-Hoarding Mechanism</h3>
+
+        <p>Culture Credits incorporate <strong>demurrage</strong> — they lose value over time if unspent. This is the single most important design decision in the system, and the rate must be calibrated carefully.</p>
+
+        <p><strong>Why demurrage?</strong> In the bit economy, value is created through circulation, not accumulation. Maria mentoring a nurse, Priya open-sourcing a tool, a musician teaching guitar — these are flow activities. A currency that rewards hoarding (like conventional money or Bitcoin) is structurally wrong for an economy built on collaboration. Demurrage aligns the currency's incentives with the economy's physics: if bits are abundant and flow-based, the money representing them should be too.</p>
+
+        <h3 id="rate-calibration">Getting the Rate Right</h3>
+
+        <p>The <a href="/story">story page</a> mentions "2% per week" decay. This was illustrative, not prescriptive — and the historical evidence suggests it's far too aggressive. Here's what the precedents tell us:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Experiment</th>
+              <th>Annual Demurrage Rate</th>
+              <th>Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://en.wikipedia.org/wiki/W%C3%B6rgl#The_W%C3%B6rgl_Experiment" target="_blank" rel="noopener">Worgl, Austria (1932-33)</a></td>
+              <td>~12%</td>
+              <td>Circulated 14x faster than the schilling. Eliminated unemployment. Shut down by central bank after 13 months.</td>
+            </tr>
+            <tr>
+              <td><a href="https://en.wikipedia.org/wiki/Chiemgauer" target="_blank" rel="noopener">Chiemgauer, Germany (2003-present)</a></td>
+              <td>~8%</td>
+              <td>The most successful modern demurrage currency. Still operating. ~600,000 Chiemgauer in circulation.</td>
+            </tr>
+            <tr>
+              <td><a href="https://en.wikipedia.org/wiki/Freicoin" target="_blank" rel="noopener">Freicoin (2012)</a></td>
+              <td>~4.9%</td>
+              <td>Crypto implementation of Gesell's freigeld. Low adoption. Technically functional but lacked a real economy to circulate in.</td>
+            </tr>
+            <tr>
+              <td><a href="https://en.wikipedia.org/wiki/Bristol_Pound" target="_blank" rel="noopener">Bristol Pound (2012-2021)</a></td>
+              <td>0% (no demurrage)</td>
+              <td>Local currency without decay. Declined steadily. Shut down in 2021. No circulation incentive meant it was always inferior to GBP.</td>
+            </tr>
+            <tr>
+              <td>2% per week (as stated on story page)</td>
+              <td>~65%</td>
+              <td>No precedent at this rate. The currency would lose two-thirds of its value annually. Likely too aggressive for anyone to accept as payment.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p><strong>The design target:</strong> An annual demurrage rate between <strong>8-15%</strong>, calibrated through pilot experimentation. The Chiemgauer's ~8% is the floor (proven sustainable over 20+ years). The Worgl's ~12% is the ceiling (proven effective but politically fragile). The rate should be adjustable by the Guardian Lattice based on observed circulation velocity — if CC is circulating too slowly, the rate increases; if people are refusing to accept CC because decay is too fast, the rate decreases.</p>
+
+        <p><strong>Open question:</strong> Should demurrage be continuous (like radioactive decay — losing a tiny fraction every second) or periodic (losing a fixed percentage at month-end, like the original stamp scrip)? Continuous decay is technically cleaner but psychologically opaque. Periodic decay is cruder but more legible to users. The Chiemgauer uses quarterly stamps. A digital implementation could go either way.</p>
+
+        <h3 id="cc-earning">How Culture Credits Are Earned</h3>
+
+        <p>CC enters the system through verified contributions to the bit economy. In a startup pilot:</p>
+
+        <ul>
+          <li><strong>Peer recognition:</strong> Every participant receives a weekly CC allocation to distribute to others. You can't spend your own allocation on yourself — you can only give it to someone whose contribution you valued.</li>
+          <li><strong>Verified service:</strong> Running a free clinic, mentoring a colleague, contributing to open-source, teaching a class — these generate CC through a verification mechanism (peer attestation, time-logged service, or outcome measurement).</li>
+          <li><strong>Community governance:</strong> Participating in Oracle Council deliberations, reviewing infrastructure plans, serving on neighborhood boards — civic participation earns CC.</li>
+        </ul>
+
+        <p><strong>Anti-gaming measures:</strong> The peer recognition model is vulnerable to collusion (Alice and Bob trading CC back and forth). Known mitigations include: quadratic weighting (giving to the same person repeatedly yields diminishing returns), social graph analysis (flagging closed loops), and reputation staking (your recognition carries more weight if the people you've recognized are themselves highly recognized by others — a PageRank-like mechanism).</p>
+
+        <h3 id="cc-spending">What Culture Credits Buy</h3>
+
+        <p>CC can be spent on bit-economy goods and services within the zone: tutoring, consulting, artistic performances, educational workshops, code review, design services, mentorship sessions, community events. The key constraint: CC cannot directly purchase atom-economy goods (housing, food, energy). Those require Foundation Coins or sovereign currency.</p>
+
+        <p>The indirect path exists through the <a href="#exchange-interface">exchange interface</a> — CC holders can convert to FC at the prevailing rate, then purchase atoms. But the conversion friction is intentional: it ensures that bit-economy abundance doesn't directly inflate atom-economy prices.</p>
+
+        <h2 id="exchange-interface">The Exchange Interface</h2>
+
+        <p>This is the hardest unsolved problem in the dual currency design. How do Foundation Coins and Culture Credits exchange with each other, and who sets the rate?</p>
+
+        <h3 id="exchange-options">Design Options</h3>
+
+        <p><strong>Option 1: Fixed administrative peg.</strong> The Oracle Council sets an FC:CC exchange rate quarterly, based on observed economic activity in both economies. Simple to understand. Vulnerable to political manipulation and information lag. This is how most local currency exchange rates work in practice.</p>
+
+        <p><strong>Option 2: Automated market maker (AMM).</strong> A Uniswap-style liquidity pool between FC and CC, with the exchange rate determined by supply and demand. Transparent and tamper-resistant. But AMMs are vulnerable to manipulation by large holders, and the demurrage on CC creates asymmetric incentives that standard AMM models don't account for (everyone wants to sell CC before it decays, creating persistent sell pressure).</p>
+
+        <p><strong>Option 3: MIND-indexed floating rate.</strong> The exchange rate is algorithmically derived from the jurisdiction's MIND scores. When the city's Intelligence and Diversity scores rise (indicating the bit economy is healthy), CC appreciates against FC. When Material scores drop (indicating atom scarcity), FC appreciates. This creates a direct feedback loop between economic reality and monetary value. The failure mode: MIND scores update slowly (World Bank data lags by years), so the rate would need to use higher-frequency proxy indicators.</p>
+
+        <p><strong>Option 4: Bounded float with circuit breakers.</strong> The rate floats freely within a band (e.g., 1 FC = 5-20 CC), with the Oracle Council adjusting the band quarterly. If the rate hits a band boundary, conversion is temporarily suspended while the Council deliberates. This combines market price discovery with human judgment.</p>
+
+        <p><strong>Our current position:</strong> Option 4 is the most practical for a first pilot. It allows price discovery while preventing runaway dynamics. The band width and initial midpoint would be set by the monetary design team and adjusted based on observed behavior.</p>
+
+        <h2 id="historical-precedents">What We Can Learn From History</h2>
+
+        <p>Complementary currencies are not new. Dozens have been tried. Most have failed. Honesty about why they failed is essential to designing one that doesn't.</p>
+
+        <h3 id="successes">What Worked</h3>
+
+        <p><strong>Worgl (1932-33):</strong> The most cited success. Mayor Michael Unterguggenberger issued "labor certificates" with a 1% monthly stamp tax (demurrage). The currency circulated 14x faster than the Austrian schilling. Unemployment dropped from 30% to effectively zero. Public works were completed. Neighboring towns began copying the model. Then the Austrian National Bank sued, won, and shut it down — not because it failed, but because it succeeded well enough to threaten the central bank's monopoly. <em>Lesson: the biggest risk to a successful local currency is not economic failure but political suppression.</em></p>
+
+        <p><strong>Chiemgauer (2003-present):</strong> The longest-running modern demurrage currency. Operates in Bavaria, Germany. Backed 1:1 by euros (you buy 100 Chiemgauer for 100 euros). 2% quarterly demurrage. When you redeem Chiemgauer for euros, 5% is donated to local nonprofits. ~3,000 consumers, ~600 businesses. Still running after 20+ years. <em>Lesson: moderate demurrage (8% annual), euro backing, and a charitable donation mechanism create sustainable adoption. Scale remains small.</em></p>
+
+        <p><strong>Sardex (2009-present):</strong> A mutual credit system in Sardinia, Italy, with no demurrage but strong network effects. ~4,000 businesses. Functions as a B2B complementary currency. Turnover exceeded €50 million annually before COVID. <em>Lesson: business networks, not consumer adoption, may be the right initial market for complementary currencies.</em></p>
+
+        <h3 id="failures">What Failed and Why</h3>
+
+        <p><strong>Bristol Pound (2012-2021):</strong> A local currency without demurrage. Launched with fanfare (the mayor took his salary in it). Adoption peaked early and declined steadily. Shut down in 2021. Post-mortems identified three causes: (1) no circulation incentive meant people converted to GBP as soon as possible, (2) limited merchant acceptance created a chicken-and-egg problem, and (3) the overhead of maintaining the system exceeded the economic benefit. <em>Lesson: a local currency without demurrage is always inferior to the sovereign currency. There must be a positive reason to hold and spend it.</em></p>
+
+        <p><strong>BerkShares (2006-present):</strong> A local currency in the Berkshires, Massachusetts. Still technically operational but with minimal circulation. Accepted at ~350 businesses. 95 cents of BerkShares buys $1.00, creating a 5% discount incentive. But the discount also means businesses lose 5% on every transaction, creating resentment. <em>Lesson: the incentive to use a complementary currency must not come at the merchant's expense.</em></p>
+
+        <p><strong>Freicoin (2012):</strong> A Bitcoin fork with built-in demurrage (~4.9% annual). Technically functional. Near-zero adoption. The problem: there was no real economy to circulate in. Freicoin was a currency without a community. <em>Lesson: currency follows community, not the reverse. Build the economic network first, then introduce the currency.</em></p>
+
+        <h2 id="legal-reality">Legal and Regulatory Reality</h2>
+
+        <p>Issuing anything that functions as money triggers regulatory scrutiny. The legal path depends on how the dual currency is classified:</p>
+
+        <ul>
+          <li><strong>As a loyalty/rewards program:</strong> If CC functions like airline miles or store credit — earned through participation, redeemable for services within the network, not convertible to fiat — it falls under consumer protection law, not financial regulation. This is the lowest-friction path for a pilot.</li>
+          <li><strong>As a complementary currency:</strong> Most jurisdictions permit complementary currencies as long as they are not legal tender and do not compete with the sovereign currency. The Chiemgauer operates under this framework in Germany. The key constraint: FC and CC cannot be marketed as investment instruments.</li>
+          <li><strong>As a cryptocurrency/token:</strong> If implemented on a blockchain with open trading, FC and CC likely trigger securities law (Howey test in the US) or payment services regulation (MiCA in the EU). This is the highest-friction path and should be avoided for early pilots.</li>
+        </ul>
+
+        <p><strong>The recommended legal structure for v1:</strong> A community benefit organization issues CC as a loyalty/rewards program (not a currency) within a defined community. FC is implemented as a sovereign-currency-backed voucher (like the Chiemgauer's euro-backed model). Neither is marketed as an investment. Neither is traded on exchanges. This keeps the pilot within existing legal frameworks in most jurisdictions.</p>
+
+        <h2 id="mvp">What a v1 Actually Looks Like</h2>
+
+        <p>Forget the full vision for a moment. If you had to ship a minimum viable dual currency in 6 months for a 500-person community pilot, here's what you'd build:</p>
+
+        <ol>
+          <li><strong>A mobile app with two wallets</strong> — one for FC (backed 1:1 by the local sovereign currency), one for CC (earned through verified community contributions).</li>
+          <li><strong>CC earning mechanics:</strong> Peer recognition (weekly allocation you give to others) + verified service hours (attested by two community members). Start simple. Add sophistication later.</li>
+          <li><strong>CC demurrage at 10% annual</strong> — between the Chiemgauer floor (8%) and the Worgl ceiling (12%). Continuous decay, displayed transparently in the app. Adjustable quarterly based on observed velocity.</li>
+          <li><strong>FC = sovereign currency with a wrapper.</strong> You deposit dollars/euros, receive FC. You redeem FC, receive dollars/euros minus a 3% fee that funds community projects (like the Chiemgauer's nonprofit donation model). No blockchain needed for v1.</li>
+          <li><strong>Exchange interface:</strong> A simple in-app conversion between FC and CC at an administratively set rate, reviewed monthly by a 7-person community council (the proto-Oracle Council). Bounded float: the rate can move +/- 20% per quarter.</li>
+          <li><strong>Scope limitation:</strong> CC accepted at participating merchants and service providers within the community. FC accepted everywhere sovereign currency is accepted. Start with 20-30 participating businesses.</li>
+          <li><strong>MIND tracking:</strong> Measure the community's MIND dimensions monthly. Publish the scores. Show how CC circulation correlates (or doesn't) with Intelligence, Network, and Diversity improvements.</li>
+        </ol>
+
+        <p><strong>What you'd cut from the full vision:</strong> Blockchain/crypto infrastructure, AI Oracles, algorithmic supply adjustment, compute-tethered minting, cross-zone interoperability. All of these are v2+ features that depend on v1 proving the core hypothesis: that a dual currency system measurably improves MIND scores relative to a single-currency control group.</p>
+
+        <h2 id="open-questions">Open Questions We Haven't Solved</h2>
+
+        <p>Intellectual honesty requires naming what we don't know:</p>
+
+        <ul>
+          <li><strong>Does separating currencies actually reduce atom-price inflation?</strong> The theory is clean. The empirical evidence doesn't exist. No dual-currency experiment has tested this specific claim. The pilot must be designed to measure it.</li>
+          <li><strong>What is the right FC:CC starting ratio?</strong> We have no basis for the initial exchange rate. The first pilot will have to discover it through experimentation.</li>
+          <li><strong>How do you handle edge cases?</strong> A plumber (atom economy) who mentors an apprentice (bit economy) — is she paid in FC or CC or both? A digital artist who sells physical prints — FC or CC? The boundary between atom and bit economies is blurry in practice. The classification system needs to be simple enough that participants don't game it.</li>
+          <li><strong>Can this scale beyond a small community?</strong> The Chiemgauer has operated for 20 years without scaling beyond ~3,000 consumers. Is that a design limitation or a marketing failure? We don't know.</li>
+          <li><strong>What happens when the pilot ends?</strong> If CC is discontinued after 6 months, what happens to accumulated balances? How do you wind down a currency without destroying trust? This needs a plan before the pilot starts.</li>
+        </ul>
+
+        <hr />
+
+        <p>The dual currency is the most speculative component of the Intelligent Economics framework. Unlike the <a href="/whitepaper">MIND Index</a> (which can be computed today with existing data), the dual currency requires building something that doesn't exist, in a domain with more failures than successes. We are publishing this design openly because the only way to test it is to try — and the only responsible way to try is to be transparent about what we know, what we don't, and what has failed before.</p>
+
+        <p style="text-align: center; margin-top: 3rem;">
+          <a href="/#volunteer" class="btn btn--primary" style="display: inline-block; padding: 0.875rem 2rem; background: oklch(0.72 0.19 163); color: #0d0d1a; border-radius: 6px; font-weight: 600; text-decoration: none;">Help Design It</a>
+        </p>
+      </article>
+    </main>
+  </div>
+  <Footer />
+</BaseLayout>

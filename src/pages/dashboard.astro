@@ -112,7 +112,7 @@ const cities = cityData.cities.map(city => ({
       <div id="scale-city" data-scale-panel="city" role="tabpanel" aria-labelledby="tab-city" class="hidden">
         <h2 class="text-2xl font-display font-semibold text-text mb-6 text-center">City MIND Profiles</h2>
         <p class="text-text-muted text-center mb-8 max-w-xl mx-auto">
-          Curated city-level MIND analysis demonstrating the framework at local scale.
+          City-level MIND profiles using modeled scores based on available subnational data. Country-level scores use real World Bank data; city scores are illustrative estimates pending formal subnational methodology.
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="city-grid">
           {cities.map(city => (

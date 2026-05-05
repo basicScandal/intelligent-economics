@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/whitepaper.css';
+---
+
+<BaseLayout
+  title="Three People in the Same City"
+  description="A story about why GDP fails Maria, rewards James, and can't see what Priya broke — and how the MIND framework changes the ending."
+>
+  <Nav />
+  <div class="whitepaper-wrapper" style="grid-template-columns: 1fr; max-width: 820px;">
+    <main class="whitepaper-content">
+      <article>
+        <header class="whitepaper-header">
+          <h1>Three People in the Same City</h1>
+          <p class="whitepaper-subtitle">Why GDP can't see what matters — and what happens when you build a system that can</p>
+        </header>
+
+        <h2 id="the-characters">The Characters</h2>
+
+        <p><strong>Maria</strong> is a nurse in a mid-sized city. She makes $58,000 a year. She's good at her job — her patients recover faster, the younger nurses come to her for advice, she volunteers at a free clinic on Saturdays. By every human measure, Maria is one of the most valuable people in her community.</p>
+
+        <p>GDP doesn't know she exists. Her salary counts, but her mentorship doesn't. Her Saturday clinic doesn't. The fact that six nurses stayed in the profession because of her — invisible. If Maria quit nursing and became a pharmaceutical sales rep making $120,000, GDP would register that as <em>growth</em>.</p>
+
+        <p><strong>James</strong> runs a lithium mine two hours outside the city. His company extracts 30,000 tons a year. Every ton goes to battery manufacturers, who ship to EV companies, who report record revenue. GDP loves James. His operation contributes $240 million in economic activity. The city's GDP growth rate is 4.2%, and the mayor is running for re-election on that number.</p>
+
+        <p>But the aquifer under the mine is dropping. Maria's hospital is seeing a slow uptick in respiratory cases from the dust plumes. The mining jobs pay well but they've hollowed out the local apprenticeship programs — why would a 19-year-old learn electrical work for $18/hour when the mine pays $35? The city's Intelligence score is collapsing, but its Material score looks great.</p>
+
+        <p><strong>Priya</strong> is a software engineer who works remotely from the same city. She builds AI tools. Last year her 4-person team shipped a product that automated work previously done by 200 paralegals. Revenue: $12 million. GDP counted all of it. What GDP didn't count: 200 people in the city whose skills just became worthless overnight, or the fact that Priya's product can be copied infinite times at zero cost — meaning the "production" is essentially infinite but the value captured flows to 4 people.</p>
+
+        <p>Priya makes $310,000. She bought three rental properties. Housing prices in the neighborhood went up 22%. GDP counted that as growth too.</p>
+
+        <h2 id="what-mind-sees">What MIND Sees That GDP Doesn't</h2>
+
+        <p>Now score this city on <a href="/whitepaper">MIND</a>:</p>
+
+        <ul>
+          <li><strong>Material: 71.</strong> Good income on average, electricity and water work, life expectancy is fine. The aquifer problem hasn't hit the numbers yet. Looks solid.</li>
+          <li><strong>Intelligence: 34.</strong> Apprenticeship programs are dying. The local college lost enrollment. R&amp;D spending is zero — the mine doesn't innovate, and Priya's company is headquartered in San Francisco. The city is consuming knowledge but not producing it.</li>
+          <li><strong>Network: 45.</strong> Some trade, some tourism, moderate connectivity. Nothing special.</li>
+          <li><strong>Diversity: 28.</strong> The economy depends on one mine and one remote tech cluster. Female labor participation dropped when the clinic cut hours. Renewable energy is 3%. The city makes one thing.</li>
+        </ul>
+
+        <p><strong>GDP says: 4.2% growth. Everything is fine.</strong></p>
+
+        <p><strong>MIND says: 31 out of 100. Binding constraint: Diversity. This city is fragile.</strong></p>
+
+        <p>The <a href="/whitepaper#mathematical-foundation">multiplicative formula</a> is the key. You can't average your way out of a 28. Maria's invisible contributions, the dying apprenticeships, the single-resource dependency — MIND catches all of it because <em>any dimension near zero drags the whole score toward zero</em>. That's not a bug. That's the design. Because in real life, that's how collapse works. A city that's rich but brittle doesn't decline gradually — it snaps.</p>
+
+        <h2 id="dual-currency">Now Add the Dual Currency</h2>
+
+        <p>Imagine this city runs a pilot. Two currencies.</p>
+
+        <p><strong>Foundation Coins</strong> for the atomic economy. James's lithium, housing, energy, groceries — priced in FC. Hard money. Scarce, because atoms are scarce. Priya can't bid up housing with bit-economy wealth denominated in Foundation Coins, because her income comes from the bit economy. The two streams are separated.</p>
+
+        <p><strong>Culture Credits</strong> for everything Maria does that GDP ignores. She mentors a nurse — 5 CC. She runs the Saturday clinic — 20 CC. The apprenticeship program issues CC for completing modules. A local musician who teaches kids guitar on weekends earns CC. A retired engineer who reviews the city's infrastructure plans earns CC.</p>
+
+        <p>Culture Credits have <strong>demurrage</strong> — they lose value over time if unspent, at a rate calibrated through experimentation (<a href="/dual-currency/#rate-calibration">historically 8-15% per year</a>). So you can't hoard them. You <em>have</em> to circulate them. Maria earns CC and spends them on Priya's kid's tutoring. Priya earns CC by open-sourcing a city dashboard tool. The retired engineer spends CC at the musician's concert. The money moves. It has to.</p>
+
+        <p>What happens?</p>
+
+        <ul>
+          <li>Maria's work is finally <strong>visible and valued</strong> in a currency designed for what she does</li>
+          <li>Priya's wealth from the bit economy stops inflating atom prices (housing)</li>
+          <li>The apprenticeship program has a funding mechanism that doesn't compete with the mine for dollars</li>
+          <li>The city's MIND score starts climbing because Intelligence and Diversity have their own economic engine now</li>
+        </ul>
+
+        <h2 id="the-firm-view">The View From Inside the Companies</h2>
+
+        <p>The MIND framework shows what the city needs. But there's a parallel story playing out inside the companies themselves — and ignoring it makes the framework incomplete.</p>
+
+        <p>James's mining company is about to be disrupted. AI agents are optimizing extraction routes, automating geological surveys, and coordinating supply chains without human mediation. The question isn't whether James's operation gets more efficient — it's whether James's company <em>controls the orchestration</em> of that efficiency or becomes a commodity input to someone else's platform.</p>
+
+        <p>Priya's AI company is in a race too. Her product automates paralegal work, but the foundation models powering it are commoditizing — costs falling 10x per year. If she only sells the tool, she's dead. If she accumulates irreplaceable operational context (the 10,000 legal workflows her system has processed, the institutional knowledge baked into every orchestration pattern), she builds a durable position. The moat isn't the model. It's the context.</p>
+
+        <p>This is the <strong>Orchestration Layer</strong> — and the companies that control it will capture the surplus of the entire AI transition. Three structural laws govern who wins:</p>
+
+        <ul>
+          <li><strong>Proximity to Intent:</strong> whoever sits closest to the moment a human expresses a goal captures the routing and the value</li>
+          <li><strong>Context Builds Moats:</strong> a competitor can license the same AI models, but they can't manufacture the memory of 10,000 orchestrated workflows</li>
+          <li><strong>Workflow Intelligence Secures Control:</strong> coordination patterns improve with use — switching costs strengthen, not decay</li>
+        </ul>
+
+        <p>MIND measures the city's health. The orchestration framework measures the firms' structural fitness. Neither is complete without the other.</p>
+
+        <h2 id="the-matrix">Prosperity Engines vs. Extractors</h2>
+
+        <p>Here's where the two views converge into something neither produces alone.</p>
+
+        <p>Plot every firm on two axes: <strong>orchestration power</strong> (how durable is their position in the AI transition?) and <strong>MIND alignment</strong> (does their dominance strengthen or weaken the city's four dimensions?). Four quadrants emerge:</p>
+
+        <div class="pm">
+          <div class="pm-labels">
+            <div class="pm-corner"><span>MIND Alignment &rarr;</span></div>
+            <div class="pm-col-head">Low Orchestration</div>
+            <div class="pm-col-head">High Orchestration</div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-row-label">High</div>
+            <div class="pm-cell pm-foundations">
+              <div class="pm-cell-title" style="color: #00c8ff;">Foundations</div>
+              <div class="pm-cell-body">Maria's hospital. Essential to Material and Network scores, but vulnerable to displacement without orchestration capacity.</div>
+            </div>
+            <div class="pm-cell pm-engines">
+              <div class="pm-cell-title" style="color: #00ff88;">Prosperity Engines</div>
+              <div class="pm-cell-body">Priya's company, if she open-sources city tools and her orchestration advantage lifts the community's Intelligence and Network scores.</div>
+            </div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-row-label">Low</div>
+            <div class="pm-cell pm-zombies">
+              <div class="pm-cell-title" style="color: #888;">Zombies</div>
+              <div class="pm-cell-body">The intermediaries whose cognitive arbitrage is now performed by agents. Neither valuable nor beneficial.</div>
+            </div>
+            <div class="pm-cell pm-extractors">
+              <div class="pm-cell-title" style="color: #ff6482;">Extractors</div>
+              <div class="pm-cell-body">James's mine if it captures orchestration control of the supply chain while hollowing out apprenticeships and the aquifer.</div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .pm { margin: 2rem 0 2.5rem; max-width: 640px; }
+          .pm-labels { display: grid; grid-template-columns: 2rem 1fr 1fr; gap: 0; }
+          .pm-corner { display: flex; align-items: flex-end; justify-content: flex-end; padding: 0.5rem; }
+          .pm-corner span { font-size: 0.75rem; color: #999; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+          .pm-col-head { padding: 0.5rem 1rem; text-align: center; font-weight: 600; font-size: 0.8rem; color: #999; font-family: var(--font-display); }
+          .pm-row { display: grid; grid-template-columns: 2rem 1fr 1fr; gap: 0; }
+          .pm-row-label { padding: 0.75rem 0.25rem; font-weight: 600; font-size: 0.8rem; color: #999; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-family: var(--font-display); display: flex; align-items: center; justify-content: center; }
+          .pm-cell { padding: 1.25rem; }
+          .pm-cell-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; font-family: var(--font-display); }
+          .pm-cell-body { font-size: 0.875rem; line-height: 1.5; }
+          .pm-foundations { background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2); border-radius: 8px 0 0 0; }
+          .pm-engines { background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.25); border-radius: 0 8px 0 0; }
+          .pm-zombies { background: rgba(100,100,100,0.06); border: 1px solid rgba(100,100,100,0.15); border-radius: 0 0 0 8px; }
+          .pm-extractors { background: rgba(255,100,130,0.08); border: 1px solid rgba(255,100,130,0.2); border-radius: 0 0 8px 0; }
+
+          @media (max-width: 600px) {
+            .pm-labels { display: none; }
+            .pm-row { grid-template-columns: 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+            .pm-row-label { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0; }
+            .pm-cell { border-radius: 8px !important; }
+          }
+        </style>
+
+        <p>The pitch isn't anti-business. It's pro-Prosperity Engine and anti-Extractor. A city that uses MIND to set the boundary conditions and lets firms compete for orchestration advantage <em>within those boundaries</em> gets both dynamism and balance. The orchestration race is the engine. MIND is the steering.</p>
+
+        <h2 id="the-punchline">The Punchline</h2>
+
+        <p>The old system has one measuring stick (GDP) and one money (dollars). It literally cannot tell the difference between James extracting lithium until the aquifer dies and Maria keeping six nurses in the profession. Both register as "economic activity." One is building resilience. The other is consuming it.</p>
+
+        <p>MIND is the measuring stick that can tell the difference. The dual currency is the mechanism that lets you <em>act</em> on what MIND reveals — fund the things GDP ignores, in a currency that can't be hoarded by the things GDP already rewards.</p>
+
+        <p>The reason this project matters is that AI is about to turn every city into a version of this story. Priya's team of 4 replacing 200 paralegals is the opening act. When intelligence becomes abundant and free, the only thing that separates a thriving city from a collapsing one is whether it has a way to measure and value <em>everything else</em> — the collaboration, the mentorship, the diversity, the resilience. The stuff Maria does.</p>
+
+        <p>GDP can't see Maria. <a href="/dashboard">MIND can</a>.</p>
+
+        <p style="margin-top: 3rem; font-size: 0.85rem; color: #777; line-height: 1.6;"><em>The firm-level analysis in this essay draws on Raphaëlle d'Ornano's <a href="https://orchestration-economics.com" target="_blank" rel="noopener" style="color: #777;">Orchestration Economics Manifesto</a> (Decoding Discontinuity, 2026), which provides the most rigorous investment framework for the agentic transition. The Three Laws and the "Prosperity Engine vs. Extractor" framing are a synthesis of her orchestration thesis with MIND's societal measurement framework.</em></p>
+
+        <hr />
+
+        <p style="text-align: center; margin-top: 3rem;">
+          <a href="/#volunteer" class="btn btn--primary" style="display: inline-block; padding: 0.875rem 2rem; background: oklch(0.72 0.19 163); color: #0d0d1a; border-radius: 6px; font-weight: 600; text-decoration: none;">Join the Movement</a>
+        </p>
+      </article>
+    </main>
+  </div>
+  <Footer />
+</BaseLayout>

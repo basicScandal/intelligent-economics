@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/whitepaper.css';
+---
+
+<BaseLayout
+  title="Resources & Downloads"
+  description="Download the MIND dataset, cite the whitepaper, explore partnership opportunities, or contribute code."
+>
+  <Nav />
+  <div class="whitepaper-wrapper" style="grid-template-columns: 1fr; max-width: 880px;">
+    <main class="whitepaper-content">
+      <article>
+        <header class="whitepaper-header">
+          <h1>Resources & Downloads</h1>
+          <p class="whitepaper-subtitle">Everything you need to evaluate, cite, or build on the MIND framework</p>
+        </header>
+
+        <h2 id="data">Download the Data</h2>
+
+        <ul>
+          <li><strong><a href="/mind-scores-217.csv" download>MIND Scores — 217 Countries (CSV)</a></strong> — Dimension scores, MIND composite score, binding constraint, and all 16 raw World Bank indicator values for every country.</li>
+          <li><strong><a href="/METHODOLOGY.txt">Methodology Reference (TXT)</a></strong> — Formula, normalization method, indicator list, and data sources in plain text.</li>
+        </ul>
+
+        <p>All data sourced from <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">World Bank World Development Indicators</a> (accessed April 2026). Open data — use freely with attribution.</p>
+
+        <h2 id="researchers">For Researchers & Academics</h2>
+
+        <ul>
+          <li><a href="/whitepaper">Read the whitepaper</a> — full methodology, country analysis, and limitations</li>
+          <li><a href="/compare">How MIND compares</a> — side-by-side with HDI, GPI, OECD BLI, Doughnut Economics, and 4 other frameworks</li>
+          <li><a href="/mind-scores-217.csv" download>Download the dataset</a> — 217 countries, 16 indicators, ready for analysis</li>
+        </ul>
+
+        <p><strong>Citation (BibTeX):</strong></p>
+
+<pre style="font-size: 0.8rem; overflow-x: auto; padding: 1rem; background: rgba(0,0,0,0.03); border-radius: 6px; border: 1px solid rgba(0,0,0,0.08);">@techreport&#123;intelligenteconomics2026mind,
+  title   = &#123;MIND: A Multidimensional Framework for
+            Measuring Prosperity Beyond GDP&#125;,
+  author  = &#123;Intelligent Economics&#125;,
+  year    = &#123;2026&#125;,
+  type    = &#123;Working Paper&#125;,
+  url     = &#123;https://intelligenteconomics.ai/whitepaper&#125;,
+  note    = &#123;Open-access working paper. Data: World
+            Bank WDI, 217 countries, 16 indicators.&#125;
+&#125;</pre>
+
+        <p style="font-size: 0.875rem; color: var(--wp-text-muted);"><em>Working paper available as web publication. SSRN/arXiv submission in progress. The whitepaper includes a "Save as PDF" button for offline reference.</em></p>
+
+        <h2 id="cities">For Cities & Policymakers</h2>
+
+        <p><strong>What a city pilot looks like:</strong> A city adopts MIND as a parallel prosperity metric alongside existing economic indicators. A local university computes dimension scores using municipal data. Results are published quarterly as a "City Prosperity Report" alongside standard economic indicators.</p>
+
+        <ul>
+          <li><strong>Cost:</strong> \$50K-100K as a research contract with a local university. No new staff or departments required.</li>
+          <li><strong>Legal authority:</strong> No new legislation needed. Operates within existing city planning and reporting functions.</li>
+          <li><strong>Timeline:</strong> 12 months to first published report.</li>
+          <li><strong>What you get:</strong> A diagnostic tool that identifies your city's binding constraint — the single dimension where investment would have the highest marginal return on prosperity.</li>
+        </ul>
+
+        <p><a href="/compare#when-to-use-what">See how MIND compares to Doughnut Economics and other city-level frameworks &rarr;</a></p>
+
+        <p>Interested in a pilot partnership? Contact: <strong>hello@intelligenteconomics.ai</strong></p>
+
+        <h2 id="developers">For Developers & Contributors</h2>
+
+        <ul>
+          <li><strong><a href="https://github.com/basicScandal/intelligent-economics" target="_blank" rel="noopener">GitHub Repository</a></strong> — The full site, computation code, and data pipeline. Fork it, challenge it, improve it.</li>
+          <li><a href="/mind-scores-217.csv" download>Download the raw dataset (CSV)</a></li>
+          <li><a href="/METHODOLOGY.txt">Methodology reference</a></li>
+        </ul>
+
+        <p>The MIND computation is open source. If you find a bug in the normalization, a better indicator for the Diversity dimension, or a way to compute city-level scores from subnational data — open a PR or an issue.</p>
+
+        <h2 id="partners">For Organizations & Funders</h2>
+
+        <p>Intelligent Economics is a nonprofit research organization. The MIND Index is a public good — open data, open methodology, open source. We are seeking partnerships with:</p>
+
+        <ul>
+          <li><strong>Universities</strong> — to co-author the validation study (does MIND predict well-being outcomes better than HDI?)</li>
+          <li><strong>Foundations</strong> — to fund the first city pilot and the retroactive validation research</li>
+          <li><strong>City governments</strong> — to pilot MIND as a parallel prosperity metric</li>
+          <li><strong>Research institutions</strong> — to challenge, refine, and improve the methodology</li>
+        </ul>
+
+        <p>Contact: <strong>hello@intelligenteconomics.ai</strong></p>
+
+        <hr />
+
+        <p style="text-align: center; margin-top: 2rem;">
+          <a href="/#volunteer" style="display: inline-block; padding: 0.875rem 2rem; background: oklch(0.72 0.19 163); color: #0d0d1a; border-radius: 6px; font-weight: 600; text-decoration: none;">Join the Team</a>
+        </p>
+      </article>
+    </main>
+  </div>
+  <Footer />
+</BaseLayout>
