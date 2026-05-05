@@ -1,0 +1,43 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "ebfa14b26c0f",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 35,
+  "files_touched": [
+    "public/METHODOLOGY.txt",
+    "public/mind-scores-217.csv",
+    "scripts/export-csv.ts",
+    "src/components/Footer.astro",
+    "src/components/Hero.astro",
+    "src/components/MetabolicRift.astro",
+    "src/components/Nav.astro",
+    "src/components/Paths.astro",
+    "src/components/Pillars.astro",
+    "src/components/Team.astro",
+    "src/components/VolunteerForm.astro",
+    "src/content/whitepaper/mind-framework.mdx",
+    "src/layouts/WhitepaperLayout.astro",
+    "src/pages/compare.astro",
+    "src/pages/dashboard.astro",
+    "src/pages/dual-currency.astro",
+    "src/pages/privacy.astro",
+    "src/pages/resources.astro",
+    "src/pages/story.astro"
+  ],
+  "sessions": [
+    {
+      "metadata": "/eb/fa14b26c0f/0/metadata.json",
+      "transcript": "/eb/fa14b26c0f/0/full.jsonl",
+      "content_hash": "/eb/fa14b26c0f/0/content_hash.txt",
+      "prompt": "/eb/fa14b26c0f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 524,
+    "cache_creation_tokens": 2698450,
+    "cache_read_tokens": 69161068,
+    "output_tokens": 111805,
+    "api_call_count": 302
+  }
+}
