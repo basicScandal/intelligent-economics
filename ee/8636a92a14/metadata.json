@@ -1,0 +1,41 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "ee8636a92a14",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "src/components/Footer.astro",
+    "src/components/Hero.astro",
+    "src/components/MetabolicRift.astro",
+    "src/components/MindScalesPyramid.astro",
+    "src/components/Nav.astro",
+    "src/components/Paths.astro",
+    "src/components/Pillars.astro",
+    "src/components/VolunteerForm.astro",
+    "src/components/dashboard/FirmAssessment.astro",
+    "src/layouts/BaseLayout.astro",
+    "src/layouts/WhitepaperLayout.astro",
+    "src/pages/compare.astro",
+    "src/pages/dashboard.astro",
+    "src/pages/dual-currency.astro",
+    "src/pages/privacy.astro",
+    "src/pages/resources.astro",
+    "src/pages/story.astro"
+  ],
+  "sessions": [
+    {
+      "metadata": "/ee/8636a92a14/0/metadata.json",
+      "transcript": "/ee/8636a92a14/0/full.jsonl",
+      "content_hash": "/ee/8636a92a14/0/content_hash.txt",
+      "prompt": "/ee/8636a92a14/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 21,
+    "cache_creation_tokens": 12327,
+    "cache_read_tokens": 1063899,
+    "output_tokens": 4419,
+    "api_call_count": 15
+  }
+}
