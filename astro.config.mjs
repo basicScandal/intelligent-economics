@@ -5,7 +5,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'https://intelligenteconomics.ai',
+  site: 'https://basicscandal.github.io',
+  base: '/intelligent-economics',
   integrations: [
     mdx({
       remarkPlugins: [remarkMath],
