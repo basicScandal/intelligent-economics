@@ -131,7 +131,7 @@ Phase 13 first (data foundation). Phase 14 after 13. Phase 15 after 13 + 14. Pha
 | 10. Dashboard Advanced | v1.1 | 2/2 | Complete | 2026-04-22 |
 | 11. Multi-Scale + Cross-Linking | v1.1 | 3/3 | Complete | 2026-04-22 |
 | 12. Aggregation Visualization + Polish | v1.1 | 2/2 | Complete | 2026-04-22 |
-| 13. Historical Data Pipeline | v1.2 | 1/1 | Complete   | 2026-05-12 |
+| 13. Historical Data Pipeline | v1.2 | 1/1 | Complete    | 2026-05-12 |
 | 14. World Map | v1.2 | 0/? | Not started | - |
 | 15. Time-Series Visualization | v1.2 | 0/? | Not started | - |
 | 16. Custom Indicator Explorer | v1.2 | 0/? | Not started | - |
