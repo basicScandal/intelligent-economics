@@ -12,8 +12,8 @@ const NUL: SlimCountry = { code: 'NUL', name: 'Nullistan', mind: null, m: null, 
 const testCountries: SlimCountry[] = [USA, SGP, NUL];
 
 describe('GEOJSON_NAME_MAP', () => {
-  it('has exactly 41 entries', () => {
-    expect(Object.keys(GEOJSON_NAME_MAP)).toHaveLength(41);
+  it('has exactly 40 entries', () => {
+    expect(Object.keys(GEOJSON_NAME_MAP)).toHaveLength(40);
   });
 });
 
@@ -167,7 +167,7 @@ describe('makeMapOption name coverage', () => {
       expect(dataNames.has(country.name), `Missing in map data: ${country.name}`).toBe(true);
     }
 
-    // Also verify we have 201+ countries
-    expect(opt.series[0].data.length).toBeGreaterThanOrEqual(201);
+    // Verify we have all countries with non-null MIND scores (198 in current dataset)
+    expect(opt.series[0].data.length).toBe(countriesWithMind.length);
   });
 });

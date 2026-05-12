@@ -6,6 +6,8 @@
  */
 
 import type { DimensionKey } from '../../lib/mind-score';
+import type { SlimCountry } from './search';
+import { GEOJSON_NAME_MAP } from '../../data/geo-name-map';
 
 // -- Constants --
 
@@ -220,4 +222,97 @@ export function getAttribution(metadata: MetadataInput): string {
     timeZone: 'UTC',
   });
   return `Source: World Bank World Development Indicators, ${metadata.worldBankLastUpdated}. Accessed ${formatted}.`;
+}
+
+// -- Map chart option generator --
+
+/** Dimension type for map visualization: composite MIND or individual dimension. */
+export type MapDimension = 'mind' | DimensionKey;
+
+/**
+ * Generate ECharts choropleth map option for world MIND scores.
+ *
+ * Pure function that produces a complete ECharts option object for a world map
+ * colored by MIND composite or individual dimension scores. Uses GEOJSON_NAME_MAP
+ * to bridge ECharts GeoJSON feature names to World Bank country names.
+ *
+ * @param countries - Array of SlimCountry objects (from mind-scores.json via getSlimPayload)
+ * @param dimension - Which score to visualize: 'mind' for composite, or 'm'|'i'|'n'|'d' for individual
+ * @returns ECharts option object ready for chart.setOption()
+ */
+export function makeMapOption(
+  countries: SlimCountry[],
+  dimension: MapDimension = 'mind',
+): Record<string, unknown> {
+  const dimColor = dimension === 'mind' ? '#00c8ff' : DIM_COLORS[dimension as DimensionKey];
+  const dimLabel = dimension === 'mind' ? 'MIND Composite' : DIM_NAMES[dimension as DimensionKey];
+
+  const data = countries
+    .filter((c) => c[dimension] !== null)
+    .map((c) => ({
+      name: c.name,
+      value: c[dimension],
+      bc: c.bc,
+      mind: c.mind,
+      m: c.m,
+      i: c.i,
+      n: c.n,
+      d: c.d,
+    }));
+
+  return {
+    aria: { enabled: true },
+    tooltip: {
+      trigger: 'item',
+      formatter: (params: any) => {
+        const d = params.data;
+        if (!d || d.value == null) return `${params.name}<br/>No data available`;
+        const bcName = DIM_NAMES[d.bc as DimensionKey] || d.bc;
+        return `<strong>${params.name}</strong><br/>`
+          + `${dimLabel}: ${Math.round(d.value)}<br/>`
+          + `Binding constraint: ${bcName}`;
+      },
+    },
+    visualMap: {
+      type: 'continuous',
+      min: 0,
+      max: 100,
+      text: ['High', 'Low'],
+      inRange: {
+        color: ['#0a0a12', dimColor],
+      },
+      textStyle: { color: 'rgba(255,255,255,0.85)' },
+      orient: 'vertical',
+      right: 10,
+      bottom: 20,
+    },
+    series: [{
+      type: 'map',
+      map: 'world',
+      roam: true,
+      nameMap: GEOJSON_NAME_MAP,
+      data,
+      emphasis: {
+        itemStyle: {
+          areaColor: undefined,
+          borderColor: '#ffffff',
+          borderWidth: 1.5,
+        },
+        label: { show: false },
+      },
+      select: {
+        itemStyle: {
+          borderColor: '#00c8ff',
+          borderWidth: 2,
+        },
+      },
+      selectedMode: 'single',
+      itemStyle: {
+        borderColor: '#1a1a2e',
+        borderWidth: 0.5,
+        areaColor: '#1a1a2e',
+      },
+      label: { show: false },
+    }],
+  };
 }
