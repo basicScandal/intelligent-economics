@@ -16,6 +16,10 @@ export interface DashboardURLState {
   primary: string | null;
   /** ISO3 country codes for comparison countries. */
   compare: string[];
+  /** Active view mode: 'map' for choropleth, null for default country view. */
+  view?: string | null;
+  /** Active dimension for map coloring: 'm'|'i'|'n'|'d' or null for MIND composite. */
+  dim?: string | null;
 }
 
 // -- Encode --
@@ -38,6 +42,13 @@ export function encodeDashboardURL(state: DashboardURLState): string {
   const compareFiltered = state.compare.filter((c) => c !== state.primary);
   if (compareFiltered.length > 0) {
     params.set('compare', compareFiltered.join(','));
+  }
+
+  if (state.view) {
+    params.set('view', state.view);
+  }
+  if (state.dim) {
+    params.set('dim', state.dim);
   }
 
   const str = params.toString();
@@ -63,7 +74,10 @@ export function decodeDashboardURL(search: string): DashboardURLState {
     ? compareRaw.split(',').filter((c) => c.length > 0)
     : [];
 
-  return { primary, compare };
+  const view = params.get('view') || null;
+  const dim = params.get('dim') || null;
+
+  return { primary, compare, view, dim };
 }
 
 // -- DOM wrapper (not unit tested) --

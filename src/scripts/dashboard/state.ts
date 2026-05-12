@@ -11,7 +11,7 @@
 import type { SlimCountry } from './search';
 
 /** Dashboard scale level for multi-scale MIND analysis. */
-export type Scale = 'country' | 'city' | 'firm';
+export type Scale = 'country' | 'city' | 'firm' | 'map';
 
 export interface DashboardState {
   /** Selected country for radar chart + detail view. */
