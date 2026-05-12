@@ -1,0 +1,27 @@
+---
+// DimensionToggle -- Segmented button row for map dimension switching.
+// Purely presentational; JS in map.ts manages active state.
+---
+
+<div id="dim-toggle" class="flex gap-1 bg-surface-2 rounded-full p-1 w-fit ml-auto mb-4" role="radiogroup" aria-label="Map dimension">
+  <button role="radio" aria-checked="true" data-dim="mind"
+    class="rounded-full px-3 py-1.5 text-sm font-semibold font-body bg-white/10 text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c8ff]">
+    Composite
+  </button>
+  <button role="radio" aria-checked="false" data-dim="m"
+    class="rounded-full px-3 py-1.5 text-sm font-semibold font-body text-[#8888aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c8ff]">
+    M
+  </button>
+  <button role="radio" aria-checked="false" data-dim="i"
+    class="rounded-full px-3 py-1.5 text-sm font-semibold font-body text-[#8888aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c8ff]">
+    I
+  </button>
+  <button role="radio" aria-checked="false" data-dim="n"
+    class="rounded-full px-3 py-1.5 text-sm font-semibold font-body text-[#8888aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c8ff]">
+    N
+  </button>
+  <button role="radio" aria-checked="false" data-dim="d"
+    class="rounded-full px-3 py-1.5 text-sm font-semibold font-body text-[#8888aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c8ff]">
+    D
+  </button>
+</div>
