@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run --reporter=verbose",
-    "fetch-data": "tsx scripts/fetch-world-bank.ts"
+    "fetch-data": "tsx scripts/fetch-world-bank.ts",
+    "fetch-data-historical": "tsx scripts/fetch-world-bank-historical.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
