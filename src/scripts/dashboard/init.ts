@@ -14,6 +14,7 @@ import { createDashboardState, type Scale } from './state';
 import { decodeDashboardURL, pushDashboardURL } from './url-state';
 import type { SlimCountry } from './search';
 import type { DimensionKey } from '../../lib/mind-score';
+import type { MapDimension } from './charts';
 
 // ── sr-only helpers for screen reader text alternatives ──
 
@@ -33,6 +34,10 @@ function formatCountryDescription(name: string, m: number, i: number, n: number,
 const dataEl = document.getElementById('dashboard-data');
 const countries: SlimCountry[] = dataEl ? JSON.parse(dataEl.dataset.scores!) : [];
 const store = createDashboardState();
+
+// Map initialization state (shared across sections)
+let mapInitialized = false;
+let mapModule: { initMap: Function; getCurrentDimension: () => MapDimension; setCurrentDimension: (d: MapDimension) => void } | null = null;
 
 // ── 2. Mobile detection (eager, lightweight) ──
 
@@ -302,6 +307,10 @@ const chartObserver = new IntersectionObserver(
             const urlState = {
               primary: state.primary?.code ?? null,
               compare: state.comparison.map((c) => c.code),
+              view: state.activeScale === 'map' ? 'map' : null,
+              dim: state.activeScale === 'map' && mapModule
+                ? (mapModule.getCurrentDimension() === 'mind' ? null : mapModule.getCurrentDimension())
+                : null,
             };
             pushDashboardURL(urlState);
           });
@@ -324,6 +333,28 @@ const chartObserver = new IntersectionObserver(
             for (const code of urlState.compare) {
               const country = countries.find((c) => c.code === code);
               if (country) store.addToComparison(country);
+            }
+          }
+
+          // Hydrate map view state from URL (per D-14, D-15)
+          if (urlState.view === 'map') {
+            const mapTab = document.getElementById('tab-map') as HTMLButtonElement | null;
+            if (mapTab) {
+              activateTab(mapTab);
+            }
+            // Dimension will be set after map initializes
+            if (urlState.dim) {
+              const checkMap = setInterval(() => {
+                if (mapModule) {
+                  clearInterval(checkMap);
+                  mapModule.setCurrentDimension(urlState.dim as MapDimension);
+                  // Click the corresponding dim toggle button to update UI
+                  const dimBtn = document.querySelector(`[data-dim="${urlState.dim}"]`) as HTMLButtonElement | null;
+                  if (dimBtn) dimBtn.click();
+                }
+              }, 100);
+              // Safety timeout to prevent infinite loop
+              setTimeout(() => clearInterval(checkMap), 5000);
             }
           }
         },
@@ -613,6 +644,25 @@ if (scaleTabs) {
     });
 
     store.setScale(scale);
+
+    // Lazy-load map when Map tab first activated
+    if (scale === 'map' && !mapInitialized) {
+      mapInitialized = true;
+      Promise.all([
+        import('./echarts-setup'),
+        import('./map'),
+      ]).then(([{ echarts }, mapMod]) => {
+        mapModule = mapMod;
+        mapMod.initMap(echarts, store, countries);
+      });
+    }
+
+    // Resize map chart when tab becomes visible (Pitfall 4)
+    if (scale === 'map' && mapInitialized) {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
+    }
   }
 
   tabs.forEach((tab) => {
