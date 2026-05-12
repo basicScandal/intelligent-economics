@@ -10,7 +10,7 @@
 import * as echarts from 'echarts/core';
 
 // Charts
-import { RadarChart, BarChart } from 'echarts/charts';
+import { RadarChart, BarChart, MapChart } from 'echarts/charts';
 
 // Components
 import {
@@ -20,6 +20,8 @@ import {
   RadarComponent,
   LegendComponent,
   AriaComponent,
+  GeoComponent,
+  VisualMapContinuousComponent,
 } from 'echarts/components';
 
 // Renderer
@@ -29,12 +31,15 @@ import { SVGRenderer } from 'echarts/renderers';
 echarts.use([
   RadarChart,
   BarChart,
+  MapChart,
   TitleComponent,
   TooltipComponent,
   GridComponent,
   RadarComponent,
   LegendComponent,
   AriaComponent,
+  GeoComponent,
+  VisualMapContinuousComponent,
   SVGRenderer,
 ]);
 
