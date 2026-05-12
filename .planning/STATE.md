@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Data Visualization Upgrades
-status: executing
-stopped_at: Completed 14-02-PLAN.md
-last_updated: "2026-05-12T05:06:55.672Z"
+status: verifying
+stopped_at: Completed 14-03-PLAN.md
+last_updated: "2026-05-12T05:43:09.617Z"
 last_activity: 2026-05-12
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-05-11)
 
 Phase: 14 (World Map) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-05-12
 
 Progress: [░░░░░░░░░░] 0%
@@ -55,6 +55,8 @@ Progress: [░░░░░░░░░░] 0%
 - [Phase 14]: DimensionToggle uses role=radiogroup with aria-checked for WCAG compliance
 - [Phase 14]: Map loading overlay visible by default; map.ts hides after GeoJSON loads
 - [Phase 14]: Map container uses aspect-[2/1] desktop / aspect-[4/3] mobile for responsive layout
+- [Phase 14]: Dynamic import of map module on first Map tab click for minimal initial bundle
+- [Phase 14]: BASE_URL prefix for GeoJSON fetch to support non-root site paths
 
 ### Pending Todos
 
@@ -69,6 +71,6 @@ Progress: [░░░░░░░░░░] 0%
 
 ## Session Continuity
 
-Last session: 2026-05-12T05:06:55.670Z
-Stopped at: Completed 14-02-PLAN.md
+Last session: 2026-05-12T05:43:09.613Z
+Stopped at: Completed 14-03-PLAN.md
 Resume file: None
