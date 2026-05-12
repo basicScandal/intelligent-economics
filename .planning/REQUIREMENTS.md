@@ -61,8 +61,8 @@ Requirements for Data Visualization Upgrades milestone. Each maps to roadmap pha
 ### World Map
 
 - [x] **MAP-01**: ECharts choropleth world map displaying MIND composite scores for 217 countries with color gradient
-- [ ] **MAP-02**: "Map" tab added to dashboard alongside Country/City/Firm tabs
-- [ ] **MAP-03**: Click country on map selects it in dashboard state (triggers radar chart, binding constraint)
+- [x] **MAP-02**: "Map" tab added to dashboard alongside Country/City/Firm tabs
+- [x] **MAP-03**: Click country on map selects it in dashboard state (triggers radar chart, binding constraint)
 - [x] **MAP-04**: Color scale legend showing MIND score ranges (low/medium/high)
 - [x] **MAP-05**: Map tooltip on hover showing country name, MIND score, and binding constraint
 - [x] **MAP-06**: Map dimension toggle — switch map coloring between composite MIND and individual M/I/N/D dimensions
@@ -157,8 +157,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PERF-01 | Phase 12 | Complete |
 | TIME-01 | Phase 13 | Complete |
 | MAP-01 | Phase 14 | Complete |
-| MAP-02 | Phase 14 | Pending |
-| MAP-03 | Phase 14 | Pending |
+| MAP-02 | Phase 14 | Complete |
+| MAP-03 | Phase 14 | Complete |
 | MAP-04 | Phase 14 | Complete |
 | MAP-05 | Phase 14 | Complete |
 | MAP-06 | Phase 14 | Complete |

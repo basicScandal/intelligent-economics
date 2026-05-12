@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Data Visualization Upgrades
 status: executing
-stopped_at: Completed 14-01-PLAN.md
-last_updated: "2026-05-12T05:00:36.419Z"
+stopped_at: Completed 14-02-PLAN.md
+last_updated: "2026-05-12T05:06:55.672Z"
 last_activity: 2026-05-12
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-11)
 ## Current Position
 
 Phase: 14 (World Map) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-05-12
 
@@ -52,6 +52,9 @@ Progress: [░░░░░░░░░░] 0%
 - [Phase 13]: Store only m/i/n/d/mind scores per country-year (not raw indicators) to keep payload at 318 KB
 - [Phase 14]: 40-entry nameMap (plan said 41 but code block had 40; name coverage test validates correctness)
 - [Phase 14]: Optional view/dim URL state fields for backward compatibility with existing callers
+- [Phase 14]: DimensionToggle uses role=radiogroup with aria-checked for WCAG compliance
+- [Phase 14]: Map loading overlay visible by default; map.ts hides after GeoJSON loads
+- [Phase 14]: Map container uses aspect-[2/1] desktop / aspect-[4/3] mobile for responsive layout
 
 ### Pending Todos
 
@@ -66,6 +69,6 @@ Progress: [░░░░░░░░░░] 0%
 
 ## Session Continuity
 
-Last session: 2026-05-12T05:00:36.417Z
-Stopped at: Completed 14-01-PLAN.md
+Last session: 2026-05-12T05:06:55.670Z
+Stopped at: Completed 14-02-PLAN.md
 Resume file: None
