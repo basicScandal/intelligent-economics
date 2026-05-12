@@ -56,13 +56,50 @@ Requirements for MIND Intelligence Layer milestone. Each maps to roadmap phases.
 
 ## v1.2 Requirements
 
+Requirements for Data Visualization Upgrades milestone. Each maps to roadmap phases.
+
+### World Map
+
+- [ ] **MAP-01**: ECharts choropleth world map displaying MIND composite scores for 217 countries with color gradient
+- [ ] **MAP-02**: "Map" tab added to dashboard alongside Country/City/Firm tabs
+- [ ] **MAP-03**: Click country on map selects it in dashboard state (triggers radar chart, binding constraint)
+- [ ] **MAP-04**: Color scale legend showing MIND score ranges (low/medium/high)
+- [ ] **MAP-05**: Map tooltip on hover showing country name, MIND score, and binding constraint
+- [ ] **MAP-06**: Map dimension toggle — switch map coloring between composite MIND and individual M/I/N/D dimensions
+
+### Time-Series
+
+- [x] **TIME-01**: Extended World Bank data pipeline fetching 10 years of historical data (2014-2024) for all 16 indicators
+- [ ] **TIME-02**: Time-series line chart showing MIND score evolution for a selected country
+- [ ] **TIME-03**: Animated playback controls (play/pause/speed) for score evolution across years
+- [ ] **TIME-04**: Year slider/scrubber for manual year selection
+- [ ] **TIME-05**: Time-series integration with world map — map recolors to selected year's data
+- [ ] **TIME-06**: Multi-country time-series overlay (compare 2-4 countries over time)
+
+### Custom Indicators
+
+- [ ] **IND-01**: Indicator selection panel listing all 16 World Bank indicators grouped by MIND dimension
+- [ ] **IND-02**: Toggle individual indicators on/off with dynamic MIND score recalculation
+- [ ] **IND-03**: Visual weight display showing how selected indicators contribute to dimension scores
+- [ ] **IND-04**: "Reset to default" button restoring the standard 16-indicator set
+
+### Comparison Enhancements
+
+- [ ] **COMP-01**: Comparison data table with sortable columns showing all 4 dimensions + composite
+- [ ] **COMP-02**: Export comparison as CSV download
+- [ ] **COMP-03**: Shareable comparison URL encoding selected countries and active view
+- [ ] **COMP-04**: Multi-select countries from world map for comparison (click + shift-click or similar)
+
+### Integration & Polish
+
+- [ ] **INT-01**: All new visualizations follow existing ECharts SVG renderer pattern
+- [ ] **INT-02**: Screen reader text alternatives for map and time-series charts
+- [ ] **INT-03**: Mobile-responsive layout for map tab (stacked or simplified view)
+- [ ] **INT-04**: Lighthouse performance targets maintained (desktop >= 90, mobile >= 75)
+
+## v1.3 Requirements
+
 Deferred to future release. Tracked but not in current roadmap.
-
-### Dashboard Enhancements
-
-- **DASH-11**: Time-series animation (Gapminder-style) showing MIND score changes over 10-20 years
-- **DASH-12**: Choropleth world map colored by MIND score
-- **DASH-13**: Custom indicator selection for researchers
 
 ### Data Expansion
 
@@ -77,7 +114,7 @@ Explicitly excluded. Documented to prevent scope creep.
 |---------|--------|
 | Real-time data fetching on page load | World Bank data updates annually — build-time fetch is sufficient |
 | User accounts / saved preferences | URL state encoding is sufficient, no backend exists |
-| Custom indicator selection | Undermines opinionated MIND methodology |
+| Custom indicator selection (permanent removal) | v1.2 adds opt-in toggling — researchers can explore, but defaults preserve opinionated methodology |
 | Automated city/firm data from APIs | Free public APIs don't provide MIND-relevant data at these scales |
 | PDF generation via Puppeteer | CSS @media print is sufficient for v1.1 |
 | Academic peer review system | Moderation overhead, use GitHub Discussions instead |
@@ -118,12 +155,37 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-01 | Phase 12 | Complete |
 | A11Y-01 | Phase 12 | Complete |
 | PERF-01 | Phase 12 | Complete |
+| TIME-01 | Phase 13 | Complete |
+| MAP-01 | Phase 14 | Pending |
+| MAP-02 | Phase 14 | Pending |
+| MAP-03 | Phase 14 | Pending |
+| MAP-04 | Phase 14 | Pending |
+| MAP-05 | Phase 14 | Pending |
+| MAP-06 | Phase 14 | Pending |
+| INT-01 | Phase 14 | Pending |
+| TIME-02 | Phase 15 | Pending |
+| TIME-03 | Phase 15 | Pending |
+| TIME-04 | Phase 15 | Pending |
+| TIME-05 | Phase 15 | Pending |
+| TIME-06 | Phase 15 | Pending |
+| IND-01 | Phase 16 | Pending |
+| IND-02 | Phase 16 | Pending |
+| IND-03 | Phase 16 | Pending |
+| IND-04 | Phase 16 | Pending |
+| COMP-01 | Phase 17 | Pending |
+| COMP-02 | Phase 17 | Pending |
+| COMP-03 | Phase 17 | Pending |
+| COMP-04 | Phase 17 | Pending |
+| INT-02 | Phase 17 | Pending |
+| INT-03 | Phase 17 | Pending |
+| INT-04 | Phase 17 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 29 total
-- Mapped to phases: 29
+- v1.1 requirements: 29 total -- all Complete
+- v1.2 requirements: 22 total -- all mapped to phases
+- Mapped to phases: 22/22
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-21*
-*Last updated: 2026-04-21 after roadmap creation*
+*Last updated: 2026-05-11 after v1.2 roadmap creation*

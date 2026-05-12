@@ -1,102 +1,69 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: MIND Intelligence Layer
-status: executing
-stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-04-22T20:12:57.748Z"
-last_activity: 2026-04-22
+milestone: v1.2
+milestone_name: Data Visualization Upgrades
+status: verifying
+stopped_at: Completed 13-01-PLAN.md
+last_updated: "2026-05-12T01:52:31.201Z"
+last_activity: 2026-05-12
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 14
-  completed_plans: 14
-  percent: 91
+  total_phases: 5
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-21)
+See: .planning/PROJECT.md (updated 2026-05-11)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** Phase 12 — aggregation-visualization-polish
+**Current focus:** Phase 13 — Historical Data Pipeline
 
 ## Current Position
 
-Phase: 12
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-04-22
+Phase: 13 (Historical Data Pipeline) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
+Last activity: 2026-05-12
 
-Progress: [#########░] 91%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 14 (v1.0)
-- v1.1 plans completed: 5
-- Average duration: ~10min
-- Total execution time: ~50min
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-*Updated after each plan completion*
-| Phase 07 P02 | 37min | 2 tasks | 3 files |
-| Phase 08 P01 | 4min | 2 tasks | 8 files |
-| Phase 08 P02 | 6min | 2 tasks | 5 files |
-| Phase 09 P01 | ~5min | 3 tasks | 9 files |
-| Phase 09 P02 | 3min | 2 tasks | 4 files |
-| Phase 09 P03 | 5min | 2 tasks (+ 1 checkpoint) | 14 files |
-| Phase 10 P02 | 2min | 1 tasks | 2 files |
-| Phase 11 P02 | 4min | 3 tasks | 6 files |
-| Phase 11 P03 | 3min | 2 tasks | 3 files |
-| Phase 12 P02 | 4min | 1 tasks | 10 files |
+- Total plans completed: 0 (v1.2)
+- Average duration: --
+- Total execution time: --
 
 ## Accumulated Context
 
 ### Decisions
 
-All v1.0 decisions archived in PROJECT.md Key Decisions table.
-
-Recent decisions affecting current work:
-
-- v1.1 roadmap: ECharts 6 over Chart.js for dashboard (feature depth: treemap, sunburst, drill-down)
-- v1.1 roadmap: Build-time World Bank fetch with committed JSON baseline (no runtime API calls)
-- v1.1 roadmap: MDX content collection for whitepaper (enables inline interactive components)
-- [Phase 07]: mrnev/mrv fallback for World Bank API: try mrnev=1 first, fall back to mrv=5 with most-recent-non-null selection
-- [Phase 07]: TX.VAL.TECH.MF.ZS (high-tech exports) as proxy for trade diversification in Diversity dimension
-- [Phase 08]: MDX remarkPlugins and rehypePlugins inside mdx() integration config; whitepaper uses scoped light-mode CSS custom properties
-- [Phase 08]: Country data uses exact values from mind-scores.json; BaseLayout extended with head slot for child layout meta injection
-- [Phase 09-02]: Native HTML details/summary for methodology accordion — zero JS, accessible by default
-- [Phase 09-02]: Two-tier data injection: slim payload as data-attribute, full indicators as script type=application/json
-- [Phase 09-02]: DOM ID contract pattern: static components define IDs that client scripts target for hydration
-- [Phase 09-03]: Two-path lazy loading: IntersectionObserver for ECharts, requestIdleCallback for search — no DashboardIsland.astro wrapper
-- [Phase 09-03]: Pub/sub state store pattern: createDashboardState() coordinates search and chart modules without reactive framework
-- [Phase 10]: URL hydration placed AFTER store.notify() so chart subscribers are ready before state restoration triggers rendering
-- [Phase 11-02]: City MIND scores computed at build time via calcScore/getBindingConstraint; tab switching is eager DOM-only, city radar defers to ECharts loading path
-- [Phase 11-02]: CityCard uses data attributes for runtime dimension reading (avoids importing JSON in client bundle)
-- [Phase 11]: Firm self-assessment uses stacked vertical sliders (no ECharts) with shared calcScore/getBindingConstraint, defaulting to 50 for all dimensions
-- [Phase 12]: Purple #7b4bff -> #8b5fff for WCAG AA contrast (4.98:1 ratio); roving tabindex for WAI-ARIA tabs pattern
+- ECharts map extension over D3/Leaflet -- single library consistency
+- Map lives as dashboard tab (not standalone page)
+- 10-year time-series window (2014-2024) balances coverage vs. payload
+- Custom indicators are opt-in -- default MIND methodology preserved
+- [Phase 13]: Per-year normalization bounds for historical data rather than global bounds across all years
+- [Phase 13]: Store only m/i/n/d/mind scores per country-year (not raw indicators) to keep payload at 318 KB
 
 ### Pending Todos
 
-None.
+- Research ECharts map extension API and GeoJSON requirements
+- Validate World Bank historical data completeness for 10-year window
 
 ### Blockers/Concerns
 
-- Normalization bounds (theoretical vs empirical) must be resolved in Phase 7
-- Aggregation formula weighting must be defined in Phase 8 whitepaper before Phase 11 implementation
-- ECharts data injection pattern validated: data-scores attribute for slim payload, script type=application/json for indicators
+- World Bank historical data completeness for 10-year window needs validation during Phase 13
+- ECharts map extension bundle size impact needs measurement during Phase 14
+- Time-series data payload size for 217 countries x 10 years x 16 indicators
 
 ## Session Continuity
 
-Last session: 2026-04-22T15:23:21.856Z
-Stopped at: Completed 12-02-PLAN.md
+Last session: 2026-05-12T01:52:31.198Z
+Stopped at: Completed 13-01-PLAN.md
 Resume file: None
