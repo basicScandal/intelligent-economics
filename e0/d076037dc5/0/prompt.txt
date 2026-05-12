@@ -1,0 +1,41 @@
+/gsd:plan-phase 14
+
+---
+
+<task-notification>
+<task-id>adbf25989bf35503e</task-id>
+<tool-use-id>REDACTED</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-scandal-ai-intelligenteconomics/b25c7d0e-5548-41b4-a8d5-8bb46866da2e/tasks/adbf25989bf35503e.output</output-file>
+<status>completed</status>
+<summary>Agent "Research Phase 14 world-map" completed</summary>
+<result>## RESEARCH COMPLETE
+
+**Phase:** 14 - World Map
+**Confidence:** HIGH
+
+### Key Findings
+- ECharts 6.0.0 already installed with MapChart, GeoComponent, and VisualMapContinuousComponent available for tree-shaken import -- no new packages needed
+- The ECharts official world.json (987KB raw, 278KB gzipped) has 217 features using simplified country names; a verified 43-entry `nameMap` dictionary bridges these to World Bank naming conventions used in mind-scores.json
+- 201 of 217 countries will render with MIND data on the map; 14 territories (W. Sahara, Aland, etc.) show as neutral gray; 16 small islands/city-states in our data lack GeoJSON polygons (Aruba, Maldives, Monaco -- acceptable at world scale)
+- The implementation follows all existing patterns: pure `makeMapOption()` chart generator, `store.selectPrimary()` for click-to-select, lazy dynamic import for GeoJSON fetch, extended URL state for `view=` and `dim=` params
+- ECharts' `nameMap` option remaps GeoJSON feature names during registration, so data items use World Bank names directly -- no runtime name normalization needed
+
+### File Created
+`/Users/scandal/ai/intelligenteconomics/.planning/phases/14-world-map/14-RESEARCH.md`
+
+### Confidence Assessment
+| Area | Level | Reason |
+|------|-------|--------|
+| Standard Stack | HIGH | ECharts 6.0.0 installed, all needed components verified in node_modules type exports |
+| Architecture | HIGH | Extends established patterns (pure option generators, pub/sub state, lazy loading, URL state) |
+| Pitfalls | HIGH | Name mapping exhaustively verified -- every entry tested against real data, 201/217 matched |
+| GeoJSON Strategy | HIGH | Official ECharts file downloaded and parsed; name mismatches quantified and mapped |
+
+### Open Questions
+- Curacao/Sao Tome Unicode accent handling needs runtime verification (2 countries)
+- Exact bundle size impact of MapChart + GeoComponent + VisualMapContinuousComponent (estimated 15-30KB gzipped)
+
+### Ready for Planning
+Research complete. Planner can now create PLAN.md files.</result>
+<usage><total_tokens>95534</total_tokens><tool_uses>3</tool_uses><duration_ms>765226</duration_ms></usage>
+</task-notification>
