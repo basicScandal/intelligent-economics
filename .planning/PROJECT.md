@@ -38,12 +38,16 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 
 ### Active
 
-(No active requirements — define in next milestone)
+- [ ] Choropleth world map (ECharts map extension) as new dashboard tab showing MIND scores for 217 countries
+- [ ] Time-series animation with 10-year history (2014–2024) showing MIND score evolution
+- [ ] Custom indicator selection UI for researchers to pick/weight individual indicators
+- [ ] Enhanced country comparison tool with exportable results
 
 ## Shipped Milestones
 
 - **v1.0 MVP** — Movement platform with conversion pipeline (shipped 2026-04-21)
 - **v1.1 MIND Intelligence Layer** — Whitepaper + multi-scale dashboard + real data (shipped 2026-04-22)
+- **v1.2 Data Visualization Upgrades** — World map, time-series, custom indicators, comparison (in progress)
 
 ### Out of Scope
 
@@ -53,20 +57,17 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 - MIND Score API — future (P3)
 - OAuth/magic link login — not needed for current flow
 - User accounts / authentication — not needed
-- Time-series animation (Gapminder-style) — v1.2 candidate
-- Choropleth world map — v1.2 candidate
-- Custom indicator selection — v1.2 candidate
-- Automated city/firm data from Census ACS / SEC EDGAR — v1.2 candidate
+- Automated city/firm data from Census ACS / SEC EDGAR — future (v1.3+ candidate)
 
 ## Context
 
 - **Shipped v1.1** — 9,553 LOC across 50+ source files (TypeScript + Astro + CSS + MDX), ~115 commits total
 - **Tech stack:** Astro 5.18.x, Tailwind v4, Three.js, GSAP, ECharts 6, TypeScript strict, Netlify
-- **Data layer:** `src/lib/mind-score.ts` shared library, `src/data/mind-scores.json` (217 countries, 16 World Bank indicators), `src/data/city-profiles.json` (7 curated cities)
+- **Data layer:** `src/lib/mind-score.ts` shared library, `src/data/mind-scores.json` (217 countries, 16 World Bank indicators), `src/data/mind-scores-historical.json` (10-year history 2014-2024), `src/data/city-profiles.json` (7 curated cities)
 - **Pages:** index (home), /whitepaper (3,800-word academic paper with KaTeX), /dashboard (multi-scale MIND explorer), /privacy
 - **Dashboard features:** country search, radar/bar charts, comparison overlay, bookmarkable URLs, Zone Zero deep link, city profiles, firm self-assessment
 - **Form pipeline:** VolunteerForm + EmailCapture → Netlify Forms → submission-created function → MailerLite
-- **Performance:** Lighthouse desktop 92, mobile 86. ECharts lazy-loaded via IntersectionObserver. 82 vitest tests passing
+- **Performance:** Lighthouse desktop 92, mobile 86. ECharts lazy-loaded via IntersectionObserver. 95 vitest tests passing
 - **Beyond GDP movement** at UN inflection point — MIND framework is academically novel (multiplicative zero-floor, Intelligence dimension)
 - **Operational setup needed:** MailerLite account + API key, Plausible account ($9/mo), Discord server creation, replace PLACEHOLDER invite links
 
@@ -90,6 +91,9 @@ A modern movement platform for the MIND framework (Material x Intelligence x Net
 | MailerLite for email | Free tier (1K subscribers), automation, API v2 | -- Pending |
 | Tailwind v4 CSS-first config | No JS config file needed, @theme directive, OKLCH native | ✓ Good |
 | ECharts 6 over Chart.js | Feature depth: radar, treemap, SVG renderer, tree-shaking | ✓ Good |
+| ECharts map over D3/Leaflet | Already using ECharts — single library, consistent styling, smaller bundle | -- Pending |
+| 10-year time-series window | 2014-2024 balances data coverage vs. payload size | -- Pending |
+| Map as dashboard tab (not standalone) | Keeps all data viz in one place, reuses existing tab infrastructure | -- Pending |
 | Build-time World Bank fetch | No runtime API calls, committed JSON baseline, offline builds | ✓ Good |
 | MDX for whitepaper | Content collection with remark/rehype plugins, KaTeX math | ✓ Good |
 | Empirical normalization (1st/99th percentile) | Avoids micro-state skew, reflects real data range | ✓ Good |
@@ -114,4 +118,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-22 after v1.1 milestone completion*
+*Last updated: 2026-05-12 after Phase 13 completion*
