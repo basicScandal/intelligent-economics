@@ -25,6 +25,12 @@ created: 2026-05-12
 
 ---
 
+## Visual Hierarchy
+
+Primary focal point: the choropleth map. Secondary: the dimension toggle. Tertiary: the country detail card below.
+
+---
+
 ## Spacing Scale
 
 Declared values (reuse existing global.css `--space-*` tokens):
@@ -50,8 +56,8 @@ Reuse existing fluid clamp tokens from global.css. Phase 14 uses 4 sizes, 2 weig
 | Role | Token | Computed Range | Weight | Line Height |
 |------|-------|----------------|--------|-------------|
 | Body | --text-base | 16px-18px | 400 (regular) | 1.5 |
-| Label | --text-sm | 14px-16px | 500 (medium) | 1.4 |
-| Heading | --text-xl | 24px-36px | 700 (bold) | 1.2 |
+| Label | --text-sm | 14px-16px | 600 (semibold) | 1.4 |
+| Heading | --text-xl | 24px-36px | 600 (semibold) | 1.2 |
 | Caption | --text-xs | 12px-14px | 400 (regular) | 1.5 |
 
 Font family assignments:
@@ -59,7 +65,7 @@ Font family assignments:
 - **Body, Label, Caption:** font-body (Satoshi)
 
 Specific usage:
-- Dimension toggle button labels: --text-sm, weight 500
+- Dimension toggle button labels: --text-sm, weight 600
 - Tooltip country name: --text-sm, weight 600
 - Tooltip score/constraint values: --text-xs, weight 400
 - VisualMap legend text ("High"/"Low"): --text-xs, weight 400
@@ -214,7 +220,7 @@ Accent reserved for: selected country border on map, composite gradient high-end
 | Loading state | Loading world map... |
 | Error state heading | Map unavailable |
 | Error state body | Unable to load map data. Check your connection and try again. |
-| Error retry button | Retry |
+| Error retry button | Retry loading map |
 | Reset view button | Reset view |
 | Tooltip: country with data | **{Country Name}** / {Dimension Label}: {score} / Binding constraint: {dimension name} |
 | Tooltip: country without data | **{Country Name}** / No data available |
