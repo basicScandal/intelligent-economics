@@ -86,7 +86,11 @@ Plans:
   3. A year slider lets users scrub to any year manually, and the selected year updates all dashboard charts to show that year's data
   4. When a year is selected (via slider or playback), the world map recolors to reflect that year's MIND scores
   5. Users can overlay 2-4 countries on the same time-series chart to compare their MIND score trajectories over time
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 15-01-PLAN.md -- Data layer: ECharts LineChart registration, state year extension, makeTimeSeriesOption, snapshotToSlim, URL year param + tests
+- [ ] 15-02-PLAN.md -- UI wiring: YearControls component, timeline.ts playback module, dashboard HTML, init.ts integration, map.ts year subscription
+- [ ] 15-03-PLAN.md -- Multi-country overlay verification + full visual checkpoint
 **UI hint**: yes
 
 ### Phase 16: Custom Indicator Explorer
@@ -137,7 +141,7 @@ Phase 13 first (data foundation). Phase 14 after 13. Phase 15 after 13 + 14. Pha
 | 12. Aggregation Visualization + Polish | v1.1 | 2/2 | Complete | 2026-04-22 |
 | 13. Historical Data Pipeline | v1.2 | 1/1 | Complete    | 2026-05-12 |
 | 14. World Map | v1.2 | 3/3 | Complete    | 2026-05-12 |
-| 15. Time-Series Visualization | v1.2 | 0/? | Not started | - |
+| 15. Time-Series Visualization | v1.2 | 0/3 | Planning complete | - |
 | 16. Custom Indicator Explorer | v1.2 | 0/? | Not started | - |
 | 17. Comparison Upgrades + Polish | v1.2 | 0/? | Not started | - |
 
