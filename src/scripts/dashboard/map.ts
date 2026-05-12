@@ -42,7 +42,8 @@ export async function initMap(
 ): Promise<void> {
   // 1. Lazy GeoJSON fetch with deduplication (Pitfall 2 prevention)
   if (!geoJsonPromise) {
-    geoJsonPromise = fetch('/geo/world.json')
+    const base = (import.meta.env.BASE_URL || '/').replace(/\/?$/, '/');
+    geoJsonPromise = fetch(`${base}geo/world.json`)
       .then(r => {
         if (!r.ok) throw new Error(`GeoJSON fetch failed: ${r.status}`);
         return r.json();
