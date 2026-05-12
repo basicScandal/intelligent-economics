@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Data Visualization Upgrades
-status: verifying
-stopped_at: Phase 14 context gathered
-last_updated: "2026-05-12T03:02:27.097Z"
+status: executing
+stopped_at: Completed 14-01-PLAN.md
+last_updated: "2026-05-12T05:00:36.419Z"
 last_activity: 2026-05-12
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  total_plans: 4
+  completed_plans: 2
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-11)
 
 **Core value:** The volunteer conversion pipeline must work. Every visitor who wants to join this movement must be captured, welcomed, and given a path to meaningful contribution.
-**Current focus:** Phase 13 — Historical Data Pipeline
+**Current focus:** Phase 14 — World Map
 
 ## Current Position
 
-Phase: 14
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 14 (World Map) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-05-12
 
 Progress: [░░░░░░░░░░] 0%
@@ -50,6 +50,8 @@ Progress: [░░░░░░░░░░] 0%
 - Custom indicators are opt-in -- default MIND methodology preserved
 - [Phase 13]: Per-year normalization bounds for historical data rather than global bounds across all years
 - [Phase 13]: Store only m/i/n/d/mind scores per country-year (not raw indicators) to keep payload at 318 KB
+- [Phase 14]: 40-entry nameMap (plan said 41 but code block had 40; name coverage test validates correctness)
+- [Phase 14]: Optional view/dim URL state fields for backward compatibility with existing callers
 
 ### Pending Todos
 
@@ -64,6 +66,6 @@ Progress: [░░░░░░░░░░] 0%
 
 ## Session Continuity
 
-Last session: 2026-05-12T03:02:27.093Z
-Stopped at: Phase 14 context gathered
-Resume file: .planning/phases/14-world-map/14-CONTEXT.md
+Last session: 2026-05-12T05:00:36.417Z
+Stopped at: Completed 14-01-PLAN.md
+Resume file: None

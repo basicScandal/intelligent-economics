@@ -60,12 +60,12 @@ Requirements for Data Visualization Upgrades milestone. Each maps to roadmap pha
 
 ### World Map
 
-- [ ] **MAP-01**: ECharts choropleth world map displaying MIND composite scores for 217 countries with color gradient
+- [x] **MAP-01**: ECharts choropleth world map displaying MIND composite scores for 217 countries with color gradient
 - [ ] **MAP-02**: "Map" tab added to dashboard alongside Country/City/Firm tabs
 - [ ] **MAP-03**: Click country on map selects it in dashboard state (triggers radar chart, binding constraint)
-- [ ] **MAP-04**: Color scale legend showing MIND score ranges (low/medium/high)
-- [ ] **MAP-05**: Map tooltip on hover showing country name, MIND score, and binding constraint
-- [ ] **MAP-06**: Map dimension toggle — switch map coloring between composite MIND and individual M/I/N/D dimensions
+- [x] **MAP-04**: Color scale legend showing MIND score ranges (low/medium/high)
+- [x] **MAP-05**: Map tooltip on hover showing country name, MIND score, and binding constraint
+- [x] **MAP-06**: Map dimension toggle — switch map coloring between composite MIND and individual M/I/N/D dimensions
 
 ### Time-Series
 
@@ -92,7 +92,7 @@ Requirements for Data Visualization Upgrades milestone. Each maps to roadmap pha
 
 ### Integration & Polish
 
-- [ ] **INT-01**: All new visualizations follow existing ECharts SVG renderer pattern
+- [x] **INT-01**: All new visualizations follow existing ECharts SVG renderer pattern
 - [ ] **INT-02**: Screen reader text alternatives for map and time-series charts
 - [ ] **INT-03**: Mobile-responsive layout for map tab (stacked or simplified view)
 - [ ] **INT-04**: Lighthouse performance targets maintained (desktop >= 90, mobile >= 75)
@@ -156,13 +156,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | A11Y-01 | Phase 12 | Complete |
 | PERF-01 | Phase 12 | Complete |
 | TIME-01 | Phase 13 | Complete |
-| MAP-01 | Phase 14 | Pending |
+| MAP-01 | Phase 14 | Complete |
 | MAP-02 | Phase 14 | Pending |
 | MAP-03 | Phase 14 | Pending |
-| MAP-04 | Phase 14 | Pending |
-| MAP-05 | Phase 14 | Pending |
-| MAP-06 | Phase 14 | Pending |
-| INT-01 | Phase 14 | Pending |
+| MAP-04 | Phase 14 | Complete |
+| MAP-05 | Phase 14 | Complete |
+| MAP-06 | Phase 14 | Complete |
+| INT-01 | Phase 14 | Complete |
 | TIME-02 | Phase 15 | Pending |
 | TIME-03 | Phase 15 | Pending |
 | TIME-04 | Phase 15 | Pending |
