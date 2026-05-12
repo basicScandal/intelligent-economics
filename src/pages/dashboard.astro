@@ -5,6 +5,7 @@ import RankingTable from '../components/dashboard/RankingTable.astro';
 import MethodologyPanel from '../components/dashboard/MethodologyPanel.astro';
 import BindingConstraint from '../components/dashboard/BindingConstraint.astro';
 import ScaleTabs from '../components/dashboard/ScaleTabs.astro';
+import DimensionToggle from '../components/dashboard/DimensionToggle.astro';
 import CityCard from '../components/dashboard/CityCard.astro';
 import FirmAssessment from '../components/dashboard/FirmAssessment.astro';
 import { getSlimPayload, getRankingData, getMethodologyData } from '../lib/dashboard-data';
@@ -153,6 +154,67 @@ const cities = cityData.cities.map(city => ({
       <div id="scale-firm" data-scale-panel="firm" role="tabpanel" aria-labelledby="tab-firm" class="hidden">
         <FirmAssessment />
       </div><!-- /scale-firm -->
+
+      <!-- Map scale panel -->
+      <div id="scale-map" data-scale-panel="map" role="tabpanel" aria-labelledby="tab-map" class="hidden">
+
+        <!-- Dimension toggle (right-aligned, per D-06) -->
+        <DimensionToggle />
+
+        <!-- Map container -->
+        <div class="relative rounded-xl bg-surface border border-border overflow-hidden">
+          <!-- Map chart (ECharts renders here) -->
+          <div id="map-chart" class="w-full aspect-[2/1] min-h-[400px] max-md:aspect-[4/3] max-md:min-h-[280px]" aria-hidden="true"></div>
+
+          <!-- Loading skeleton (shown until GeoJSON loads) -->
+          <div id="map-loading" class="absolute inset-0 flex items-center justify-center bg-surface">
+            <div class="text-center">
+              <div class="w-8 h-8 border-2 border-white/20 border-t-[#00c8ff] rounded-full animate-spin mx-auto mb-3"></div>
+              <p class="text-text-muted text-base">Loading world map...</p>
+            </div>
+          </div>
+
+          <!-- Error state (hidden by default) -->
+          <div id="map-error" class="hidden absolute inset-0 flex items-center justify-center bg-surface">
+            <div class="text-center">
+              <p class="text-text font-semibold text-base mb-1">Map unavailable</p>
+              <p class="text-text-muted text-sm mb-3">Unable to load map data. Check your connection and try again.</p>
+              <button id="map-retry" class="px-4 py-2 text-sm font-medium text-[#00c8ff] border border-[#00c8ff]/30 rounded-lg hover:bg-[#00c8ff]/10 transition-colors">Retry loading map</button>
+            </div>
+          </div>
+
+          <!-- Reset view button (bottom-left, per D-07) -->
+          <button id="map-reset-view" class="hidden absolute bottom-3 left-3 px-3 py-1.5 text-xs font-medium text-white/70 bg-surface-2/80 backdrop-blur-sm border border-white/10 rounded-lg hover:text-white hover:bg-surface-2 transition-colors z-10">
+            Reset view
+          </button>
+        </div>
+
+        <!-- Map sr-only text (basic, per INT-01 aria enabled) -->
+        <div id="map-chart-sr" class="sr-only" role="status" aria-live="polite">World choropleth map showing MIND scores. Click a country to view details.</div>
+
+        <!-- No country selected prompt -->
+        <p id="map-no-selection" class="text-text-muted text-center mt-6 text-sm">
+          Click any country on the map to explore its MIND scores
+        </p>
+
+        <!-- Country detail after map click (reuses existing pattern, per D-05) -->
+        <section id="map-country-detail" class="hidden mt-6">
+          <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
+            <div id="map-radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
+            <div id="map-radar-sr" class="sr-only" role="status" aria-live="polite"></div>
+            <div id="map-binding-constraint" class="pl-4 border-l-2 border-white/20">
+              <p class="text-sm text-text-muted">Binding constraint: <strong id="map-bc-name" class="text-white"></strong> <span id="map-bc-score" class="text-text-faint"></span></p>
+              <p id="map-bc-text" class="text-sm text-text-muted mt-1"></p>
+            </div>
+            <a id="map-zone-zero-link" href="/intelligent-economics/" class="hidden inline-flex items-center gap-2 px-4 py-2.5 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-lg text-[#00ff88] hover:bg-[#00ff88]/20 transition-colors text-sm font-medium">
+              <span id="map-zone-zero-text">See in Zone Zero simulator</span>
+              <span aria-hidden="true">&#8594;</span>
+            </a>
+            <p class="text-xs text-text-faint">{attribution}</p>
+          </div>
+        </section>
+
+      </div><!-- /scale-map -->
 
     </div>
   </main>
