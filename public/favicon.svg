@@ -1,1 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text x="4" y="26" font-size="28">IE</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <!-- Bioluminescent glow filter -->
+    <filter id="g" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Core gradient: deep space to surface -->
+    <radialGradient id="bg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#0f0f18"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </radialGradient>
+    <!-- Primary accent gradient -->
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#00c8ff"/>
+    </linearGradient>
+    <!-- Secondary accent -->
+    <linearGradient id="s" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5fff"/>
+      <stop offset="100%" stop-color="#00c8ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background: rounded square, deep space -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <rect width="32" height="32" rx="7" fill="none" stroke="#1e1e30" stroke-width="0.5"/>
+
+  <!-- Four MIND dimension nodes — arranged as a diamond/tetrad -->
+  <!-- M: Material (top) -->
+  <circle cx="16" cy="6.5" r="2.4" fill="url(#p)" opacity="0.95" filter="url(#g)"/>
+  <!-- I: Intelligence (right) -->
+  <circle cx="25.5" cy="16" r="2.4" fill="#00c8ff" opacity="0.9" filter="url(#g)"/>
+  <!-- N: Network (bottom) -->
+  <circle cx="16" cy="25.5" r="2.4" fill="url(#s)" opacity="0.9" filter="url(#g)"/>
+  <!-- D: Diversity (left) -->
+  <circle cx="6.5" cy="16" r="2.4" fill="#8b5fff" opacity="0.9" filter="url(#g)"/>
+
+  <!-- Multiplicative connections — the × linking all dimensions -->
+  <line x1="16" y1="6.5" x2="25.5" y2="16" stroke="#00ff88" stroke-width="0.7" opacity="0.4"/>
+  <line x1="25.5" y1="16" x2="16" y2="25.5" stroke="#00c8ff" stroke-width="0.7" opacity="0.4"/>
+  <line x1="16" y1="25.5" x2="6.5" y2="16" stroke="#8b5fff" stroke-width="0.7" opacity="0.4"/>
+  <line x1="6.5" y1="16" x2="16" y2="6.5" stroke="#8b5fff" stroke-width="0.7" opacity="0.35"/>
+  <!-- Cross diagonals — the multiplicative core -->
+  <line x1="16" y1="6.5" x2="16" y2="25.5" stroke="url(#p)" stroke-width="0.5" opacity="0.25"/>
+  <line x1="6.5" y1="16" x2="25.5" y2="16" stroke="url(#s)" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- Center nucleus — the multiplication point where all dimensions converge -->
+  <circle cx="16" cy="16" r="3.2" fill="none" stroke="url(#p)" stroke-width="0.8" opacity="0.5"/>
+  <circle cx="16" cy="16" r="1.5" fill="#00ff88" opacity="0.9" filter="url(#g)"/>
+
+  <!-- Multiplication symbol at center -->
+  <line x1="14.2" y1="14.2" x2="17.8" y2="17.8" stroke="#050508" stroke-width="1" stroke-linecap="round"/>
+  <line x1="17.8" y1="14.2" x2="14.2" y2="17.8" stroke="#050508" stroke-width="1" stroke-linecap="round"/>
+</svg>
