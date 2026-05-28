@@ -31,3 +31,7 @@ look with playwright
 ---
 
 why is none of the css working on https://intelligenteconomics.ai/ ?
+
+---
+
+do it
