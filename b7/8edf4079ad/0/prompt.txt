@@ -1,0 +1,33 @@
+let's setup the dns records on namecheap
+
+---
+
+i don't think netlify is actually involved. we have it on github, what's the github url? how can we wire it up?
+
+---
+
+ok i updated the dns records, do you see them there?
+
+---
+
+should we make a favicon that is animated and very elaborate?
+
+---
+
+go ahead, i want it to be bleeding edge design
+
+---
+
+yes
+
+---
+
+look with chrome mcp, that's not the right site
+
+---
+
+look with playwright
+
+---
+
+why is none of the css working on https://intelligenteconomics.ai/ ?
