@@ -1,0 +1,45 @@
+---
+// Year controls component for time-series visualization
+// Play/pause button, speed toggle, and year slider
+// No props needed -- all state managed by timeline.ts
+---
+
+<div id="year-controls" class="hidden flex items-center gap-3 px-4 py-2 rounded-lg mb-4">
+  <button
+    id="year-play"
+    class="flex items-center justify-center w-10 h-10 rounded-full bg-[rgba(0,200,255,0.1)] text-[#00c8ff] hover:bg-[rgba(0,200,255,0.2)] transition-colors focus-visible:ring-2 focus-visible:ring-[#00c8ff]"
+    aria-label="Play year animation"
+  >
+    <svg id="year-play-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <polygon points="4,2 14,8 4,14" />
+    </svg>
+  </button>
+
+  <button
+    id="year-speed"
+    class="min-w-[40px] h-7 px-2 rounded-full bg-[rgba(255,255,255,0.08)] text-[#e8e8f0] text-xs font-semibold hover:bg-[rgba(255,255,255,0.15)] transition-colors focus-visible:ring-2 focus-visible:ring-[#00c8ff]"
+    aria-label="Animation speed: 1x. Click to change"
+  >
+    <span id="year-speed-label">1x</span>
+  </button>
+
+  <span class="text-xs text-[#8888aa]">2014</span>
+
+  <input
+    type="range"
+    id="year-slider"
+    min="2014"
+    max="2024"
+    step="1"
+    value="2024"
+    class="flex-1 h-1.5 appearance-none bg-[rgba(255,255,255,0.1)] rounded-full cursor-pointer accent-[#00c8ff] focus-visible:ring-2 focus-visible:ring-[#00c8ff]"
+    aria-label="Select year from 2014 to 2024"
+    aria-valuemin="2014"
+    aria-valuemax="2024"
+    aria-valuenow="2024"
+  />
+
+  <span class="text-xs text-[#8888aa]">2024</span>
+
+  <span id="year-current" class="text-sm font-semibold text-[#00c8ff] min-w-[3ch] text-center font-body">2024</span>
+</div>

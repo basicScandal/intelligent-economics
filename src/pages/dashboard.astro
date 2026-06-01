@@ -8,10 +8,12 @@ import ScaleTabs from '../components/dashboard/ScaleTabs.astro';
 import DimensionToggle from '../components/dashboard/DimensionToggle.astro';
 import CityCard from '../components/dashboard/CityCard.astro';
 import FirmAssessment from '../components/dashboard/FirmAssessment.astro';
+import YearControls from '../components/dashboard/YearControls.astro';
 import { getSlimPayload, getRankingData, getMethodologyData } from '../lib/dashboard-data';
 import { getAttribution } from '../scripts/dashboard/charts';
 import { calcScore, getBindingConstraint } from '../lib/mind-score';
 import scores from '../data/mind-scores.json';
+import historicalScores from '../data/mind-scores-historical.json';
 import cityData from '../data/city-profiles.json';
 
 // Build-time data processing
@@ -20,6 +22,9 @@ const rankings = getRankingData(slim, 20);
 const methodology = getMethodologyData(scores.indicators as any);
 const attribution = getAttribution(scores.metadata);
 const dataPayload = JSON.stringify(slim);
+
+// Build-time historical data processing (Phase 15)
+const historicalPayload = JSON.stringify(historicalScores);
 
 // Build-time city data processing
 const cities = cityData.cities.map(city => ({
@@ -48,6 +53,14 @@ const cities = cityData.cities.map(city => ({
       <!-- Scale navigation tabs -->
       <ScaleTabs />
 
+      <!-- Year indicator bar (shared across tabs, per D-12) -->
+      <div id="year-bar" class="hidden flex items-center justify-between px-4 py-2 bg-[#0f0f18] border border-[#1e1e30] rounded-lg mb-4 transition-all duration-200" aria-live="polite">
+        <span id="year-bar-label" class="text-sm font-semibold text-[#00c8ff] font-body">Viewing: 2024</span>
+        <button id="year-bar-reset" class="text-sm text-[#8888aa] hover:text-white transition-colors">Back to latest</button>
+      </div>
+
+      <YearControls />
+
       <!-- Country scale panel -->
       <div id="scale-country" data-scale-panel="country" role="tabpanel" aria-labelledby="tab-country">
 
@@ -64,6 +77,14 @@ const cities = cityData.cities.map(city => ({
           <!-- Radar chart container -->
           <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
           <div id="radar-chart-sr" class="sr-only" role="status" aria-live="polite"></div>
+
+          <!-- Time-series line chart (per D-01) -->
+          <div id="timeseries-section" class="hidden">
+            <h3 class="text-xl font-semibold font-display text-text mb-4">MIND Score Evolution</h3>
+            <div id="timeseries-chart" class="w-full aspect-[16/9] min-h-[300px] max-h-[480px] max-md:aspect-[4/3] max-md:min-h-[240px]" aria-hidden="true"></div>
+            <div id="timeseries-chart-sr" class="sr-only" role="status" aria-live="polite"></div>
+            <p class="text-xs text-text-faint mt-2">Source: World Bank World Development Indicators. Historical data 2014-2024.</p>
+          </div>
 
           <!-- Binding constraint callout (static component, hidden until selection) -->
           <BindingConstraint dimension="" text="" score={0} dimKey="m" />
@@ -202,6 +223,13 @@ const cities = cityData.cities.map(city => ({
           <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
             <div id="map-radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
             <div id="map-radar-sr" class="sr-only" role="status" aria-live="polite"></div>
+
+            <!-- Time-series in map detail (per D-01) -->
+            <div id="map-timeseries-section" class="hidden">
+              <h3 class="text-xl font-semibold font-display text-text mb-4">MIND Score Evolution</h3>
+              <div id="map-timeseries-chart" class="w-full aspect-[16/9] min-h-[300px] max-h-[480px] max-md:aspect-[4/3] max-md:min-h-[240px]" aria-hidden="true"></div>
+            </div>
+
             <div id="map-binding-constraint" class="pl-4 border-l-2 border-white/20">
               <p class="text-sm text-text-muted">Binding constraint: <strong id="map-bc-name" class="text-white"></strong> <span id="map-bc-score" class="text-text-faint"></span></p>
               <p id="map-bc-text" class="text-sm text-text-muted mt-1"></p>
@@ -224,6 +252,9 @@ const cities = cityData.cities.map(city => ({
 
   <!-- Full indicator data for methodology drill-down -->
   <script type="application/json" id="indicator-data" set:html={JSON.stringify(scores.indicators)} />
+
+  <!-- Historical data for time-series visualization (Phase 15) -->
+  <script type="application/json" id="historical-data" set:html={historicalPayload} />
 
   <!-- Dashboard island initialization — manages its own two loading paths:
        - IntersectionObserver for ECharts (client:visible semantics)

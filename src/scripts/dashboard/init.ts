@@ -10,7 +10,7 @@
  */
 
 // Eagerly import state (tiny, no heavy deps)
-import { createDashboardState, type Scale } from './state';
+import { createDashboardState, type Scale, LATEST_YEAR } from './state';
 import { decodeDashboardURL, pushDashboardURL } from './url-state';
 import type { SlimCountry } from './search';
 import type { DimensionKey } from '../../lib/mind-score';
@@ -72,6 +72,16 @@ const chartObserver = new IntersectionObserver(
             DIM_COLORS,
           },
         ]) => {
+          // Parse historical data for timeline (Phase 15)
+          const histEl = document.getElementById('historical-data');
+          let historicalData: any = null;
+          if (histEl) {
+            try { historicalData = JSON.parse(histEl.textContent || ''); } catch (e) { /* ignore */ }
+          }
+
+          // Timeline initialization state
+          let timelineInitialized = false;
+          let timelineModule: { initTimeline: Function; stopPlayback: Function } | null = null;
           const radarEl = document.getElementById('radar-chart');
           const barEl = document.getElementById('bar-chart');
 
@@ -175,6 +185,15 @@ const chartObserver = new IntersectionObserver(
 
           // Subscribe to state changes for chart rendering
           store.subscribe((state) => {
+            // ── Timeline lazy loading (Phase 15) ──
+            if (state.primary && !timelineInitialized && historicalData) {
+              timelineInitialized = true;
+              import('./timeline').then((mod) => {
+                timelineModule = mod;
+                mod.initTimeline(echarts, store, countries, historicalData);
+              });
+            }
+
             // ── Radar chart ──
             if (state.primary && state.primary.m !== null) {
               document.getElementById('country-detail')?.classList.remove('hidden');
@@ -311,6 +330,7 @@ const chartObserver = new IntersectionObserver(
               dim: state.activeScale === 'map' && mapModule
                 ? (mapModule.getCurrentDimension() === 'mind' ? null : mapModule.getCurrentDimension())
                 : null,
+              year: state.year,
             };
             pushDashboardURL(urlState);
           });
@@ -334,6 +354,11 @@ const chartObserver = new IntersectionObserver(
               const country = countries.find((c) => c.code === code);
               if (country) store.addToComparison(country);
             }
+          }
+
+          // Hydrate year from URL (per Phase 15)
+          if (urlState.year != null) {
+            store.setYear(urlState.year);
           }
 
           // Hydrate map view state from URL (per D-14, D-15)
@@ -645,6 +670,12 @@ if (scaleTabs) {
 
     store.setScale(scale);
 
+    // Reset year when switching to City or Firm tabs (per D-07)
+    if (scale === 'city' || scale === 'firm') {
+      if (timelineModule) timelineModule.stopPlayback();
+      store.setYear(null);
+    }
+
     // Lazy-load map when Map tab first activated
     if (scale === 'map' && !mapInitialized) {
       mapInitialized = true;
@@ -653,7 +684,7 @@ if (scaleTabs) {
         import('./map'),
       ]).then(([{ echarts }, mapMod]) => {
         mapModule = mapMod;
-        mapMod.initMap(echarts, store, countries);
+        mapMod.initMap(echarts, store, countries, historicalData);
       });
     }
 

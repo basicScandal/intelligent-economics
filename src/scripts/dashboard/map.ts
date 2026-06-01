@@ -12,12 +12,16 @@ import type { DashboardStore } from './state';
 import type { SlimCountry } from './search';
 import type { MapDimension } from './charts';
 import type { DimensionKey } from '../../lib/mind-score';
+import type { HistoricalData } from '../../lib/historical-data';
+import { getYearSnapshot } from '../../lib/historical-data';
+import { snapshotToSlim } from './charts';
 
 let mapChart: any = null;
 let mapRadarChart: any = null;
 let geoJsonPromise: Promise<any> | null = null;
 let mapRegistered = false;
 let currentDimension: MapDimension = 'mind';
+let historicalData: HistoricalData | null = null;
 
 /** Get the current map dimension (for URL state sync). */
 export function getCurrentDimension(): MapDimension {
@@ -39,7 +43,9 @@ export async function initMap(
   echarts: any,
   store: DashboardStore,
   countries: SlimCountry[],
+  histData?: HistoricalData | null,
 ): Promise<void> {
+  historicalData = histData || null;
   // 1. Lazy GeoJSON fetch with deduplication (Pitfall 2 prevention)
   if (!geoJsonPromise) {
     const base = (import.meta.env.BASE_URL || '/').replace(/\/?$/, '/');
@@ -183,6 +189,29 @@ export async function initMap(
       document.getElementById('map-country-detail')?.classList.add('hidden');
       document.getElementById('map-no-selection')?.classList.remove('hidden');
       document.getElementById('map-zone-zero-link')?.classList.add('hidden');
+    }
+  });
+
+  // 7b. Year change handler (per TIME-05, Phase 15)
+  let lastRenderedYear: number | null = null;
+  store.subscribe((state) => {
+    if (state.activeScale !== 'map') return;
+    if (state.year === lastRenderedYear) return;
+    lastRenderedYear = state.year;
+
+    if (state.year !== null && historicalData) {
+      const snapshot = getYearSnapshot(historicalData, state.year);
+      const nameMap = Object.fromEntries(countries.map(c => [c.code, c.name]));
+      const yearSlim = snapshotToSlim(snapshot, nameMap);
+      mapChart?.setOption(makeMapOption(yearSlim, currentDimension), { replaceMerge: ['visualMap', 'series'] });
+    } else {
+      // Reset to current data
+      mapChart?.setOption(makeMapOption(countries, currentDimension), { replaceMerge: ['visualMap', 'series'] });
+    }
+
+    // Re-select current country if any
+    if (state.primary) {
+      mapChart?.dispatchAction({ type: 'select', seriesIndex: 0, name: state.primary.name });
     }
   });
 
