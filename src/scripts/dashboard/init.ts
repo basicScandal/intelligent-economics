@@ -49,6 +49,7 @@ mobileQuery.addEventListener('change', (e) => store.setMobile(e.matches));
 
 let radarChart: any = null;
 let barChart: any = null;
+let historicalData: any = null; // Phase 15: shared across chart and map initialization paths
 
 const chartObserver = new IntersectionObserver(
   (entries) => {
@@ -74,7 +75,6 @@ const chartObserver = new IntersectionObserver(
         ]) => {
           // Parse historical data for timeline (Phase 15)
           const histEl = document.getElementById('historical-data');
-          let historicalData: any = null;
           if (histEl) {
             try { historicalData = JSON.parse(histEl.textContent || ''); } catch (e) { /* ignore */ }
           }
