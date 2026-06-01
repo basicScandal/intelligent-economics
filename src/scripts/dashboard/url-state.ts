@@ -20,6 +20,8 @@ export interface DashboardURLState {
   view?: string | null;
   /** Active dimension for map coloring: 'm'|'i'|'n'|'d' or null for MIND composite. */
   dim?: string | null;
+  /** Selected year for time-series view, or null for latest. */
+  year?: number | null;
 }
 
 // -- Encode --
@@ -50,6 +52,9 @@ export function encodeDashboardURL(state: DashboardURLState): string {
   if (state.dim) {
     params.set('dim', state.dim);
   }
+  if (state.year != null) {
+    params.set('year', String(state.year));
+  }
 
   const str = params.toString();
   return str ? `?${str}` : '';
@@ -77,7 +82,11 @@ export function decodeDashboardURL(search: string): DashboardURLState {
   const view = params.get('view') || null;
   const dim = params.get('dim') || null;
 
-  return { primary, compare, view, dim };
+  const yearRaw = params.get('year');
+  const year = yearRaw ? parseInt(yearRaw, 10) : null;
+  const yearValid = !isNaN(year!) ? year : null;
+
+  return { primary, compare, view, dim, year: yearValid };
 }
 
 // -- DOM wrapper (not unit tested) --

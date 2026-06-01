@@ -10,6 +10,12 @@
 
 import type { SlimCountry } from './search';
 
+/** Latest available year for historical MIND data. */
+export const LATEST_YEAR = 2024;
+
+/** Year range for historical data: [start, end] inclusive. */
+export const YEAR_RANGE: [number, number] = [2014, 2024];
+
 /** Dashboard scale level for multi-scale MIND analysis. */
 export type Scale = 'country' | 'city' | 'firm' | 'map';
 
@@ -22,6 +28,8 @@ export interface DashboardState {
   isMobile: boolean;
   /** Active scale tab: country, city, or firm. */
   activeScale: Scale;
+  /** Selected year for time-series view (null = latest/2024). */
+  year: number | null;
 }
 
 type Listener = (state: DashboardState) => void;
@@ -33,6 +41,7 @@ export interface DashboardStore {
   removeFromComparison: (code: string) => void;
   setMobile: (isMobile: boolean) => void;
   setScale: (scale: Scale) => void;
+  setYear: (year: number | null) => void;
   subscribe: (fn: Listener) => void;
   notify: () => void;
 }
@@ -48,6 +57,7 @@ export function createDashboardState(): DashboardStore {
     comparison: [],
     isMobile: false,
     activeScale: 'country',
+    year: null,
   };
 
   const listeners: Listener[] = [];
@@ -125,6 +135,15 @@ export function createDashboardState(): DashboardStore {
     setScale(scale: Scale) {
       if (state.activeScale === scale) return;
       state.activeScale = scale;
+      notify();
+    },
+
+    /**
+     * Sets the selected year for time-series visualization.
+     * null represents "latest" (2024).
+     */
+    setYear(year: number | null) {
+      state.year = year;
       notify();
     },
 

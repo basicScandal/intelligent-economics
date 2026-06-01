@@ -6,7 +6,9 @@
  */
 
 import type { DimensionKey } from '../../lib/mind-score';
+import { getBindingConstraint } from '../../lib/mind-score';
 import type { SlimCountry } from './search';
+import type { YearScores } from '../../lib/historical-data';
 import { GEOJSON_NAME_MAP } from '../../data/geo-name-map';
 
 // -- Constants --
@@ -51,6 +53,21 @@ const DIM_LABELS = DIM_KEYS.map((k) => DIM_NAMES[k]);
 
 /** Fixed palette for multi-country comparison overlays. */
 export const COMPARISON_COLORS: string[] = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A8E6CF'];
+
+/** Data shape for time-series chart visualization. */
+export interface TimeSeriesCountry {
+  name: string;
+  code: string;
+  color: string;
+  data: { year: number; mind: number | null; m: number | null; i: number | null; n: number | null; d: number | null }[];
+}
+
+/** Animation speed multiplier options for playback control (per D-06). */
+export const SPEEDS: Record<string, number> = {
+  '0.5x': 2000,
+  '1x': 1000,
+  '2x': 500,
+};
 
 // -- Chart option generators --
 
@@ -173,6 +190,151 @@ export function getMobileBarOption(countries: ChartCountry[]): Record<string, un
       data: [c.m, c.i, c.n, c.d],
     })),
   };
+}
+
+// -- Time-series chart option generator --
+
+/**
+ * Generate ECharts line chart option for time-series MIND score visualization.
+ *
+ * Pure function that produces a complete ECharts option for visualizing
+ * MIND scores across years (2014-2024) for one or more countries.
+ *
+ * @param countries - Array of TimeSeriesCountry objects with historical year data
+ * @param currentYear - If set, adds a vertical marker line at that year
+ * @returns ECharts option object ready for chart.setOption()
+ */
+export function makeTimeSeriesOption(
+  countries: TimeSeriesCountry[],
+  currentYear: number | null,
+): Record<string, unknown> {
+  const years = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+
+  const series = countries.map((country, idx) => {
+    const seriesData = years.map((year) => {
+      const yearNum = parseInt(year, 10);
+      const entry = country.data.find((d) => d.year === yearNum);
+      return entry?.mind ?? '-';
+    });
+
+    const lineSeriesConfig: Record<string, unknown> = {
+      type: 'line',
+      name: country.name,
+      data: seriesData,
+      lineStyle: {
+        width: 2,
+        color: country.color,
+      },
+      itemStyle: {
+        color: country.color,
+      },
+      symbol: 'circle',
+      symbolSize: 6,
+      emphasis: {
+        focus: 'series',
+      },
+    };
+
+    // Add markLine to first series only when currentYear is set
+    if (idx === 0 && currentYear !== null) {
+      lineSeriesConfig.markLine = {
+        data: [
+          {
+            xAxis: String(currentYear),
+          },
+        ],
+        lineStyle: {
+          color: '#ffffff',
+          width: 1,
+          type: 'dashed',
+        },
+        label: {
+          show: true,
+          formatter: String(currentYear),
+          position: 'start',
+        },
+        silent: true,
+        symbol: ['none', 'none'],
+      };
+    }
+
+    return lineSeriesConfig;
+  });
+
+  return {
+    aria: { enabled: true },
+    ...siteTheme,
+    xAxis: {
+      type: 'category',
+      data: years,
+      boundaryGap: false,
+    },
+    yAxis: {
+      type: 'value',
+      min: 0,
+      max: 100,
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'line',
+      },
+    },
+    legend: {
+      data: countries.map((c) => c.name),
+      textStyle: {
+        color: 'rgba(255,255,255,0.85)',
+      },
+    },
+    grid: {
+      containLabel: true,
+      left: 10,
+      right: 30,
+      bottom: 10,
+      top: 40,
+    },
+    series,
+  };
+}
+
+/**
+ * Convert year snapshot data to SlimCountry array with derived binding constraint.
+ *
+ * Pure function that transforms year-indexed MIND scores to the SlimCountry format
+ * used throughout the dashboard. Derives the binding constraint per country using
+ * getBindingConstraint() when all four dimensions are non-null.
+ *
+ * @param snapshot - Record of ISO3 code to YearScores
+ * @param nameMap - Record of ISO3 code to full country name
+ * @returns Array of SlimCountry objects
+ */
+export function snapshotToSlim(
+  snapshot: Record<string, YearScores>,
+  nameMap: Record<string, string>,
+): SlimCountry[] {
+  return Object.entries(snapshot).map(([code, scores]) => {
+    // Derive binding constraint: if all dimensions are non-null, compute; else empty string
+    let bc: string = '';
+    if (scores.m !== null && scores.i !== null && scores.n !== null && scores.d !== null) {
+      bc = getBindingConstraint({
+        m: scores.m,
+        i: scores.i,
+        n: scores.n,
+        d: scores.d,
+      });
+    }
+
+    return {
+      code,
+      name: nameMap[code] || code,
+      mind: scores.mind,
+      m: scores.m,
+      i: scores.i,
+      n: scores.n,
+      d: scores.d,
+      bc,
+    };
+  });
 }
 
 // -- Binding constraint callout --
