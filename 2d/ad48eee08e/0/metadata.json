@@ -1,0 +1,59 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "2dad48eee08e",
+  "session_id": "be8e88dd-0806-4893-b040-64fab9a7fec4",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-01T06:25:29.493346Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "src/scripts/dashboard/charts.ts",
+    "src/scripts/dashboard/echarts-setup.ts",
+    "src/scripts/dashboard/state.ts",
+    "src/scripts/dashboard/url-state.ts",
+    "tests/dashboard-timeline.test.ts",
+    "tests/dashboard-url-state.test.ts"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-haiku-4-5-20251001",
+  "turn_id": "e62fa1bc3389",
+  "token_usage": {
+    "input_tokens": 217,
+    "cache_creation_tokens": 881795,
+    "cache_read_tokens": 24138075,
+    "output_tokens": 39889,
+    "api_call_count": 161
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-01T06:25:29.448121Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 497,
+    "human_modified": 13,
+    "human_removed": 0,
+    "total_committed": 497,
+    "total_lines_changed": 510,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 1990,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 26,
+        ".playwright-mcp/console-2026-05-28T02-28-20-244Z.log": 2,
+        ".playwright-mcp/console-2026-05-28T02-28-41-306Z.log": 2,
+        ".playwright-mcp/console-2026-05-28T02-29-13-725Z.log": 2,
+        ".playwright-mcp/console-2026-05-28T02-32-08-841Z.log": 2,
+        ".playwright-mcp/page-2026-05-28T02-28-21-798Z.yml": 394,
+        ".playwright-mcp/page-2026-05-28T02-28-41-369Z.yml": 15,
+        ".playwright-mcp/page-2026-05-28T02-29-15-298Z.yml": 781,
+        ".playwright-mcp/page-2026-05-28T02-32-09-471Z.yml": 766
+      }
+    }
+  ]
+}
