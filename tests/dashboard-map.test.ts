@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { makeMapOption, MapDimension } from '../src/scripts/dashboard/charts';
+import { makeMapOption } from '../src/scripts/dashboard/charts';
 import { GEOJSON_NAME_MAP } from '../src/data/geo-name-map';
 import type { SlimCountry } from '../src/scripts/dashboard/search';
 

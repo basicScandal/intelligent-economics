@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const destinations = [
+  { href: '/', title: 'Home', blurb: 'The framework, the simulator, and the volunteer signup.' },
+  { href: '/whitepaper/', title: 'Whitepaper', blurb: 'The full MIND framework, formula and methodology.' },
+  { href: '/dashboard/', title: 'MIND Dashboard', blurb: 'Scores for 217 countries, cities and firms.' },
+  { href: '/story/', title: 'Why It Matters', blurb: 'Three people in the same city, and what GDP misses.' },
+  { href: '/compare/', title: 'How MIND Compares', blurb: 'MIND next to HDI, GPI and Doughnut Economics.' },
+  { href: '/resources/', title: 'Resources', blurb: 'Dataset downloads, citation, and how to contribute.' },
+];
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="That page doesn't exist. Here's where to find the MIND framework, the dashboard and the volunteer signup."
+  noindex={true}
+>
+  <Nav />
+  <main id="main-content" class="section" style="min-height: 70vh; padding-top: var(--space-24);">
+    <div class="container container--narrow">
+      <p class="section-label">Error 404</p>
+      <h1 class="section-title" style="margin-bottom: var(--space-4);">This page doesn't exist.</h1>
+      <p class="section-body" style="margin-bottom: var(--space-12);">
+        The link may be out of date, or the address may have a typo. Everything below still works.
+      </p>
+
+      <ul class="notfound__list">
+        {destinations.map((d) => (
+          <li>
+            <a href={d.href}>
+              <span class="notfound__title">{d.title}</span>
+              <span class="notfound__blurb">{d.blurb}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <p style="margin-top: var(--space-12);">
+        <a href="/#volunteer" class="btn btn--primary">Join the movement</a>
+      </p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .notfound__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    padding: 0;
+  }
+  .notfound__list a {
+    display: block;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    background: var(--color-surface);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .notfound__list a:hover,
+  .notfound__list a:focus-visible {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+  .notfound__title {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+  .notfound__blurb {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+</style>

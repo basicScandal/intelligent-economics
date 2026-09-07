@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   makeTimeSeriesOption,
   snapshotToSlim,
-  TimeSeriesCountry,
   SPEEDS,
 } from '../src/scripts/dashboard/charts';
+import type { TimeSeriesCountry } from '../src/scripts/dashboard/charts';
 import {
   LATEST_YEAR,
   YEAR_RANGE,

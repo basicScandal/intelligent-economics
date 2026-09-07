@@ -1,5 +1,7 @@
 ---
-// Email Capture - early signup CTA with Netlify Forms
+// Email Capture - early signup CTA.
+// Posts to PUBLIC_FORM_ENDPOINT; falls back to a mailto: link when unset.
+import { FORM_ENDPOINT, FORMS_ENABLED, briefingMailto } from '../lib/forms';
 ---
 
 <div class="email-capture" id="early-signup">
@@ -7,13 +9,27 @@
     <p class="email-capture__text">
       GDP counts a cancer diagnosis as growth. We're building a better metric. Get your first briefing.
     </p>
-    <form class="email-capture__form" id="early-email-form" data-netlify="true" name="email-capture" netlify-honeypot="bot-field" novalidate>
-      <input type="hidden" name="form-name" value="email-capture" />
-      <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
-      <input class="email-capture__input" type="email" id="early-email" name="email"
-             placeholder="your@email.com" required aria-label="Email address" />
-      <button class="email-capture__btn" type="submit">Get the Briefing</button>
-    </form>
+    {FORMS_ENABLED ? (
+      <form
+        class="email-capture__form"
+        id="early-email-form"
+        name="email-capture"
+        method="POST"
+        action={FORM_ENDPOINT}
+        data-endpoint={FORM_ENDPOINT}
+        novalidate
+      >
+        <input type="hidden" name="form-name" value="email-capture" />
+        <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off" />
+        <input class="email-capture__input" type="email" id="early-email" name="email"
+               placeholder="your@email.com" required aria-label="Email address" />
+        <button class="email-capture__btn" type="submit">Get the Briefing</button>
+      </form>
+    ) : (
+      <p class="email-capture__fallback">
+        <a class="email-capture__btn" href={briefingMailto()}>Email us for the briefing</a>
+      </p>
+    )}
     <p class="email-capture__note">No spam. One email with the MIND framework + Zone Zero simulator. Unsubscribe anytime.</p>
     <p class="email-capture__success" id="early-email-success" role="alert">
       Check your inbox. Your first briefing is on the way.
@@ -32,6 +48,11 @@
     margin-top: var(--space-2);
   }
   .email-capture__error.visible { display: block; }
+  .email-capture__fallback {
+    display: flex;
+    justify-content: center;
+  }
+  .email-capture__fallback a { text-decoration: none; }
 </style>
 
 <script>

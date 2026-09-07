@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://intelligenteconomics.ai/sitemap.xml
+# Bare render target for social share cards — not a page.
+Disallow: /og-render.html
+
+# Query-string variants of the dashboard are the same page as /dashboard/.
+Disallow: /*?scale=
+Disallow: /*?country=
+Disallow: /*?year=
+
+Sitemap: https://intelligenteconomics.ai/sitemap-index.xml

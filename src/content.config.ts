@@ -32,6 +32,10 @@ const whitepaper = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     abstract: z.string(),
+    /** Short title for <title>/SERP; long academic titles get truncated. */
+    shortTitle: z.string().optional(),
+    /** ~155 char meta description; the abstract is far too long for SERPs. */
+    description: z.string().optional(),
     authors: z.array(z.string()),
     date: z.string(),
     version: z.string(),

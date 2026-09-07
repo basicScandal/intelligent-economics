@@ -1,15 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { FORMS_ENABLED, CONTACT_EMAIL } from '../lib/forms';
 ---
-<BaseLayout title="Privacy Policy">
+<BaseLayout
+  title="Privacy Policy"
+  description="How Intelligent Economics handles volunteer signups and analytics: no third-party tracking cookies, no data sales, privacy-first Plausible analytics."
+>
   <Nav />
-  <main class="section" style="min-height: 100vh; padding-top: var(--space-24);">
+  <main id="main-content" class="section" style="min-height: 100vh; padding-top: var(--space-24);">
     <div class="container container--narrow">
       <a href="/" style="display: inline-block; margin-bottom: var(--space-8); color: var(--color-text-muted); text-decoration: none; font-size: var(--text-sm);">&larr; Back to Intelligent Economics</a>
 
       <h1 style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-2);">Privacy Policy</h1>
-      <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-12);">Last updated: April 16, 2026</p>
+      <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-12);">Last updated: September 7, 2026</p>
 
       <h2 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-primary); margin-top: var(--space-10); margin-bottom: var(--space-4);">What we collect</h2>
       <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6);">When you submit a form on this site, we collect the information you provide: name, email address, location, area of expertise, availability, selected roles, and any optional message. We also record the date and time of submission.</p>
@@ -24,7 +29,11 @@ import Nav from '../components/Nav.astro';
       <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6);">We will never sell, rent, or share your personal information with third parties for marketing purposes.</p>
 
       <h2 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-primary); margin-top: var(--space-10); margin-bottom: var(--space-4);">Form processing</h2>
-      <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6);">Form submissions are processed by <a href="https://www.netlify.com/products/forms/" rel="noopener" style="color: var(--color-primary);">Netlify Forms</a>, which securely stores submissions and delivers them to our team. Netlify's privacy policy governs their handling of data.</p>
+      {FORMS_ENABLED ? (
+        <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6);">Form submissions are sent to a third-party form-processing service, which stores them and delivers them to our team. That provider's privacy policy governs their handling of the data in transit and at rest.</p>
+      ) : (
+        <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6);">Signups currently reach us by email. When you use the signup links on this site, your mail client sends a message directly to <a href={`mailto:${CONTACT_EMAIL}`} style="color: var(--color-primary);">{CONTACT_EMAIL}</a> — no form-processing third party sits in between, and nothing is stored on this site.</p>
+      )}
 
       <h2 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-primary); margin-top: var(--space-10); margin-bottom: var(--space-4);">Analytics</h2>
       <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-4);">We use <a href="https://plausible.io/" rel="noopener" style="color: var(--color-primary);">Plausible Analytics</a>, a privacy-respecting analytics service that:</p>
@@ -43,7 +52,7 @@ import Nav from '../components/Nav.astro';
       <ul style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-6); padding-left: var(--space-6); list-style: disc;">
         <li><strong style="color: var(--color-text);">Fontshare</strong> — Web fonts (Clash Display, Satoshi)</li>
         <li><strong style="color: var(--color-text);">Plausible</strong> — Privacy-respecting analytics</li>
-        <li><strong style="color: var(--color-text);">Netlify</strong> — Hosting and form submission processing</li>
+        <li><strong style="color: var(--color-text);">GitHub Pages</strong> — Static hosting and content delivery</li>
       </ul>
 
       <h2 style="font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: var(--color-primary); margin-top: var(--space-10); margin-bottom: var(--space-4);">Your rights</h2>
@@ -60,4 +69,5 @@ import Nav from '../components/Nav.astro';
       <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-16);">For privacy-related questions, contact <a href="mailto:Rob@theoradical.ai" style="color: var(--color-primary);">Rob@theoradical.ai</a>.</p>
     </div>
   </main>
+  <Footer />
 </BaseLayout>

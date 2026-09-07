@@ -1,5 +1,15 @@
 ---
 // Nav component - Fixed navigation with theme toggle and logo
+const links = [
+  { href: '/story/', label: 'Why It Matters' },
+  { href: '/whitepaper/', label: 'Whitepaper' },
+  { href: '/compare/', label: 'Compare' },
+  { href: '/dashboard/', label: 'Dashboard' },
+  { href: '/resources/', label: 'Resources' },
+];
+
+// Normalise so /dashboard, /dashboard/ and /dashboard/index.html all match.
+const current = `${Astro.url.pathname.replace(/index\.html$/, '').replace(/\/?$/, '/')}`;
 ---
 
 <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
@@ -25,15 +35,17 @@
         <span class="nav__logo-text">Intelligent Economics</span>
       </a>
       <div class="nav__actions">
-        <a href="/story" class="nav__link">Why It Matters</a>
-        <a href="/whitepaper" class="nav__link">Whitepaper</a>
-        <a href="/compare" class="nav__link">Compare</a>
-        <a href="/dashboard" class="nav__link">Dashboard</a>
-        <a href="/resources" class="nav__link">Resources</a>
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="nav__link"
+            aria-current={current === link.href ? 'page' : undefined}
+          >{link.label}</a>
+        ))}
         <button class="theme-toggle" data-theme-toggle aria-label="Switch to light mode">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <a href="#volunteer" class="btn btn--primary nav-cta">Join Now</a>
+        <a href="/#volunteer" class="btn btn--primary nav-cta">Join Now</a>
       </div>
     </div>
   </div>

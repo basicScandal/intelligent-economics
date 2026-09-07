@@ -132,7 +132,7 @@ export function initTimeline(
       // If currently playing, restart interval with new speed
       if (intervalId !== null) {
         clearInterval(intervalId);
-        const newInterval = setInterval(() => {
+        const newInterval = window.setInterval(() => {
           const currentYear = store.get().year ?? YEAR_RANGE[1];
           const currentIdx = years.indexOf(currentYear);
 
