@@ -9,10 +9,13 @@
     "check": "astro check",
     "test": "vitest run --reporter=verbose",
     "fetch-data": "tsx scripts/fetch-world-bank.ts",
-    "fetch-data-historical": "tsx scripts/fetch-world-bank-historical.ts"
+    "fetch-data-historical": "tsx scripts/fetch-world-bank-historical.ts",
+    "check:links": "node scripts/check-links.mjs",
+    "check:links:external": "node scripts/check-links.mjs --external"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.2.0",
     "astro": "^5.18.0",
     "echarts": "^6.0.0",

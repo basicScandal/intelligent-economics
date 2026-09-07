@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden;background:#050508;
+    font-family:'Liberation Sans','DejaVu Sans',sans-serif;color:#fff}
+  .wrap{position:relative;width:1200px;height:630px}
+  /* ambient glows */
+  .glow{position:absolute;border-radius:50%;filter:blur(120px)}
+  .g1{width:520px;height:520px;left:-140px;top:-180px;background:rgba(0,255,136,.16)}
+  .g2{width:620px;height:620px;right:-200px;bottom:-260px;background:rgba(123,75,255,.18)}
+  .g3{width:380px;height:380px;right:180px;top:-160px;background:rgba(0,200,255,.10)}
+  /* faint grid */
+  .grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+    background-size:60px 60px}
+  .card{position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:space-between;padding:60px 72px 56px}
+  .top{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-text{font-size:16px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:rgba(255,255,255,.62)}
+  .pill{font-size:14px;font-weight:600;letter-spacing:.05em;color:rgba(255,255,255,.42);
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
+    border-radius:100px;padding:8px 20px}
+  .mid{max-width:860px}
+  .eyebrow{font-size:15px;font-weight:700;letter-spacing:.20em;text-transform:uppercase;
+    color:#00ff88;margin-bottom:22px}
+  h1{font-size:76px;line-height:1.02;font-weight:700;letter-spacing:-.035em}
+  h1 .accent{background:linear-gradient(105deg,#00ff88 0%,#00c8ff 52%,#7b4bff 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{margin-top:26px;font-size:25px;line-height:1.45;font-weight:400;
+    color:rgba(255,255,255,.66);max-width:800px}
+  .formula{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .term{display:flex;flex-direction:column;gap:7px}
+  .term .k{font-size:34px;font-weight:700;letter-spacing:-.01em}
+  .term .n{font-size:13px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+    color:rgba(255,255,255,.36)}
+  .op{font-size:28px;font-weight:300;color:rgba(255,255,255,.28);padding-bottom:20px}
+  .eq{font-size:28px;font-weight:300;color:rgba(255,255,255,.28);padding-bottom:20px;
+    margin:0 6px}
+  .result .k{color:#fff}
+  .rule{height:1px;background:linear-gradient(90deg,rgba(0,255,136,.55),rgba(123,75,255,.30),
+    rgba(255,255,255,0));margin-bottom:26px}
+</style></head>
+<body><div class="wrap">
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  <div class="grid"></div>
+  <div class="card">
+    <div class="top">
+      <div class="brand">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="3" fill="#00ff88"/>
+          <circle cx="16" cy="6" r="2" fill="#00ff88" opacity="0.7"/>
+          <circle cx="25" cy="11" r="2" fill="#00ff88" opacity="0.6"/>
+          <circle cx="25" cy="21" r="2" fill="#00c8ff" opacity="0.6"/>
+          <circle cx="16" cy="26" r="2" fill="#00c8ff" opacity="0.7"/>
+          <circle cx="7" cy="21" r="2" fill="#7b4bff" opacity="0.6"/>
+          <circle cx="7" cy="11" r="2" fill="#7b4bff" opacity="0.6"/>
+          <line x1="16" y1="13" x2="16" y2="8" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="23.5" y2="12.5" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="23.5" y2="19.5" stroke="#00c8ff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="19" x2="16" y2="24" stroke="#00c8ff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="19" x2="8.5" y2="19.5" stroke="#7b4bff" stroke-width="0.8" opacity="0.5"/>
+          <line x1="16" y1="13" x2="8.5" y2="12.5" stroke="#7b4bff" stroke-width="0.8" opacity="0.5"/>
+        </svg>
+        <span class="brand-text">Intelligent Economics</span>
+      </div>
+      <div class="pill">intelligenteconomics.ai</div>
+    </div>
+
+    <div class="mid">
+      <div class="eyebrow">The MIND Index</div>
+      <h1>Prosperity, measured<br/><span class="accent">beyond GDP.</span></h1>
+      <p class="sub">Open scores for 217 countries. Open methodology. One pilot city to prove it works.</p>
+    </div>
+
+    <div>
+      <div class="rule"></div>
+      <div class="formula">
+        <div class="term"><span class="k" style="color:#00ff88">M</span><span class="n">Material</span></div>
+        <span class="op">&times;</span>
+        <div class="term"><span class="k" style="color:#00c8ff">I</span><span class="n">Intelligence</span></div>
+        <span class="op">&times;</span>
+        <div class="term"><span class="k" style="color:#7b4bff">N</span><span class="n">Network</span></div>
+        <span class="op">&times;</span>
+        <div class="term"><span class="k" style="color:#ffb400">D</span><span class="n">Diversity</span></div>
+        <span class="eq">=</span>
+        <div class="term result"><span class="k">Prosperity</span><span class="n">MIND Index</span></div>
+      </div>
+    </div>
+  </div>
+</div></body></html>

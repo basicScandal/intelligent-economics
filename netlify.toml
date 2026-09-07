@@ -1,3 +1,18 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# INACTIVE — this site deploys to GitHub Pages, not Netlify.
+#
+# The live pipeline is .github/workflows/deploy.yml (push to main -> Pages),
+# with the custom domain pinned by public/CNAME. This file and
+# netlify/functions/ are kept so the project can move back to Netlify without
+# rebuilding the integration, but nothing here runs today.
+#
+# Two consequences of being on Pages, both handled elsewhere:
+#   1. Netlify Forms cannot receive submissions. Forms post to
+#      PUBLIC_FORM_ENDPOINT instead — see src/lib/forms.ts.
+#   2. GitHub Pages serves no custom headers, so the [[headers]] blocks below
+#      (cache-control, X-Frame-Options, …) are not applied in production.
+# ─────────────────────────────────────────────────────────────────────────────
+
 [build]
   command = "npm run build"
   publish = "dist"

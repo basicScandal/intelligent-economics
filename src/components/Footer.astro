@@ -1,5 +1,8 @@
 ---
 // Footer - Site footer with links and copyright
+import { SITE } from '../lib/seo';
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
@@ -13,31 +16,42 @@
       </div>
       <div class="footer__nav">
         <div class="footer__nav-group">
-          <h4>Framework</h4>
+          <h2>Framework</h2>
           <ul>
-            <li><a href="#inversion">The Inversion</a></li>
-            <li><a href="#rift">Metabolic Rift</a></li>
-            <li><a href="#pillars">Six Pillars</a></li>
-            <li><a href="#mind">MIND Dashboard</a></li>
-            <li><a href="#stories">Stories</a></li>
+            <li><a href="/#inversion">The Inversion</a></li>
+            <li><a href="/#rift">Metabolic Rift</a></li>
+            <li><a href="/#pillars">Six Pillars</a></li>
+            <li><a href="/#mind">MIND Dashboard</a></li>
+            <li><a href="/#stories">Stories</a></li>
           </ul>
         </div>
         <div class="footer__nav-group">
-          <h4>Act</h4>
+          <h2>Act</h2>
           <ul>
-            <li><a href="#volunteer">Volunteer</a></li>
-            <li><a href="#paths">First Steps</a></li>
-            <li><a href="#experiments">Experiments</a></li>
-            <li><a href="#after">After Signup</a></li>
-            <li><a href="#orgs">Partner Orgs</a></li>
-            <li><a href="#team">Team</a></li>
+            <li><a href="/#volunteer">Volunteer</a></li>
+            <li><a href="/#paths">First Steps</a></li>
+            <li><a href="/#experiments">Experiments</a></li>
+            <li><a href="/#after">After Signup</a></li>
+            <li><a href="/#orgs">Partner Orgs</a></li>
+            <li><a href="/#team">Team</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-group">
+          <h2>Read</h2>
+          <ul>
+            <li><a href="/story/">Why It Matters</a></li>
+            <li><a href="/whitepaper/">Whitepaper</a></li>
+            <li><a href="/compare/">How MIND Compares</a></li>
+            <li><a href="/dual-currency/">Dual Currency</a></li>
+            <li><a href="/dashboard/">MIND Dashboard</a></li>
+            <li><a href="/resources/">Resources &amp; Data</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer__bottom">
       <p class="footer__copy">A nonprofit research organization. Open data. Open methodology.</p>
-      <p class="footer__copy">Built in public &middot; Open framework &middot; 2026 &middot; <a href="/privacy" style="color: var(--color-text-faint);">Privacy Policy</a></p>
+      <p class="footer__copy">Built in public &middot; Open framework &middot; {year} &middot; <a href="/privacy/" style="color: var(--color-text-faint);">Privacy Policy</a> &middot; <a href={SITE.repo} rel="noopener" target="_blank" style="color: var(--color-text-faint);">Source on GitHub</a></p>
     </div>
   </div>
 </footer>

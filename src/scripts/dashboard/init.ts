@@ -47,9 +47,16 @@ mobileQuery.addEventListener('change', (e) => store.setMobile(e.matches));
 
 // ── 3. ECharts loading path — IntersectionObserver (client:visible semantics) ──
 
+// Assigned when the scale tabs mount; the URL-state hydration path below runs
+// in a sibling scope and can only reach the tab switcher through this handle.
+let activateScaleTab: ((tab: HTMLButtonElement) => void) | null = null;
+
 let radarChart: any = null;
 let barChart: any = null;
 let historicalData: any = null; // Phase 15: shared across chart and map initialization paths
+// Shared across the chart-loading path and the scale tabs, which live in
+// sibling scopes — both must reference the same handle.
+let timelineModule: { initTimeline: Function; stopPlayback: Function } | null = null;
 
 const chartObserver = new IntersectionObserver(
   (entries) => {
@@ -81,7 +88,6 @@ const chartObserver = new IntersectionObserver(
 
           // Timeline initialization state
           let timelineInitialized = false;
-          let timelineModule: { initTimeline: Function; stopPlayback: Function } | null = null;
           const radarEl = document.getElementById('radar-chart');
           const barEl = document.getElementById('bar-chart');
 
@@ -145,10 +151,11 @@ const chartObserver = new IntersectionObserver(
               }
 
               // Binding constraint callout
+              const dims = { m, i, n, d };
               const bcKey = (['m', 'i', 'n', 'd'] as const).reduce((a, b) =>
-                ({ m, i, n, d }[a] <= { m, i, n, d }[b] ? a : b,
-              ));
-              const bcScoreVal = { m, i, n, d }[bcKey];
+                (dims[a] <= dims[b] ? a : b),
+              );
+              const bcScoreVal = dims[bcKey];
               const bc = getBindingConstraintCallout(bcKey, Math.round(bcScoreVal));
               if (cityBcName) cityBcName.textContent = bc.dimension;
               if (cityBcScore) cityBcScore.textContent = `(${Math.round(bcScoreVal)})`;
@@ -364,8 +371,8 @@ const chartObserver = new IntersectionObserver(
           // Hydrate map view state from URL (per D-14, D-15)
           if (urlState.view === 'map') {
             const mapTab = document.getElementById('tab-map') as HTMLButtonElement | null;
-            if (mapTab) {
-              activateTab(mapTab);
+            if (mapTab && activateScaleTab) {
+              activateScaleTab(mapTab);
             }
             // Dimension will be set after map initializes
             if (urlState.dim) {
@@ -695,6 +702,9 @@ if (scaleTabs) {
       }, 50);
     }
   }
+
+  // Publish the switcher so the URL-state hydration path can drive it too.
+  activateScaleTab = activateTab;
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => activateTab(tab));

@@ -15,6 +15,7 @@ import { calcScore, getBindingConstraint } from '../lib/mind-score';
 import scores from '../data/mind-scores.json';
 import historicalScores from '../data/mind-scores-historical.json';
 import cityData from '../data/city-profiles.json';
+import { SITE, absoluteUrl } from '../lib/seo';
 
 // Build-time data processing
 const slim = getSlimPayload(scores.countries as any);
@@ -32,11 +33,35 @@ const cities = cityData.cities.map(city => ({
   mind: calcScore({ m: city.m, i: city.i, n: city.n, d: city.d }),
   bc: getBindingConstraint({ m: city.m, i: city.i, n: city.n, d: city.d }),
 }));
+
+// Dataset structured data — makes the 217-country scores discoverable in Google Dataset Search.
+const datasetSchema = {
+  '@type': 'Dataset',
+  name: 'MIND Index scores for 217 countries',
+  description:
+    'Material, Intelligence, Network and Diversity sub-scores plus the composite MIND Index for 217 countries, derived from open World Bank World Development Indicators.',
+  url: `${SITE.url}/dashboard/`,
+  creator: { '@id': `${SITE.url}/#organization` },
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  isAccessibleForFree: true,
+  keywords: ['MIND Index', 'beyond GDP', 'prosperity measurement', 'World Bank indicators', 'economic development'],
+  distribution: [
+    {
+      '@type': 'DataDownload',
+      encodingFormat: 'text/csv',
+      contentUrl: absoluteUrl('/mind-scores-217.csv'),
+    },
+  ],
+};
 ---
 
-<BaseLayout title="MIND Dashboard" description="Explore MIND scores for 217 countries backed by real World Bank data">
+<BaseLayout
+  title="MIND Dashboard"
+  description="Explore MIND prosperity scores for 217 countries, cities and firms — built on open World Bank indicators, with binding-constraint diagnostics and a downloadable dataset."
+  structuredData={[datasetSchema]}
+>
   <Nav />
-  <main class="min-h-screen bg-bg pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+  <main id="main-content" class="min-h-screen bg-bg pt-24 pb-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
 
       <!-- Page header -->
@@ -46,7 +71,7 @@ const cities = cityData.cities.map(city => ({
         </h1>
         <p class="text-text-muted text-lg max-w-2xl mx-auto">
           Explore MIND framework scores across countries, cities, and firms.
-          <a href="/whitepaper" class="text-[#00ff88] hover:underline">Read the whitepaper &rarr;</a>
+          <a href="/whitepaper/" class="text-[#00ff88] hover:underline">Read the whitepaper &rarr;</a>
         </p>
       </header>
 
@@ -72,7 +97,8 @@ const cities = cityData.cities.map(city => ({
       </div>
 
       <!-- Country detail section (hidden until selection, Plan 03 activates) -->
-      <section id="country-detail" class="hidden mb-10">
+      <section id="country-detail" class="hidden mb-10" aria-labelledby="country-detail-heading">
+        <h2 id="country-detail-heading" class="sr-only">Selected country detail</h2>
         <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
           <!-- Radar chart container -->
           <div id="radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
@@ -123,7 +149,7 @@ const cities = cityData.cities.map(city => ({
       </section>
 
       <div class="text-center mt-4">
-        <a href="/whitepaper" class="text-[#00ff88] hover:underline text-sm">
+        <a href="/whitepaper/" class="text-[#00ff88] hover:underline text-sm">
           Learn more about MIND methodology in the whitepaper &rarr;
         </a>
       </div>
@@ -219,7 +245,8 @@ const cities = cityData.cities.map(city => ({
         </p>
 
         <!-- Country detail after map click (reuses existing pattern, per D-05) -->
-        <section id="map-country-detail" class="hidden mt-6">
+        <section id="map-country-detail" class="hidden mt-6" aria-labelledby="map-country-detail-heading">
+          <h2 id="map-country-detail-heading" class="sr-only">Country detail from the map</h2>
           <div class="rounded-xl bg-surface border border-border p-6 space-y-6">
             <div id="map-radar-chart" class="w-full h-80 lg:h-96" style="min-height: 320px" aria-hidden="true"></div>
             <div id="map-radar-sr" class="sr-only" role="status" aria-live="polite"></div>
